@@ -1,7 +1,10 @@
-import useSWR from "swr";
+import CardList from "@/components/cardList";
 
 export default function HomePage() {
-  const { data } = useSWR("/api/plants");
-  console.log(data);
-  return <div></div>;
+  return (
+    <>
+      <h1>Crop it like it's hot</h1>
+      <CardList />;
+    </>
+  );
 }

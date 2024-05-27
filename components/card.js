@@ -1,4 +1,5 @@
 import { StyledImage } from "./image.js";
+import styled from "styled-components";
 
 const Article = styled.article`
   padding: 0.5rem;
