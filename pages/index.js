@@ -1,7 +1,7 @@
+import useSWR from "swr";
+
 export default function HomePage() {
-  return (
-    <div>
-      <h1>Hello from Next.js</h1>
-    </div>
-  );
+  const { data } = useSWR("/api/plants");
+  console.log(data);
+  return <div></div>;
 }
