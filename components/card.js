@@ -1,22 +1,17 @@
 import { StyledImage } from "./image.js";
 import styled from "styled-components";
 
-const Article = styled.article`
-  //padding: 0.5rem;
-`;
-
 const Figure = styled.figure`
-  position: relative;
-  margin: 0;
+  margin: 1rem;
 `;
 
 export function Card({ image, name, cropType }) {
   return (
-    <Article>
+    <article>
       <Figure>
         <StyledImage src={image} alt={name} width={150} height={150} />
         <figcaption>{`${name} -- ${cropType}`}</figcaption>
       </Figure>
-    </Article>
+    </article>
   );
 }
