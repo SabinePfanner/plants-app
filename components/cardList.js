@@ -13,7 +13,6 @@ const StyledList = styled.ul`
 
 export default function CardList() {
   const { data: plants, error, isLoading } = useSWR("/api/plants");
-  console.log("plants in cardList: ", plants);
 
   if (error) {
     return <p>Could not fetch data!</p>;
@@ -28,21 +27,18 @@ export default function CardList() {
   }
 
   return (
-    <>
-      <StyledList>
-        {plants.map((plant) => {
-          console.log(plant);
-          return (
-            <li key={plant._id}>
-              <Card
-                name={plant.name}
-                cropType={plant.cropType}
-                image={plant.image}
-              />
-            </li>
-          );
-        })}
-      </StyledList>
-    </>
+    <StyledList>
+      {plants.map((plant) => {
+        return (
+          <li key={plant._id}>
+            <Card
+              name={plant.name}
+              cropType={plant.cropType}
+              image={plant.image}
+            />
+          </li>
+        );
+      })}
+    </StyledList>
   );
 }

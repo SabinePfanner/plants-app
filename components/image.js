@@ -1,6 +1,4 @@
 import Image from "next/image.js";
 import styled from "styled-components";
 
-export const StyledImage = styled(Image)`
-  width: 80%;
-`;
+export const StyledImage = styled(Image)``;
