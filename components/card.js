@@ -15,7 +15,7 @@ export function Card({ image, name, cropType }) {
     <Article>
       <Figure>
         <StyledImage src={image} alt={name} width={100} height={100} />
-        <figcaption>{`${name} ${cropType}`}</figcaption>
+        <figcaption>{`${name} -- ${cropType}`}</figcaption>
       </Figure>
     </Article>
   );

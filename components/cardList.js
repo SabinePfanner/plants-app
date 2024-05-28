@@ -1,5 +1,15 @@
 import { Card } from "./card";
 import useSWR from "swr";
+import styled from "styled-components";
+
+const StyledList = styled.ul`
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 1rem;
+  grid-auto-flow: row;
+`;
 
 export default function CardList() {
   const { data: plants, error, isLoading } = useSWR("/api/plants");
@@ -17,11 +27,9 @@ export default function CardList() {
     return;
   }
 
-  console.log("plants in cardList: ", plants);
-
   return (
     <>
-      <ul>
+      <StyledList>
         {plants.map((plant) => {
           console.log(plant);
           return (
@@ -34,7 +42,7 @@ export default function CardList() {
             </li>
           );
         })}
-      </ul>
+      </StyledList>
     </>
   );
 }
