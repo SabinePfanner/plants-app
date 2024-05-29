@@ -1,10 +1,9 @@
 import CardList from "@/components/cardList";
-import Header from "@/components/header";
 
 export default function HomePage() {
   return (
     <>
-      <Header />
+      <h1>Discover the hottest crops!</h1>
       <CardList />
     </>
   );

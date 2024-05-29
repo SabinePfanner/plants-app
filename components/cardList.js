@@ -35,6 +35,7 @@ export default function CardList() {
               name={plant.name}
               cropType={plant.cropType}
               image={plant.image}
+              id={plant._id}
             />
           </li>
         );
