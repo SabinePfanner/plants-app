@@ -13,13 +13,12 @@ const StyledLink = styled(Link)`
   align-items: center;
   padding: 10px;
   text-decoration: none;
-  color: white;
+  color: black;
 `;
 
 export default function DetailsPage() {
   return (
     <>
-      <h1>Discover more details</h1>
       <StyledLink href="/">←</StyledLink>
       <PlantDetails />
     </>

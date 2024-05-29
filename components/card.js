@@ -9,7 +9,7 @@ const Figure = styled.figure`
 export function Card({ image, name, cropType, id }) {
   return (
     <article>
-      <Link href={`/${id}`} passHref legacyBehavior>
+      <Link href={`/${id}`} legacyBehavior>
         <Figure>
           <StyledImage src={image} alt={name} width={150} height={150} />
           <figcaption>{`${name} -- ${cropType}`}</figcaption>

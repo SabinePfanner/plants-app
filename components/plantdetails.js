@@ -1,10 +1,7 @@
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-
-const StyledTitle = styled.h2`
-  text-align: center;
-`;
+import { StyledImage } from "./image";
 
 const HighlightBox = styled.section`
   margin: 1rem;
@@ -23,6 +20,14 @@ const StyledListElement = styled.li`
   padding: 0.2rem 1.8rem;
 `;
 
+const Figure = styled.figure`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+`;
+
 export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
@@ -38,7 +43,15 @@ export default function PlantDetails() {
 
   return (
     <>
-      <StyledTitle>{plant.name}</StyledTitle>
+      <h1>{plant.name}</h1>
+      <Figure>
+        <StyledImage
+          src={plant.image}
+          alt={plant.name}
+          width={350}
+          height={200}
+        />
+      </Figure>
       <HighlightBox>
         <StyledList>
           <StyledListElement>{plant.botanicalName}</StyledListElement>
