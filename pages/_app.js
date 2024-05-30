@@ -1,6 +1,6 @@
 import GlobalStyle from "../styles";
 import { SWRConfig } from "swr";
-import Header from "@/components/header";
+import Header from "@/Components/Header";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);

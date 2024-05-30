@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import PlantDetails from "@/components/plantdetails";
+import PlantDetails from "@/Components/PlantDetails";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const StyledLink = styled(Link)`
   position: absolute;

@@ -1,4 +1,4 @@
-import { Card } from "./card";
+import Card from "./Card";
 import useSWR from "swr";
 import styled from "styled-components";
 
