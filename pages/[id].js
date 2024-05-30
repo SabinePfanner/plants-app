@@ -15,11 +15,11 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-export default function DetailsPage() {
+export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
   return (
     <>
       <StyledLink href="/">←</StyledLink>
-      <PlantDetails />
+      <PlantDetails favoriteIDs={favoriteIDs} onToggleFavorite={onToggleFavorite}/>
     </>
   );
 }

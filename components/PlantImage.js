@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import SvgIcon, { icons } from "@/components/SvgIcon";
+import usePathname from "next/navigation";
+import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
   position: relative;
@@ -10,9 +12,11 @@ const PlantImageContainer = styled.div`
 const StyledImage = styled(Image)`
   border-radius: 0.5rem;
   position: relative;
-  &:hover {
+  ${(props) =>
+    props.$location !== "/[id]" &&
+    `&:hover {
     cursor: pointer;
-  }
+  }`}
 `;
 
 const StyledFavoriteButton = styled.button`
@@ -38,7 +42,17 @@ const StyledFavoriteIcon = styled(SvgIcon)`
   z-index: 100;
 `;
 
-export function PlantImage({ image, isFavorite, onToggleFavorite, id }) {
+export default function PlantImage({
+  image,
+  isFavorite,
+  onToggleFavorite,
+  id,
+  height=150,
+  width=150
+}) {
+  const router = useRouter();
+  const location = router.pathname;
+
   return (
     <PlantImageContainer>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
@@ -51,11 +65,11 @@ export function PlantImage({ image, isFavorite, onToggleFavorite, id }) {
         <StyledImage
           src={image}
           alt={"Image of plant"}
-          width={150}
-          height={150}
+          width={width}
+          height={height}
+          $location={location}
         ></StyledImage>
       </Link>
-      <p>{isFavorite}</p>
     </PlantImageContainer>
   );
 }
