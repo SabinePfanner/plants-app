@@ -1,10 +1,14 @@
 import CardList from "@/components/CardList.js";
 
-export default function HomePage() {
+export default function HomePage({ plants, favoriteIDs, onToggleFavorite }) {
   return (
     <>
       <h1>Discover the hottest crops!</h1>
-      <CardList />
+      <CardList
+        plants={plants}
+        favoriteIDs={favoriteIDs}
+        onToggleFavorite={onToggleFavorite}
+      />
     </>
   );
 }
