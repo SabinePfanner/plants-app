@@ -1,8 +1,7 @@
-import GlobalStyle from "../styles";
+import GlobalStyle from "@/styles";
 import useSWR, { SWRConfig } from "swr";
-// import useSWR from "swr";
 import Header from "@/components/Header.js";
-// import Footer from "@/components/Footer";
+import Footer from "@/components/Footer";
 import useLocalStorageState from "use-local-storage-state";
 
 export async function fetcher(...args) {
@@ -56,7 +55,7 @@ export default function App({ Component, pageProps }) {
           favoriteIDs={favoriteIDs}
           plants={plants}
         />
-        {/* <Footer /> */}
+        <Footer />
       </SWRConfig>
     </>
   );
