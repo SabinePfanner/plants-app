@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { StyledImage } from "./Image";
+import { StyledImage } from "@/components/Image";
 
 const HighlightBox = styled.section`
   margin: 1rem;

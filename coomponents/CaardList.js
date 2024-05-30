@@ -1,4 +1,4 @@
-import Card from "./Card";
+import Card from "@/components/Card.js";
 import useSWR from "swr";
 import styled from "styled-components";
 

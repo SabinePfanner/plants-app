@@ -1,5 +1,5 @@
 import Link from "next/link.js";
-import { StyledImage } from "./Image";
+import { StyledImage } from "@/components/Image.js";
 import styled from "styled-components";
 
 const Figure = styled.figure`

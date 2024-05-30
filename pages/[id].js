@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import PlantDetails from "@/Components/PlantDetails";
+import PlantDetails from "@/components/PlantDetails.js";
 import Link from "next/link";
 
 const StyledLink = styled(Link)`
