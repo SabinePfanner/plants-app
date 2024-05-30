@@ -1,4 +1,4 @@
-import { Card } from "./card";
+import Card from "@/components/Card.js";
 import useSWR from "swr";
 import styled from "styled-components";
 
@@ -9,6 +9,7 @@ const StyledList = styled.ul`
   grid-template-rows: 1fr;
   grid-gap: 1rem;
   grid-auto-flow: row;
+  padding-inline-start: 0px;
 `;
 
 export default function CardList() {
@@ -35,6 +36,7 @@ export default function CardList() {
               name={plant.name}
               cropType={plant.cropType}
               image={plant.image}
+              id={plant._id}
             />
           </li>
         );

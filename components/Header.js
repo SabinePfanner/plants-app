@@ -11,21 +11,13 @@ const HeaderContainer = styled.header`
 `;
 
 const Logo = styled.img`
-  height: 200px;
-`;
-
-const Headline = styled.h1`
-  text-align: center;
-  font-size: 1.5rem;
+  height: 75px;
 `;
 
 export default function Header() {
   return (
-    <>
-      <HeaderContainer>
-        <Logo src="/images/logo.png" alt="App Logo Crop it" />
-      </HeaderContainer>
-      <Headline>Discover the hottest crops!</Headline>
-    </>
+    <HeaderContainer>
+      <Logo src="/icons/logo.png" alt="App Logo Crop it" />
+    </HeaderContainer>
   );
 }
