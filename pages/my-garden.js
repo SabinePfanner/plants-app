@@ -1,5 +1,5 @@
 import CardList from "@/components/CardList";
-import SvgIcon, { icons } from "@/components/SvgIcon";
+import SvgIcon from "@/components/SvgIcon";
 
 export default function MyGarden({ plants, favoriteIDs, onToggleFavorite }) {
   const favoritePlants = plants.filter((plant) =>

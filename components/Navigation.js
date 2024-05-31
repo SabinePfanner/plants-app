@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
 const StyledNav = styled.nav`
@@ -27,7 +26,6 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Navigation() {
-  const router = useRouter();
   return (
     <>
       <StyledNav>

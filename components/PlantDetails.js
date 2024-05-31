@@ -11,13 +11,12 @@ const HighlightBox = styled.section`
 
 const StyledList = styled.ul`
   list-style: none;
-  margin: 0.5rem 0rem 0.5rem -2rem;
+  margin: 0.5rem 0 0.5rem -2rem;
   padding: 0.5rem 0.5rem;
-
 `;
 
 const StyledListElement = styled.li`
-  margin: 0rem 1.2rem;
+  margin: 0 1.2rem;
   padding: 0.2rem 1.8rem;
 `;
 
