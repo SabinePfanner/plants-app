@@ -1,5 +1,4 @@
-import Card from "@/components/Card.js";
-import useSWR from "swr";
+import Card from "@/components/Card";
 import styled from "styled-components";
 
 const StyledList = styled.ul`
@@ -7,38 +6,30 @@ const StyledList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  grid-gap: 1rem;
   grid-auto-flow: row;
-  padding-inline-start: 0px;
+  padding-inline-start: 0;
 `;
 
-export default function CardList() {
-  const { data: plants, error, isLoading } = useSWR("/api/plants");
+const StyledListElement = styled.li`
+  align-self: end;
+  justify-self: center;
+`;
 
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!plants) {
-    return;
-  }
-
+export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
   return (
     <StyledList>
       {plants.map((plant) => {
         return (
-          <li key={plant._id}>
+          <StyledListElement key={plant._id}>
             <Card
               name={plant.name}
               cropType={plant.cropType}
               image={plant.image}
+              isFavorite={favoriteIDs.includes(plant._id) ? true : false}
+              onToggleFavorite={onToggleFavorite}
               id={plant._id}
             />
-          </li>
+          </StyledListElement>
         );
       })}
     </StyledList>

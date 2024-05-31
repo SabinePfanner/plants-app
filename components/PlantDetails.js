@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { StyledImage } from "@/components/Image";
+import PlantImage from "@/components/PlantImage";
 
 const HighlightBox = styled.section`
   margin: 1rem;
@@ -11,12 +11,12 @@ const HighlightBox = styled.section`
 
 const StyledList = styled.ul`
   list-style: none;
-  margin: 0.5rem 0rem 0.5rem -2rem;
+  margin: 0.5rem 0 0.5rem -2rem;
   padding: 0.5rem 0.5rem;
 `;
 
 const StyledListElement = styled.li`
-  margin: 0rem 1.2rem;
+  margin: 0 1.2rem;
   padding: 0.2rem 1.8rem;
 `;
 
@@ -28,7 +28,7 @@ const Figure = styled.figure`
   margin: 1rem;
 `;
 
-export default function PlantDetails() {
+export default function PlantDetails({ favoriteIDs, onToggleFavorite }) {
   const router = useRouter();
   const { id } = router.query;
   const { data: plant, isLoading } = useSWR(`/api/plants/${id}`);
@@ -45,9 +45,12 @@ export default function PlantDetails() {
     <>
       <h1>{plant.name}</h1>
       <Figure>
-        <StyledImage
-          src={plant.image}
+        <PlantImage
+          image={plant.image}
           alt={plant.name}
+          isFavorite={favoriteIDs.includes(id) ? true : false}
+          onToggleFavorite={onToggleFavorite}
+          id={id}
           width={350}
           height={200}
         />

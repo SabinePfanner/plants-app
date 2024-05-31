@@ -7,7 +7,6 @@ const StyledLink = styled(Link)`
   top: 0;
   left: 0;
   height: 50px;
-  z-index: 2;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -15,11 +14,11 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-export default function DetailsPage() {
+export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
   return (
     <>
       <StyledLink href="/">←</StyledLink>
-      <PlantDetails />
+      <PlantDetails favoriteIDs={favoriteIDs} onToggleFavorite={onToggleFavorite}/>
     </>
   );
 }

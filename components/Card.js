@@ -1,20 +1,39 @@
-import Link from "next/link.js";
-import { StyledImage } from "@/components/Image.js";
+import PlantImage from "@/components/PlantImage";
 import styled from "styled-components";
 
-const Figure = styled.figure`
-  margin: 1rem;
+const Caption = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
-export default function Card({ image, name, cropType, id }) {
+const CardContainer = styled.div`
+  margin: 1rem;
+  padding: 2rem 1rem 1rem 1rem;
+  background-color: #e5e4e2;
+  border: transparent;
+  border-radius: 0.5rem;
+`;
+
+export default function Card({
+  image,
+  name,
+  cropType,
+  id,
+  isFavorite,
+  onToggleFavorite,
+}) {
   return (
-    <article>
-      <Link href={`/${id}`} legacyBehavior>
-        <Figure>
-          <StyledImage src={image} alt={name} width={150} height={150} />
-          <figcaption>{`${name} -- ${cropType}`}</figcaption>
-        </Figure>
-      </Link>
-    </article>
+    <CardContainer>
+      <PlantImage
+        image={image}
+        isFavorite={isFavorite}
+        onToggleFavorite={onToggleFavorite}
+        id={id}
+      />
+      <Caption>
+        <div>{name}</div> <div>{cropType}</div>
+      </Caption>
+    </CardContainer>
   );
 }
