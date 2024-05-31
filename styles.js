@@ -15,8 +15,14 @@ export default createGlobalStyle`
     margin: 0;
     font-family: system-ui;
   }
+
   h1 {
     text-align: center;
     font-size: 1.5rem;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 1rem;
   };
 `;
