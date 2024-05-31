@@ -10,7 +10,6 @@ const PlantImageContainer = styled.div`
 
 const StyledImage = styled(Image)`
   border-radius: 0.5rem;
-  position: relative;
   ${(props) =>
     props.$location !== "/[id]" &&
     `&:hover {
@@ -22,12 +21,10 @@ const StyledFavoriteButton = styled.button`
   position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
   right: -0.5rem;
   top: -1.5rem;
-  z-index: 100;
   background: transparent;
   border: none;
   &:hover {
@@ -36,30 +33,19 @@ const StyledFavoriteButton = styled.button`
   }
 `;
 
-const StyledFavoriteIcon = styled(SvgIcon)`
-  position: absolute;
-  z-index: 100;
-`;
-
 export default function PlantImage({
   image,
   isFavorite,
   onToggleFavorite,
   id,
-  height=150,
-  width=150
+  height = 150,
+  width = 150,
 }) {
   const router = useRouter();
   const location = router.pathname;
 
   return (
     <PlantImageContainer>
-      <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
-        <StyledFavoriteIcon
-          variant={"chili"}
-          color={isFavorite ? "#E23D28" : "#79af6e"}
-        />
-      </StyledFavoriteButton>
       <Link href={`/${id}`} legacyBehavior>
         <StyledImage
           src={image}
@@ -69,6 +55,9 @@ export default function PlantImage({
           $location={location}
         ></StyledImage>
       </Link>
+      <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
+        <SvgIcon variant={"chili"} color={isFavorite ? "#E23D28" : "#79af6e"} />
+      </StyledFavoriteButton>
     </PlantImageContainer>
   );
 }

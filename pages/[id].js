@@ -7,7 +7,6 @@ const StyledLink = styled(Link)`
   top: 0;
   left: 0;
   height: 50px;
-  z-index: 2;
   display: flex;
   align-items: center;
   padding: 10px;

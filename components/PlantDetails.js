@@ -13,6 +13,7 @@ const StyledList = styled.ul`
   list-style: none;
   margin: 0.5rem 0rem 0.5rem -2rem;
   padding: 0.5rem 0.5rem;
+
 `;
 
 const StyledListElement = styled.li`

@@ -10,20 +10,20 @@ const StyledNav = styled.nav`
 
 const StyledList = styled.ul`
   list-style: none;
+  position: relative;
   display: flex;
-  gap: 1rem;
   align-items: center;
   justify-content: space-around;
-  position: relative;
+  gap: 1rem;
 `;
 
 const StyledLink = styled(Link)`
+  justify-self: center;
   text-decoration: none;
   color: black;
   &:hover {
     color: white;
   }
-  justify-self: center;
 `;
 
 export default function Navigation() {

@@ -9,7 +9,7 @@ const Caption = styled.div`
 
 const CardContainer = styled.div`
   margin: 1rem;
-  padding: 2rem 1.5rem 1rem 1.5rem;
+  padding: 2rem 1rem 1rem 1rem;
   background-color: #e5e4e2;
   border: transparent;
   border-radius: 0.5rem;
