@@ -7,8 +7,13 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  
   :root {
     --color-green: #79af6e;
+  }
+
+  main {
+    margin-bottom: 15vh;
   }
 
   body {

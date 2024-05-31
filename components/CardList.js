@@ -9,7 +9,6 @@ const StyledList = styled.ul`
   grid-gap: 1rem;
   grid-auto-flow: row;
   padding-inline-start: 0px;
-  margin-bottom: 15vh;
 `;
 
 const StyledListElement = styled.li`
