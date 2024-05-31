@@ -25,16 +25,12 @@ export default function Card({
 }) {
   return (
     <CardContainer>
-      {/* <Link href={`/${id}`} > */}
-      {/* <figure> */}
       <PlantImage
         image={image}
         isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
         id={id}
       />
-      {/* </figure> */}
-      {/* </Link> */}
       <Caption>
         <div>{name}</div> <div>{cropType}</div>
       </Caption>

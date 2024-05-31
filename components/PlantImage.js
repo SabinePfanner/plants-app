@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import SvgIcon, { icons } from "@/components/SvgIcon";
-import usePathname from "next/navigation";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
