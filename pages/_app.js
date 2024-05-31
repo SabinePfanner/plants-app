@@ -48,14 +48,14 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <GlobalStyle />
-        <Header/>
+        <Header />
         <main>
-        <Component
-          {...pageProps}
-          onToggleFavorite={handleToggleFavorite}
-          favoriteIDs={favoriteIDs}
-          plants={plants}
-        />
+          <Component
+            {...pageProps}
+            onToggleFavorite={handleToggleFavorite}
+            favoriteIDs={favoriteIDs}
+            plants={plants}
+          />
         </main>
         <Footer />
       </SWRConfig>
