@@ -8,8 +8,8 @@ const StyledList = styled.ul`
   grid-template-rows: 1fr;
   grid-gap: 1rem;
   grid-auto-flow: row;
-  padding-inline-start: 0px;  
-  margin-bottom: 10vh;
+  padding-inline-start: 0px;
+  margin-bottom: 15vh;
 `;
 
 const StyledListElement = styled.li`
