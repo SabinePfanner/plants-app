@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import styled from "styled-components";
-import Modal from "@/components/Modal.js";
+import Modal from "./ModalAndToast/Modal";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -18,21 +18,28 @@ const StyledListElement = styled.li`
 
 export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
   return (
-    <StyledList>
-      {plants.map((plant) => {
-        return (
-          <StyledListElement key={plant._id}>
-            <Card
-              name={plant.name}
-              cropType={plant.cropType}
-              image={plant.image}
-              isFavorite={favoriteIDs.includes(plant._id) ? true : false}
-              onToggleFavorite={onToggleFavorite}
-              id={plant._id}
-            />
-          </StyledListElement>
-        );
-      })}
-    </StyledList>
+    <>
+      <StyledList>
+        {plants.map((plant) => {
+          return (
+            <StyledListElement key={plant._id}>
+              <Card
+                name={plant.name}
+                cropType={plant.cropType}
+                image={plant.image}
+                isFavorite={favoriteIDs.includes(plant._id) ? true : false}
+                onToggleFavorite={onToggleFavorite}
+                id={plant._id}
+              />
+            </StyledListElement>
+          );
+        })}
+      </StyledList>
+      <Modal
+        confirmButtonLabel="Confirm"
+        modalInfoText="Testnachricht"
+        toastMessageText="Das hat geklappt"
+      />
+    </>
   );
 }

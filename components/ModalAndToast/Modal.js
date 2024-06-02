@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Background } from "@/components/ModalStyles/Background";
-import { ModalBox } from "@/components/ModalStyles/ModalBox";
+import { Background } from "@/components/ModalAndToast/ModalStyles/Background";
+import { ModalBox } from "@/components/ModalAndToast/ModalStyles/ModalBox";
 import {
   ModalContent,
   ModalInfo,
-} from "@/components/ModalStyles/ModalContentAndInfo";
-import { StyledButton } from "@/components/Buttons";
-import ToastMessage from "@/components/ToastMessage";
+} from "@/components/ModalAndToast/ModalStyles/ModalContentAndInfo";
+import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
+import ToastMessage from "@/components/ModalAndToast/ToastMessage";
 
 export default function Modal({
   confirmButtonLabel,
@@ -48,12 +48,14 @@ export default function Modal({
           <ModalBox $isActionConfirmed={isActionConfirmed}>
             <ModalContent>
               <ModalInfo>{modalInfoText}</ModalInfo>
-              <StyledButton name="cancel" onClick={handleCancel}>
-                Cancel
-              </StyledButton>
-              <StyledButton name="confirm" onClick={handleConfirm}>
-                {confirmButtonLabel}
-              </StyledButton>
+              <ButtonGroup>
+                <StyledButton name="cancel" onClick={handleCancel}>
+                  Cancel
+                </StyledButton>
+                <StyledButton name="confirm" onClick={handleConfirm}>
+                  {confirmButtonLabel}
+                </StyledButton>
+              </ButtonGroup>
             </ModalContent>
           </ModalBox>
         </Background>
