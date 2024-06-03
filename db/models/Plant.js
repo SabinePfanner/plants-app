@@ -7,12 +7,12 @@ const plantSchema = new Schema({
   botanicalName: { type: String, required: true },
   waterDemand: { type: String, required: true },
   nutrientDemand: { type: String, required: true },
-  growingConditions: { type: String, required: true },
-  placement: { type: String, required: true },
+  growingConditions: { type: String },
+  placement: { type: String },
   perennial: { type: Boolean, required: true },
   frostSensitive: { type: Boolean, required: true },
-  cropType: { type: String, required: true },
-  image: { type: String, required: true },
+  cropType: { type: String },
+  image: { type: String },
 });
 
 const Plant = mongoose.models.Plant || mongoose.model("Plant", plantSchema);

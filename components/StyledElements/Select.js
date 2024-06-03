@@ -38,7 +38,7 @@ export function CustomSelect({ label, values, onChange, defaultValue }) {
     flex-direction: column;
     background: #fafafa;
     ${(p) =>
-      p.isVisible !== true &&
+      p.$isVisible !== true &&
       css`
         max-height: 0;
         visibility: hidden;
@@ -49,7 +49,7 @@ export function CustomSelect({ label, values, onChange, defaultValue }) {
     font-size: 0.9rem;
     cursor: pointer;
     ${(props) =>
-      props.active &&
+      props.$active &&
       css`
         color: var(--color-green);
         font-weight: 500;
@@ -65,11 +65,11 @@ export function CustomSelect({ label, values, onChange, defaultValue }) {
       <SelectLabelButton onClick={handleToggle}>
         {currentValue !== "" ? currentValue : label}
       </SelectLabelButton>
-      <DropdownStyle isVisible={isOpen}>
+      <DropdownStyle $isVisible={isOpen}>
         {values.map((value, index) => (
           <DropdownItem
             onClick={() => handleChange(value)}
-            active={value === currentValue}
+            $active={value === currentValue}
             key={index}
           >
             {value}

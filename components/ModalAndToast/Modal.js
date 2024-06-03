@@ -49,7 +49,11 @@ export default function Modal({
             <ModalContent>
               <ModalInfo>{modalInfoText}</ModalInfo>
               <ButtonGroup>
-                <StyledButton name="cancel" onClick={handleCancel}>
+                <StyledButton
+                  name="cancel"
+                  type="button"
+                  onClick={handleCancel}
+                >
                   Cancel
                 </StyledButton>
                 <StyledButton name="confirm" onClick={handleConfirm}>

@@ -50,11 +50,12 @@ const placements = ["Bed", "Pot", "Pot or Bed"];
 const growingConditions = ["Sunny", "Partial Shade"];
 
 export default function Form({ onSubmit }) {
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    onSubmit(data);
+    const plantData = Object.fromEntries(formData);
+    await onSubmit(plantData);
+    event.target.reset();
   }
 
   return (
@@ -81,7 +82,6 @@ export default function Form({ onSubmit }) {
       <CustomSelect
         id="cropType"
         name="cropType"
-        required
         values={cropTypes}
         defaultValue="Select the crop type &darr;"
       />
@@ -113,7 +113,6 @@ export default function Form({ onSubmit }) {
       <CustomSelect
         id="placement"
         name="placement"
-        required
         values={placements}
         defaultValue="Select the preferred placement &darr;"
       />
@@ -121,7 +120,6 @@ export default function Form({ onSubmit }) {
       <CustomSelect
         id="growingConditions"
         name="growingConditions"
-        required
         values={growingConditions}
         defaultValue="Select the preferred conditions &darr;"
       />
@@ -186,7 +184,7 @@ export default function Form({ onSubmit }) {
         </RadioButtonGroup>
       </Fieldset>
       <ButtonGroup>
-        <StyledButton type="reset">Dismiss</StyledButton>
+        <StyledButton type="button">Dismiss</StyledButton>
         <StyledButton type="submit">Save</StyledButton>
       </ButtonGroup>
     </FormContainer>

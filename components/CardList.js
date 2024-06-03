@@ -35,11 +35,6 @@ export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
           );
         })}
       </StyledList>
-      <Modal
-        confirmButtonLabel="Confirm"
-        modalInfoText="Testnachricht"
-        toastMessageText="Das hat geklappt"
-      />
     </>
   );
 }
