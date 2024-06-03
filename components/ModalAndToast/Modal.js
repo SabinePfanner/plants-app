@@ -12,61 +12,53 @@ export default function Modal({
   confirmButtonLabel,
   modalInfoText,
   toastMessageText,
+  onModalOpen,
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  const [isActionConfirmed, setActionConfirmed] = useState(false);
-
-  isModalOpen || isActionConfirmed
-    ? (document.body.style.overflow = "hidden")
-    : (document.body.style.overflow = "auto");
+  const [actionConfirmed, setActionConfirmed] = useState(false);
 
   function handleCancel() {
-    setIsModalOpen(false);
+    onModalOpen();
   }
 
   function handleConfirm() {
     setActionConfirmed(true);
-    setIsModalOpen(false);
   }
 
   useEffect(() => {
     let timeoutId;
-    if (isActionConfirmed) {
+    if (actionConfirmed) {
       timeoutId = setTimeout(() => {
         setActionConfirmed(false);
-      }, 2000);
+        onModalOpen();
+      }, 3000);
     }
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [isActionConfirmed]);
+  }, [actionConfirmed, onModalOpen]);
 
   return (
     <>
-      {isModalOpen && (
-        <Background>
-          <ModalBox $isActionConfirmed={isActionConfirmed}>
-            <ModalContent>
-              <ModalInfo>{modalInfoText}</ModalInfo>
-              <ButtonGroup>
-                <StyledButton
-                  name="cancel"
-                  type="button"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </StyledButton>
-                <StyledButton name="confirm" onClick={handleConfirm}>
-                  {confirmButtonLabel}
-                </StyledButton>
-              </ButtonGroup>
-            </ModalContent>
-          </ModalBox>
-        </Background>
-      )}
-      {isActionConfirmed && (
-        <ToastMessage toastMessageText={toastMessageText} />
-      )}
+      <Background>
+        <ModalBox $isActionConfirmed={actionConfirmed}>
+          <ModalContent>
+            <ModalInfo>{modalInfoText}</ModalInfo>
+            <ButtonGroup>
+              <StyledButton name="cancel" type="button" onClick={handleCancel}>
+                Cancel
+              </StyledButton>
+              <StyledButton
+                name="confirm"
+                type="button"
+                onClick={handleConfirm}
+              >
+                {confirmButtonLabel}
+              </StyledButton>
+            </ButtonGroup>
+          </ModalContent>
+        </ModalBox>
+      </Background>
+      {actionConfirmed && <ToastMessage toastMessageText={toastMessageText} />}
     </>
   );
 }

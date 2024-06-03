@@ -11,8 +11,11 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const plantData = request.body;
-      await Plant.create(plantData);
-      response.status(201).json({ message: "New crop successfully created" });
+      const newPlant = await Plant.create(plantData);
+      response
+        .status(201)
+        .json({ message: "New crop successfully created", id: newPlant._id });
+      console.log(newPlant);
     } catch (error) {
       console.log(error);
       response.status(400).json({ error: error.message });

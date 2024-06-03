@@ -30,10 +30,6 @@ export const RangeInput = styled.input`
   cursor: pointer;
   border-radius: 10px;
 
-  &:focus {
-    outline: none;
-  }
-
   // Settings for general browser (e.g. Chrome)
 
   &::-webkit-slider-runnable-track {

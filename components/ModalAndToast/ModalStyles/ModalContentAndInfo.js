@@ -6,5 +6,5 @@ export const ModalContent = styled.section`
 
 export const ModalInfo = styled.p`
   font-size: 15px;
-  margin: 2rem 0 1rem 0;
+  margin: 2rem 1rem 1rem 1rem;
 `;

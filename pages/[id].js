@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import PlantDetails from "@/components/PlantDetails.js";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import ToastMessage from "@/components/ModalAndToast/ToastMessage";
+import { useEffect, useState } from "react";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -15,10 +18,33 @@ const StyledLink = styled(Link)`
 `;
 
 export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
+  const router = useRouter();
+  const query = router.query;
+  console.log(query);
+  const [showToastMessage, setShowToastMessage] = useState(true);
+
+  useEffect(() => {
+    let timeoutId;
+    if (query.isnew !== undefined) {
+      timeoutId = setTimeout(() => {
+        setShowToastMessage(false);
+      }, 3000);
+    }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [query.isnew]);
+
   return (
     <>
       <StyledLink href="/">←</StyledLink>
-      <PlantDetails favoriteIDs={favoriteIDs} onToggleFavorite={onToggleFavorite}/>
+      <PlantDetails
+        favoriteIDs={favoriteIDs}
+        onToggleFavorite={onToggleFavorite}
+      />
+      {query.isnew !== undefined && showToastMessage && (
+        <ToastMessage toastMessageText="New Crop successfully created" />
+      )}
     </>
   );
 }

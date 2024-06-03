@@ -1,17 +1,20 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
 
-export function CustomSelect({ label, values, onChange, defaultValue }) {
-  const [currentValue, setCurrentValue] = useState(defaultValue);
+export function CustomSelect({
+  label,
+  values,
+  onChange,
+  onValueChange,
+  labelButtonText,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   function handleToggle() {
     setIsOpen(!isOpen);
   }
-  function handleValueChange(value) {
-    setCurrentValue(value);
-  }
+
   function handleChange(value) {
-    handleValueChange(value);
+    onValueChange(value);
     // call method, if it exists
     if (onChange) onChange(value);
     // close, after all tasks are finished
@@ -57,20 +60,22 @@ export function CustomSelect({ label, values, onChange, defaultValue }) {
     &:hover, :focus, :focus:hover {
       background-color: var(--color-green);
       color: #fff;
-      outline: none;
+      outline: 0;
     }
   `;
   return (
     <>
       <SelectLabelButton onClick={handleToggle}>
-        {currentValue !== "" ? currentValue : label}
+        {labelButtonText !== "" ? labelButtonText : label}
       </SelectLabelButton>
       <DropdownStyle $isVisible={isOpen}>
         {values.map((value, index) => (
           <DropdownItem
+            className="select"
             onClick={() => handleChange(value)}
-            $active={value === currentValue}
+            $active={value === labelButtonText}
             key={index}
+            tabindex="0"
           >
             {value}
           </DropdownItem>

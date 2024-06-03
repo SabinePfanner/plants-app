@@ -3,6 +3,7 @@ import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
+import { useState } from "react";
 
 const FormContainer = styled.form`
   display: flex;
@@ -49,13 +50,47 @@ const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
 const growingConditions = ["Sunny", "Partial Shade"];
 
-export default function Form({ onSubmit }) {
+export default function Form({ onSubmit, onDismiss }) {
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
+    formData.set("cropType", currentCropType);
+    formData.set("placement", currentPlacement);
+    formData.set("growingConditions", currentGrowingConditions);
     const plantData = Object.fromEntries(formData);
     await onSubmit(plantData);
-    event.target.reset();
+    console.log(plantData);
+    // event.target.reset();
+  }
+
+  // Select Crop Type
+
+  const [currentCropType, setCurrentCropType] = useState(
+    "Select the crop type ↓"
+  );
+
+  function handleCropTypeChange(value) {
+    setCurrentCropType(value);
+  }
+
+  // Select Placement
+
+  const [currentPlacement, setCurrentPlacement] = useState(
+    "Select the preferred placement ↓"
+  );
+
+  function handlePlacementChange(value) {
+    setCurrentPlacement(value);
+  }
+
+  // Select Growing Conditions
+
+  const [currentGrowingConditions, setCurrentGrowingConditions] = useState(
+    "Select the preferred conditions ↓"
+  );
+
+  function handleGrowingConditionsChange(value) {
+    setCurrentGrowingConditions(value);
   }
 
   return (
@@ -83,7 +118,9 @@ export default function Form({ onSubmit }) {
         id="cropType"
         name="cropType"
         values={cropTypes}
-        defaultValue="Select the crop type &darr;"
+        value={currentCropType}
+        onValueChange={handleCropTypeChange}
+        labelButtonText={currentCropType}
       />
       <FieldsetLabel htmlFor="perennial">Perennial</FieldsetLabel>
       <Fieldset>
@@ -114,14 +151,16 @@ export default function Form({ onSubmit }) {
         id="placement"
         name="placement"
         values={placements}
-        defaultValue="Select the preferred placement &darr;"
+        onValueChange={handlePlacementChange}
+        labelButtonText={currentPlacement}
       />
       <Label htmlFor="growingConditions">Growing conditions</Label>
       <CustomSelect
         id="growingConditions"
         name="growingConditions"
         values={growingConditions}
-        defaultValue="Select the preferred conditions &darr;"
+        onValueChange={handleGrowingConditionsChange}
+        labelButtonText={currentGrowingConditions}
       />
       <FieldsetLabel htmlFor="waterDemand">Water demand</FieldsetLabel>
       <Fieldset>
@@ -184,7 +223,9 @@ export default function Form({ onSubmit }) {
         </RadioButtonGroup>
       </Fieldset>
       <ButtonGroup>
-        <StyledButton type="button">Dismiss</StyledButton>
+        <StyledButton type="button" onClick={onDismiss}>
+          Dismiss
+        </StyledButton>
         <StyledButton type="submit">Save</StyledButton>
       </ButtonGroup>
     </FormContainer>
