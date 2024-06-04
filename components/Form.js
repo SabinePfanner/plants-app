@@ -46,28 +46,11 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
-const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
-const placements = ["Bed", "Pot", "Pot or Bed"];
-const growingConditions = ["Sunny", "Partial Shade"];
-
 export default function Form({ onSubmit, onDismiss }) {
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    formData.set("cropType", currentCropType);
-    formData.set("placement", currentPlacement);
-    formData.set("growingConditions", currentGrowingConditions);
-    const plantData = Object.fromEntries(formData);
-    await onSubmit(plantData);
-    console.log(plantData);
-    // event.target.reset();
-  }
-
   // Select Crop Type
 
-  const [currentCropType, setCurrentCropType] = useState(
-    "Select the crop type ↓"
-  );
+  const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
+  const [currentCropType, setCurrentCropType] = useState(null);
 
   function handleCropTypeChange(value) {
     setCurrentCropType(value);
@@ -75,9 +58,8 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Placement
 
-  const [currentPlacement, setCurrentPlacement] = useState(
-    "Select the preferred placement ↓"
-  );
+  const placements = ["Bed", "Pot", "Pot or Bed"];
+  const [currentPlacement, setCurrentPlacement] = useState(null);
 
   function handlePlacementChange(value) {
     setCurrentPlacement(value);
@@ -85,12 +67,40 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Growing Conditions
 
-  const [currentGrowingConditions, setCurrentGrowingConditions] = useState(
-    "Select the preferred conditions ↓"
-  );
+  const growingConditions = ["Sunny", "Partial Shade"];
+  const [currentGrowingConditions, setCurrentGrowingConditions] =
+    useState(null);
 
   function handleGrowingConditionsChange(value) {
     setCurrentGrowingConditions(value);
+  }
+
+  function checkSelectInput(input, name) {
+    if (!input) {
+      return `Select the preferred ${name} ↓`;
+    } else {
+      return input;
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    // Handle custom selects: if not null, add data to form data, otherwise show a custom alert message
+    if (
+      currentCropType === null ||
+      currentPlacement === null ||
+      currentGrowingConditions === null
+    ) {
+      alert("Please fill out all inputs");
+      return;
+    } else {
+      formData.set("cropType", currentCropType);
+      formData.set("placement", currentPlacement);
+      formData.set("growingConditions", currentGrowingConditions);
+    }
+    const plantData = Object.fromEntries(formData);
+    onSubmit(plantData);
   }
 
   return (
@@ -118,9 +128,9 @@ export default function Form({ onSubmit, onDismiss }) {
         id="cropType"
         name="cropType"
         values={cropTypes}
-        value={currentCropType}
+        value={checkSelectInput(currentCropType)}
         onValueChange={handleCropTypeChange}
-        labelButtonText={currentCropType}
+        labelButtonText={checkSelectInput(currentCropType, "crop type")}
       />
       <FieldsetLabel htmlFor="perennial">Perennial</FieldsetLabel>
       <Fieldset>
@@ -151,16 +161,21 @@ export default function Form({ onSubmit, onDismiss }) {
         id="placement"
         name="placement"
         values={placements}
+        value={checkSelectInput(currentPlacement)}
         onValueChange={handlePlacementChange}
-        labelButtonText={currentPlacement}
+        labelButtonText={checkSelectInput(currentPlacement, "placement")}
       />
       <Label htmlFor="growingConditions">Growing conditions</Label>
       <CustomSelect
         id="growingConditions"
         name="growingConditions"
         values={growingConditions}
+        value={checkSelectInput(growingConditions)}
         onValueChange={handleGrowingConditionsChange}
-        labelButtonText={currentGrowingConditions}
+        labelButtonText={checkSelectInput(
+          currentGrowingConditions,
+          "growing conditions"
+        )}
       />
       <FieldsetLabel htmlFor="waterDemand">Water demand</FieldsetLabel>
       <Fieldset>

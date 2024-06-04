@@ -7,11 +7,11 @@ const plantSchema = new Schema({
   botanicalName: { type: String, required: true },
   waterDemand: { type: String, required: true },
   nutrientDemand: { type: String, required: true },
-  growingConditions: { type: String },
-  placement: { type: String },
+  growingConditions: { type: String, required: true },
+  placement: { type: String, required: true },
   perennial: { type: Boolean, required: true },
   frostSensitive: { type: Boolean, required: true },
-  cropType: { type: String },
+  cropType: { type: String, required: true },
   image: { type: String },
 });
 

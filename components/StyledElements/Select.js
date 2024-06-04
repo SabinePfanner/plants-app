@@ -75,7 +75,12 @@ export function CustomSelect({
             onClick={() => handleChange(value)}
             $active={value === labelButtonText}
             key={index}
-            tabindex="0"
+            tabIndex="0"
+            onKeyDown={(event) =>
+              event.key === "Enter" || event.key === " "
+                ? handleChange(value)
+                : null
+            }
           >
             {value}
           </DropdownItem>

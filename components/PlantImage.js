@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-import SvgIcon from "@/components/SvgIcon";
+import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
@@ -48,7 +48,7 @@ export default function PlantImage({
     <PlantImageContainer>
       <Link href={`/${id}`} legacyBehavior>
         <StyledImage
-          src={image}
+          src={!image ? "/images/chili.jpg" : image}
           alt={"Image of plant"}
           width={width}
           height={height}

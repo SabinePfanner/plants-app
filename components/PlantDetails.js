@@ -69,9 +69,21 @@ export default function PlantDetails({ favoriteIDs, onToggleFavorite }) {
         <StyledListElement>
           Growing Conditions: {plant.growingConditions}
         </StyledListElement>
-        <StyledListElement>Water demand: {plant.waterDemand}</StyledListElement>
         <StyledListElement>
-          Nutrient demand: {plant.nutrientDemand}
+          Water demand:{" "}
+          {plant.waterDemand === "1"
+            ? "Low"
+            : plant.nutrientDemand === "2"
+            ? "Medium"
+            : "High"}
+        </StyledListElement>
+        <StyledListElement>
+          Nutrient demand:{" "}
+          {plant.nutrientDemand === "1"
+            ? "Low"
+            : plant.nutrientDemand === "2"
+            ? "Medium"
+            : "High"}
         </StyledListElement>
         <StyledListElement>
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}

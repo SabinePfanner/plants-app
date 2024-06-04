@@ -3,7 +3,6 @@ import useSWR from "swr";
 import Form from "@/components/Form";
 import Modal from "@/components/ModalAndToast/Modal";
 import { useState } from "react";
-import ToastMessage from "@/components/ModalAndToast/ToastMessage";
 
 export default function CreatePlant() {
   const { mutate } = useSWR("/api/plants/");
