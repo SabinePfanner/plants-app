@@ -1,4 +1,5 @@
 import CardList from "@/components/CardList.js";
+import CreateNewPlantButton from "@/components/StyledElements/CreateEditDelete";
 
 export default function HomePage({ plants, favoriteIDs, onToggleFavorite }) {
   return (
@@ -9,6 +10,7 @@ export default function HomePage({ plants, favoriteIDs, onToggleFavorite }) {
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
       />
+      <CreateNewPlantButton />
     </>
   );
 }
