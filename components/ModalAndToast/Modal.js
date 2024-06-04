@@ -37,34 +37,40 @@ export default function Modal({
     return () => {
       clearTimeout(timeoutId);
     };
-  });
+  }, [actionConfirmed, onModalOpen, router]);
 
-  //Quite action
+  //Quit action
   function handleCancel() {
     onModalOpen();
   }
 
   return (
     <>
-      <Background>
-        <ModalBox $isActionConfirmed={actionConfirmed}>
-          <ModalContent>
-            <ModalInfo>{modalInfoText}</ModalInfo>
-            <ButtonGroup>
-              <StyledButton name="cancel" type="button" onClick={handleCancel}>
-                Cancel
-              </StyledButton>
-              <StyledButton
-                name="confirm"
-                type="button"
-                onClick={handleConfirm}
-              >
-                {confirmButtonLabel}
-              </StyledButton>
-            </ButtonGroup>
-          </ModalContent>
-        </ModalBox>
-      </Background>
+      {!actionConfirmed && (
+        <Background>
+          <ModalBox $isActionConfirmed={actionConfirmed}>
+            <ModalContent>
+              <ModalInfo>{modalInfoText}</ModalInfo>
+              <ButtonGroup>
+                <StyledButton
+                  name="cancel"
+                  type="button"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </StyledButton>
+                <StyledButton
+                  name="confirm"
+                  type="button"
+                  onClick={handleConfirm}
+                >
+                  {confirmButtonLabel}
+                </StyledButton>
+              </ButtonGroup>
+            </ModalContent>
+          </ModalBox>
+        </Background>
+      )}
       {actionConfirmed && <ToastMessage toastMessageText={toastMessageText} />}
     </>
   );
