@@ -27,7 +27,7 @@ export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
                 name={plant.name}
                 cropType={plant.cropType}
                 image={plant.image}
-                isFavorite={favoriteIDs.includes(plant._id) ? true : false}
+                isFavorite={favoriteIDs.includes(plant._id)}
                 onToggleFavorite={onToggleFavorite}
                 id={plant._id}
               />

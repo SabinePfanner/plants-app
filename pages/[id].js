@@ -20,12 +20,11 @@ const StyledLink = styled(Link)`
 export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
   const router = useRouter();
   const query = router.query;
-  console.log(query);
   const [showToastMessage, setShowToastMessage] = useState(true);
 
   useEffect(() => {
     let timeoutId;
-    if (query.isnew !== undefined) {
+    if (query.isnew) {
       timeoutId = setTimeout(() => {
         setShowToastMessage(false);
       }, 3000);
@@ -42,7 +41,7 @@ export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
       />
-      {query.isnew !== undefined && showToastMessage && (
+      {query.isnew && showToastMessage && (
         <ToastMessage toastMessageText="New Crop successfully created" />
       )}
     </>

@@ -16,13 +16,9 @@ export default function CreatePlant() {
     });
     if (!response.ok) {
       console.error(response.status);
-      return;
-    }
-    if (response.ok) {
+    } else {
       const responseObject = await response.json();
-      console.log(response.status);
-      mutate();
-      router.push(`/${responseObject.id}?isnew`);
+      router.push(`/${responseObject.id}?isnew=true`);
     }
   }
 

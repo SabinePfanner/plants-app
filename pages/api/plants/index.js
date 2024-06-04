@@ -15,9 +15,7 @@ export default async function handler(request, response) {
       response
         .status(201)
         .json({ message: "New crop successfully created", id: newPlant._id });
-      console.log(newPlant);
     } catch (error) {
-      console.log(error);
       response.status(400).json({ error: error.message });
     }
   } else {

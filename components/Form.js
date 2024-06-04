@@ -46,10 +46,14 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
+// Values for custom select components used in form
+const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
+const placements = ["Bed", "Pot", "Pot or Bed"];
+const growingConditions = ["Sunny", "Partial Shade"];
+
 export default function Form({ onSubmit, onDismiss }) {
   // Select Crop Type
 
-  const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
   const [currentCropType, setCurrentCropType] = useState(null);
 
   function handleCropTypeChange(value) {
@@ -58,7 +62,6 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Placement
 
-  const placements = ["Bed", "Pot", "Pot or Bed"];
   const [currentPlacement, setCurrentPlacement] = useState(null);
 
   function handlePlacementChange(value) {
@@ -67,7 +70,6 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Growing Conditions
 
-  const growingConditions = ["Sunny", "Partial Shade"];
   const [currentGrowingConditions, setCurrentGrowingConditions] =
     useState(null);
 
@@ -93,14 +95,13 @@ export default function Form({ onSubmit, onDismiss }) {
       currentGrowingConditions === null
     ) {
       alert("Please fill out all inputs");
-      return;
     } else {
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
       formData.set("growingConditions", currentGrowingConditions);
+      const plantData = Object.fromEntries(formData);
+      onSubmit(plantData);
     }
-    const plantData = Object.fromEntries(formData);
-    onSubmit(plantData);
   }
 
   return (
