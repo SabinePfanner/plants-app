@@ -44,34 +44,29 @@ export default function Modal({
     onModalOpen(false);
   }
 
-  return (
-    <>
-      {!actionConfirmed && (
-        <Background>
-          <ModalBox $isActionConfirmed={actionConfirmed}>
-            <ModalContent>
-              <ModalInfo>{modalInfoText}</ModalInfo>
-              <ButtonGroup>
-                <StyledButton
-                  name="cancel"
-                  type="button"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </StyledButton>
-                <StyledButton
-                  name="confirm"
-                  type="button"
-                  onClick={handleConfirm}
-                >
-                  {confirmButtonLabel}
-                </StyledButton>
-              </ButtonGroup>
-            </ModalContent>
-          </ModalBox>
-        </Background>
-      )}
-      {actionConfirmed && <ToastMessage toastMessageText={toastMessageText} />}
-    </>
-  );
+  if (actionConfirmed) {
+    return <ToastMessage toastMessageText={toastMessageText} />;
+  } else {
+    return (
+      <Background>
+        <ModalBox $isActionConfirmed={actionConfirmed}>
+          <ModalContent>
+            <ModalInfo>{modalInfoText}</ModalInfo>
+            <ButtonGroup>
+              <StyledButton name="cancel" type="button" onClick={handleCancel}>
+                Cancel
+              </StyledButton>
+              <StyledButton
+                name="confirm"
+                type="button"
+                onClick={handleConfirm}
+              >
+                {confirmButtonLabel}
+              </StyledButton>
+            </ButtonGroup>
+          </ModalContent>
+        </ModalBox>
+      </Background>
+    );
+  }
 }

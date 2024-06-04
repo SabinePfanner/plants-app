@@ -66,7 +66,7 @@ export function CustomSelect({
   return (
     <>
       <SelectLabelButton onClick={handleToggle}>
-        {labelButtonText !== "" ? labelButtonText : label}
+        {labelButtonText ? labelButtonText : label}
       </SelectLabelButton>
       <DropdownStyle $isVisible={isOpen}>
         {values.map((value, index) => (

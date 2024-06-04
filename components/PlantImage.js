@@ -56,7 +56,7 @@ export default function PlantImage({
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
-        <SvgIcon variant={"chili"} color={isFavorite ? "#E23D28" : "#79af6e"} />
+        <SvgIcon variant="chili" color={isFavorite ? "#E23D28" : "#79af6e"} />
       </StyledFavoriteButton>
     </PlantImageContainer>
   );

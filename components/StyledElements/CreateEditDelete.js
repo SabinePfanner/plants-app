@@ -21,7 +21,7 @@ export default function CreateNewPlantButton() {
   return (
     <>
       <StyledLink href="/create">
-        <SvgIcon variant={"plus"} color={"#E23D28"} title={"createCrop"} />
+        <SvgIcon variant="plus" color="#E23D28" title="createCrop" />
       </StyledLink>
     </>
   );

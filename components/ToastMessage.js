@@ -1,9 +1,9 @@
-import { Background } from "@/components/ModalAndToast/ModalStyles/Background.js";
-import { ModalBox } from "@/components/ModalAndToast/ModalStyles/ModalBox.js";
+import { Background } from "@/components/ModalStyles/Background";
+import { ModalBox } from "@/components/ModalStyles/ModalBox.js";
 import {
   ModalContent,
   ModalInfo,
-} from "@/components/ModalAndToast/ModalStyles/ModalContentAndInfo.js";
+} from "@/components/ModalStyles/ModalContentAndInfo";
 
 export default function ToastMessage({ toastMessageText }) {
   return (
