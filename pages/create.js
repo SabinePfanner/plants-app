@@ -24,8 +24,8 @@ export default function CreatePlant() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  function handleOpenModal() {
-    setIsModalOpen(!isModalOpen);
+  function handleOpenModal(isVisible) {
+    setIsModalOpen(isVisible);
   }
 
   return (

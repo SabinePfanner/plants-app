@@ -30,7 +30,7 @@ export default function Modal({
     if (actionConfirmed) {
       timeoutId = setTimeout(() => {
         setActionConfirmed(false);
-        onModalOpen();
+        onModalOpen(false);
         router.push(`/`);
       }, 3000);
     }
@@ -41,7 +41,7 @@ export default function Modal({
 
   //Quit action
   function handleCancel() {
-    onModalOpen();
+    onModalOpen(false);
   }
 
   return (
