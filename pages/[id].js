@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import PlantDetails from "@/components/PlantDetails.js";
 import Link from "next/link";
-import { DeletePlantButton } from "@/components/StyledElements/CreateEditDelete";
+import {
+  DeletePlantButton,
+  SvgLinkButton,
+} from "@/components/StyledElements/CreateEditDelete";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -57,6 +60,12 @@ export default function DetailsPage({
         onToggleFavorite={onToggleFavorite}
       />
       <DeletePlantButton type="button" onClick={handleOpenModal} />
+      <SvgLinkButton
+        href={`/edit/${id}`}
+        variant="pen"
+        color="#E23D28"
+        bottom="10rem"
+      />
     </>
   );
 }

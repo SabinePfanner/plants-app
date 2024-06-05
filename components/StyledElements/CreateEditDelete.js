@@ -6,22 +6,21 @@ const StyledLink = styled(Link)`
   position: fixed;
   width: 2.5rem;
   height: 2.5rem;
-  right: 1rem;
-  bottom: 6.5rem;
+  right: ${(props) => (props.$right ? props.$right : "1rem")};
+  bottom: ${(props) => (props.$bottom ? props.$bottom : "6.5rem")};
   background: transparent;
   border: none;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
-    title: "createCrop";
   }
 `;
 
-export function CreateNewPlantButton() {
+export function SvgLinkButton({ href, variant, color, right, bottom }) {
   return (
     <>
-      <StyledLink href="/create">
-        <SvgIcon variant="plus" color="#E23D28" title="createCrop" />
+      <StyledLink href={href} $right={right} $bottom={bottom}>
+        <SvgIcon variant={variant} color={color} />
       </StyledLink>
     </>
   );
@@ -38,7 +37,6 @@ const StyledButton = styled.button`
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
-    title: "createCrop";
   }
 `;
 
