@@ -15,7 +15,20 @@ const StyledLink = styled(Link)`
   color: black;
 `;
 
-export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
+export default function DetailsPage({
+  favoriteIDs,
+  onToggleFavorite,
+  onOpenModal,
+}) {
+  function handleOpenModal() {
+    onOpenModal({
+      modalInfoText: "Do you really want to delete this crop?",
+      confirmButtonLabel: "Delete",
+      toastMessageText: "Crop successfully deleted.",
+      toastMessageRouter: "/",
+    });
+  }
+
   return (
     <>
       <StyledLink href="/">←</StyledLink>
@@ -23,7 +36,7 @@ export default function DetailsPage({ favoriteIDs, onToggleFavorite }) {
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
       />
-      <DeletePlantButton />
+      <DeletePlantButton type="button" onClick={handleOpenModal} />
     </>
   );
 }

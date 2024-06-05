@@ -42,10 +42,10 @@ const StyledButton = styled.button`
   }
 `;
 
-export function DeletePlantButton() {
+export function DeletePlantButton({ type, onClick }) {
   return (
     <>
-      <StyledButton>
+      <StyledButton type={type} onClick={onClick}>
         <SvgIcon variant="trashCan" color="#E23D28" title="deleteCrop" />
       </StyledButton>
     </>
