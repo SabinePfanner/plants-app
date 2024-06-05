@@ -3,6 +3,9 @@ import useSWR, { SWRConfig } from "swr";
 import Header from "@/components/Header.js";
 import Footer from "@/components/Footer";
 import useLocalStorageState from "use-local-storage-state";
+import ToastMessage from "@/components/ModalAndToast/ToastMessage";
+import { useState } from "react";
+import Modal from "@/components/ModalAndToast/Modal";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);
@@ -15,6 +18,22 @@ export async function fetcher(...args) {
 export default function App({ Component, pageProps }) {
   const [favoriteIDs, setFavoriteIDs] = useLocalStorageState("favorites", {
     defaultValue: [],
+  });
+
+  // Toast Message Feature
+  const [toastSettings, setToastSettings] = useState({
+    isOpen: false,
+    duration: 3000,
+    toastMessage: "",
+  });
+
+  // Modal Feature
+  const [modalSettings, setModalSettings] = useState({
+    isOpen: false,
+    modalInfoText: "",
+    confirmButtonLabel: "",
+    toastMessageText: "",
+    toastMessageRouter: "",
   });
 
   // Fetch plants from mongoDB
@@ -40,6 +59,26 @@ export default function App({ Component, pageProps }) {
     }
   }
 
+  function handleOpenToast(toastMessage) {
+    setToastSettings({
+      ...toastSettings,
+      isOpen: true,
+      toastMessage: toastMessage,
+    });
+  }
+
+  function handleCloseToast() {
+    setToastSettings({ isOpen: false });
+  }
+
+  function handleOpenModal(modalSettings) {
+    setModalSettings({ ...modalSettings, isOpen: true });
+  }
+
+  function handleCloseModel() {
+    setModalSettings({ isOpen: false });
+  }
+
   return (
     <>
       <SWRConfig
@@ -55,6 +94,19 @@ export default function App({ Component, pageProps }) {
             onToggleFavorite={handleToggleFavorite}
             favoriteIDs={favoriteIDs}
             plants={plants}
+            onOpenToast={handleOpenToast}
+            onOpenModal={handleOpenModal}
+          />
+          <Modal
+            modalSettings={modalSettings}
+            onOpenModal={handleOpenModal}
+            onCloseModal={handleCloseModel}
+            onOpenToast={handleOpenToast}
+          />
+          <ToastMessage
+            toastSettings={toastSettings}
+            onOpenToast={handleOpenToast}
+            onCloseToast={handleCloseToast}
           />
         </main>
         <Footer />

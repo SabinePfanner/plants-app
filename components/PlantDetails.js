@@ -90,7 +90,6 @@ export default function PlantDetails({ favoriteIDs, onToggleFavorite }) {
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
-      <DeletePlantButton />
     </>
   );
 }
