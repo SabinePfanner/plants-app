@@ -29,9 +29,7 @@ const Figure = styled.figure`
   margin: 1rem;
 `;
 
-export default function PlantDetails({ favoriteIDs, onToggleFavorite }) {
-  const router = useRouter();
-  const { id } = router.query;
+export default function PlantDetails({ favoriteIDs, onToggleFavorite, id }) {
   const { data: plant, isLoading } = useSWR(`/api/plants/${id}`);
 
   if (isLoading) {

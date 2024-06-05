@@ -7,7 +7,6 @@ import {
 import { useEffect } from "react";
 
 export default function ToastMessage({ toastSettings, onCloseToast }) {
-  console.log(toastSettings);
   useEffect(() => {
     let timeoutId;
 

@@ -5,11 +5,8 @@ import {
   ModalInfo,
 } from "@/components/ModalAndToast/ModalStyles/ModalContentAndInfo";
 import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
-import { useRouter } from "next/router";
 
-export default function Modal({ modalSettings, onCloseModal, onOpenToast }) {
-  const router = useRouter();
-
+export default function Modal({ modalSettings, onCloseModal }) {
   //Close modal and quit action
   function handleCancel() {
     onCloseModal();
@@ -28,11 +25,7 @@ export default function Modal({ modalSettings, onCloseModal, onOpenToast }) {
               <StyledButton
                 name="confirm"
                 type="button"
-                onClick={() => {
-                  onCloseModal();
-                  onOpenToast(modalSettings.toastMessageText);
-                  router.push(modalSettings.toastMessageRouter);
-                }}
+                onClick={modalSettings.onClick}
               >
                 {modalSettings.confirmButtonLabel}
               </StyledButton>

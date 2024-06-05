@@ -1,6 +1,6 @@
 import Card from "@/components/Card";
 import styled from "styled-components";
-import Modal from "./ModalAndToast/Modal";
+import useSWR from "swr";
 
 const StyledList = styled.ul`
   list-style: none;
@@ -16,7 +16,8 @@ const StyledListElement = styled.li`
   justify-self: center;
 `;
 
-export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
+export default function CardList({ favoriteIDs, onToggleFavorite }) {
+  const { data: plants } = useSWR(`/api/plants`);
   return (
     <>
       <StyledList>

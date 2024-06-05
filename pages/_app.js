@@ -20,10 +20,10 @@ export default function App({ Component, pageProps }) {
     defaultValue: [],
   });
 
-  // Toast Message Feature
+  // Toast Feature
   const [toastSettings, setToastSettings] = useState({
     isOpen: false,
-    duration: 3000,
+    duration: 0,
     toastMessage: "",
   });
 
@@ -32,11 +32,10 @@ export default function App({ Component, pageProps }) {
     isOpen: false,
     modalInfoText: "",
     confirmButtonLabel: "",
-    toastMessageText: "",
-    toastMessageRouter: "",
+    onClick: null,
   });
 
-  // Fetch plants from mongoDB
+  // Fetch plants from mongoDB, plants are also fetched on page /[id] and
   const { data: plants, error, isLoading } = useSWR("/api/plants", fetcher);
 
   if (error) {
@@ -59,11 +58,12 @@ export default function App({ Component, pageProps }) {
     }
   }
 
+  // Toast Feature functionality
   function handleOpenToast(toastMessage) {
     setToastSettings({
-      ...toastSettings,
       isOpen: true,
       toastMessage: toastMessage,
+      duration: 3000,
     });
   }
 
@@ -71,11 +71,12 @@ export default function App({ Component, pageProps }) {
     setToastSettings({ isOpen: false });
   }
 
+  // Modal Feature functionality
   function handleOpenModal(modalSettings) {
     setModalSettings({ ...modalSettings, isOpen: true });
   }
 
-  function handleCloseModel() {
+  function handleCloseModal() {
     setModalSettings({ isOpen: false });
   }
 
@@ -94,14 +95,17 @@ export default function App({ Component, pageProps }) {
             onToggleFavorite={handleToggleFavorite}
             favoriteIDs={favoriteIDs}
             plants={plants}
+            toastSettings={toastSettings}
             onOpenToast={handleOpenToast}
+            onCloseTast={handleCloseToast}
+            modalSettings={modalSettings}
             onOpenModal={handleOpenModal}
+            onCloseModal={handleCloseModal}
           />
           <Modal
             modalSettings={modalSettings}
             onOpenModal={handleOpenModal}
-            onCloseModal={handleCloseModel}
-            onOpenToast={handleOpenToast}
+            onCloseModal={handleCloseModal}
           />
           <ToastMessage
             toastSettings={toastSettings}

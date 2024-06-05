@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import Form from "@/components/Form";
 
-export default function CreatePlant({ onOpenToast, onOpenModal }) {
+export default function CreatePlant({
+  onOpenToast,
+  onOpenModal,
+  onCloseModal,
+}) {
   const router = useRouter();
 
   async function addPlant(plant) {
@@ -15,7 +19,7 @@ export default function CreatePlant({ onOpenToast, onOpenModal }) {
     } else {
       const responseObject = await response.json();
       router.push(`/${responseObject.id}`);
-      onOpenToast("New crop successfully created");
+      onOpenToast("New crop successfully created!");
     }
   }
 
@@ -23,8 +27,11 @@ export default function CreatePlant({ onOpenToast, onOpenModal }) {
     onOpenModal({
       modalInfoText: "Do you really want to dismiss all changes?",
       confirmButtonLabel: "Dismiss",
-      toastMessageText: "All changes dismissed.",
-      toastMessageRouter: "/",
+      onClick: () => {
+        onCloseModal();
+        router.push("/");
+        onOpenToast("All changes dismissed.");
+      },
     });
   }
 
