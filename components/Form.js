@@ -51,10 +51,26 @@ const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
 const growingConditions = ["Sunny", "Partial Shade"];
 
-export default function Form({ onSubmit, onDismiss }) {
+export default function Form({
+  onSubmit,
+  onDismiss,
+  submitButtonText = "Save",
+  cancelButtonText = "Dismiss",
+  data = {
+    name: null,
+    botanicalName: null,
+    cropType: null,
+    growingConditions: null,
+    placement: null,
+    perennial: false,
+    frostSensitive: true,
+    waterDemand: 2,
+    nutrientDemand: 2,
+  },
+}) {
   // Select Crop Type
 
-  const [currentCropType, setCurrentCropType] = useState(null);
+  const [currentCropType, setCurrentCropType] = useState(data.cropType);
 
   function handleCropTypeChange(value) {
     setCurrentCropType(value);
@@ -62,7 +78,7 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Placement
 
-  const [currentPlacement, setCurrentPlacement] = useState(null);
+  const [currentPlacement, setCurrentPlacement] = useState(data.placement);
 
   function handlePlacementChange(value) {
     setCurrentPlacement(value);
@@ -70,8 +86,9 @@ export default function Form({ onSubmit, onDismiss }) {
 
   // Select Growing Conditions
 
-  const [currentGrowingConditions, setCurrentGrowingConditions] =
-    useState(null);
+  const [currentGrowingConditions, setCurrentGrowingConditions] = useState(
+    data.growingConditions
+  );
 
   function handleGrowingConditionsChange(value) {
     setCurrentGrowingConditions(value);
@@ -113,6 +130,7 @@ export default function Form({ onSubmit, onDismiss }) {
         type="text"
         minLength="1"
         maxLength="75"
+        defaultValue={data.name}
         required
       />
       <Label htmlFor="botanicalName">Botanical name</Label>
@@ -122,6 +140,7 @@ export default function Form({ onSubmit, onDismiss }) {
         type="text"
         minLength="1"
         maxLength="75"
+        defaultValue={data.botanicalName}
         required
       />
       <Label htmlFor="cropType">Crop type</Label>
@@ -143,6 +162,7 @@ export default function Form({ onSubmit, onDismiss }) {
               name="perennial"
               type="radio"
               value="true"
+              defaultChecked={data.perennial}
             />
           </RadioButtonLabel>
           <RadioButtonLabel htmlFor="perennial-no">
@@ -152,7 +172,7 @@ export default function Form({ onSubmit, onDismiss }) {
               name="perennial"
               type="radio"
               value="false"
-              defaultChecked
+              defaultChecked={!data.perennial}
             />
           </RadioButtonLabel>
         </RadioButtonGroup>
@@ -187,7 +207,7 @@ export default function Form({ onSubmit, onDismiss }) {
           min="1"
           max="3"
           step="1"
-          defaultValue="2"
+          defaultValue={data.waterDemand}
           required
         />
         <RangeInputLabels>
@@ -205,7 +225,7 @@ export default function Form({ onSubmit, onDismiss }) {
           min="1"
           max="3"
           step="1"
-          defaultValue="2"
+          defaultValue={data.nutrientDemand}
           required
         />
         <RangeInputLabels>
@@ -224,6 +244,7 @@ export default function Form({ onSubmit, onDismiss }) {
               name="frostSensitive"
               type="radio"
               value="true"
+              defaultChecked={data.frostSensitive}
             />
           </RadioButtonLabel>
           <RadioButtonLabel htmlFor="frostSensitive-no">
@@ -233,16 +254,61 @@ export default function Form({ onSubmit, onDismiss }) {
               name="frostSensitive"
               type="radio"
               value="false"
-              defaultChecked
+              defaultChecked={!data.frostSensitive}
             />
           </RadioButtonLabel>
+          {/* {data.frostSensitive ? (
+            <>
+              <RadioButtonLabel htmlFor="frostSensitive-yes">
+                Yes
+                <RadioButton
+                  id="frostSensitive-yes"
+                  name="frostSensitive"
+                  type="radio"
+                  value="true"
+                  checked
+                />
+              </RadioButtonLabel>
+              <RadioButtonLabel htmlFor="frostSensitive-no">
+                No
+                <RadioButton
+                  id="frostSensitive-no"
+                  name="frostSensitive"
+                  type="radio"
+                  value="false"
+                />
+              </RadioButtonLabel>
+            </>
+          ) : (
+            <>
+              <RadioButtonLabel htmlFor="frostSensitive-yes">
+                Yes
+                <RadioButton
+                  id="frostSensitive-yes"
+                  name="frostSensitive"
+                  type="radio"
+                  value="true"
+                />
+              </RadioButtonLabel>
+              <RadioButtonLabel htmlFor="frostSensitive-no">
+                No
+                <RadioButton
+                  id="frostSensitive-no"
+                  name="frostSensitive"
+                  type="radio"
+                  value="false"
+                  checked
+                />
+              </RadioButtonLabel>
+            </>
+          )} */}
         </RadioButtonGroup>
       </Fieldset>
       <ButtonGroup>
         <StyledButton type="button" onClick={onDismiss}>
-          Dismiss
+          {cancelButtonText}
         </StyledButton>
-        <StyledButton type="submit">Save</StyledButton>
+        <StyledButton type="submit">{submitButtonText}</StyledButton>
       </ButtonGroup>
     </FormContainer>
   );
