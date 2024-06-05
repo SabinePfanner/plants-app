@@ -1,11 +1,9 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import Form from "@/components/Form";
 import Modal from "@/components/ModalAndToast/Modal";
 import { useState } from "react";
 
 export default function CreatePlant() {
-  const { mutate } = useSWR("/api/plants/");
   const router = useRouter();
 
   async function addPlant(plant) {

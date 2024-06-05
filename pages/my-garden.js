@@ -1,6 +1,6 @@
 import CardList from "@/components/CardList";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import CreateNewPlantButton from "@/components/StyledElements/CreateEditDelete";
+import { CreateNewPlantButton } from "@/components/StyledElements/CreateEditDelete";
 
 export default function MyGarden({ plants, favoriteIDs, onToggleFavorite }) {
   const favoritePlants = plants.filter((plant) =>
