@@ -16,8 +16,7 @@ const StyledListElement = styled.li`
   justify-self: center;
 `;
 
-export default function CardList({ favoriteIDs, onToggleFavorite }) {
-  const { data: plants } = useSWR(`/api/plants`);
+export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
   return (
     <>
       <StyledList>

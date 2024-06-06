@@ -1,8 +1,23 @@
 import CardList from "@/components/CardList";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { CreateNewPlantButton } from "@/components/StyledElements/CreateEditDelete";
+import useSWR from "swr";
 
-export default function MyGarden({ plants, favoriteIDs, onToggleFavorite }) {
+export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
+  const { data: plants, error, isLoading } = useSWR(`/api/plants`);
+
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!plants) {
+    return;
+  }
+
   const favoritePlants = plants.filter((plant) =>
     favoriteIDs.includes(plant._id)
   );

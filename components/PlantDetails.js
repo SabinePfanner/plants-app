@@ -30,7 +30,11 @@ const Figure = styled.figure`
 `;
 
 export default function PlantDetails({ favoriteIDs, onToggleFavorite, id }) {
-  const { data: plant, isLoading } = useSWR(`/api/plants/${id}`);
+  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
+
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
 
   if (isLoading) {
     return <h1>Loading...</h1>;
