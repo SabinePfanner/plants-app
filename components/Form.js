@@ -257,51 +257,6 @@ export default function Form({
               defaultChecked={!data.frostSensitive}
             />
           </RadioButtonLabel>
-          {/* {data.frostSensitive ? (
-            <>
-              <RadioButtonLabel htmlFor="frostSensitive-yes">
-                Yes
-                <RadioButton
-                  id="frostSensitive-yes"
-                  name="frostSensitive"
-                  type="radio"
-                  value="true"
-                  checked
-                />
-              </RadioButtonLabel>
-              <RadioButtonLabel htmlFor="frostSensitive-no">
-                No
-                <RadioButton
-                  id="frostSensitive-no"
-                  name="frostSensitive"
-                  type="radio"
-                  value="false"
-                />
-              </RadioButtonLabel>
-            </>
-          ) : (
-            <>
-              <RadioButtonLabel htmlFor="frostSensitive-yes">
-                Yes
-                <RadioButton
-                  id="frostSensitive-yes"
-                  name="frostSensitive"
-                  type="radio"
-                  value="true"
-                />
-              </RadioButtonLabel>
-              <RadioButtonLabel htmlFor="frostSensitive-no">
-                No
-                <RadioButton
-                  id="frostSensitive-no"
-                  name="frostSensitive"
-                  type="radio"
-                  value="false"
-                  checked
-                />
-              </RadioButtonLabel>
-            </>
-          )} */}
         </RadioButtonGroup>
       </Fieldset>
       <ButtonGroup>
