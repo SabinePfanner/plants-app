@@ -35,21 +35,6 @@ export default function App({ Component, pageProps }) {
     onClick: null,
   });
 
-  // Fetch plants from mongoDB, plants are also fetched on page /[id] and
-  const { data: plants, error, isLoading } = useSWR("/api/plants", fetcher);
-
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!plants) {
-    return;
-  }
-
   function handleToggleFavorite(id) {
     if (favoriteIDs.includes(id)) {
       setFavoriteIDs(favoriteIDs.filter((favoriteID) => favoriteID !== id)); // remove from favorites
@@ -94,7 +79,6 @@ export default function App({ Component, pageProps }) {
             {...pageProps}
             onToggleFavorite={handleToggleFavorite}
             favoriteIDs={favoriteIDs}
-            plants={plants}
             toastSettings={toastSettings}
             onOpenToast={handleOpenToast}
             onCloseTast={handleCloseToast}
