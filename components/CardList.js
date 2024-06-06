@@ -1,6 +1,5 @@
 import Card from "@/components/Card";
 import styled from "styled-components";
-import useSWR from "swr";
 
 const StyledList = styled.ul`
   list-style: none;

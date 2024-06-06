@@ -1,5 +1,5 @@
 import GlobalStyle from "@/styles";
-import useSWR, { SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import Header from "@/components/Header.js";
 import Footer from "@/components/Footer";
 import useLocalStorageState from "use-local-storage-state";

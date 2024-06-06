@@ -1,8 +1,6 @@
 import useSWR from "swr";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
-import { DeletePlantButton } from "./StyledElements/CreateEditDelete";
 
 const HighlightBox = styled.section`
   margin: 1rem;
