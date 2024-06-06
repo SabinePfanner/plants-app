@@ -1,6 +1,6 @@
 import CardList from "@/components/CardList";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import { CreateNewPlantButton } from "@/components/StyledElements/CreateEditDelete";
+import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 
 export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
@@ -39,7 +39,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           onToggleFavorite={onToggleFavorite}
         />
       )}
-      <CreateNewPlantButton />
+      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
     </>
   );
 }
