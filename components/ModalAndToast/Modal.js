@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Background } from "@/components/ModalAndToast/ModalStyles/Background";
 import { ModalBox } from "@/components/ModalAndToast/ModalStyles/ModalBox";
 import {
@@ -6,52 +5,19 @@ import {
   ModalInfo,
 } from "@/components/ModalAndToast/ModalStyles/ModalContentAndInfo";
 import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
-import ToastMessage from "@/components/ModalAndToast/ToastMessage";
-import { useRouter } from "next/router";
 
-export default function Modal({
-  confirmButtonLabel,
-  modalInfoText,
-  toastMessageText,
-  onModalOpen,
-}) {
-  //Confirm action and show toast message
-
-  const [actionConfirmed, setActionConfirmed] = useState(false);
-
-  function handleConfirm() {
-    setActionConfirmed(true);
-  }
-
-  const router = useRouter();
-
-  useEffect(() => {
-    let timeoutId;
-    if (actionConfirmed) {
-      timeoutId = setTimeout(() => {
-        setActionConfirmed(false);
-        onModalOpen(false);
-        router.push(`/`);
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [actionConfirmed, onModalOpen, router]);
-
-  //Quit action
+export default function Modal({ modalSettings, onCloseModal }) {
+  //Close modal and quit action
   function handleCancel() {
-    onModalOpen(false);
+    onCloseModal();
   }
 
-  if (actionConfirmed) {
-    return <ToastMessage toastMessageText={toastMessageText} />;
-  } else {
+  if (modalSettings.isOpen)
     return (
       <Background>
-        <ModalBox $isActionConfirmed={actionConfirmed}>
+        <ModalBox $isActionConfirmed={false}>
           <ModalContent>
-            <ModalInfo>{modalInfoText}</ModalInfo>
+            <ModalInfo>{modalSettings.modalInfoText}</ModalInfo>
             <ButtonGroup>
               <StyledButton name="cancel" type="button" onClick={handleCancel}>
                 Cancel
@@ -59,14 +25,13 @@ export default function Modal({
               <StyledButton
                 name="confirm"
                 type="button"
-                onClick={handleConfirm}
+                onClick={modalSettings.onClick}
               >
-                {confirmButtonLabel}
+                {modalSettings.confirmButtonLabel}
               </StyledButton>
             </ButtonGroup>
           </ModalContent>
         </ModalBox>
       </Background>
     );
-  }
 }

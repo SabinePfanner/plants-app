@@ -1,5 +1,4 @@
 import useSWR from "swr";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 
@@ -28,10 +27,12 @@ const Figure = styled.figure`
   margin: 1rem;
 `;
 
-export default function PlantDetails({ favoriteIDs, onToggleFavorite }) {
-  const router = useRouter();
-  const { id } = router.query;
-  const { data: plant, isLoading } = useSWR(`/api/plants/${id}`);
+export default function PlantDetails({ favoriteIDs, onToggleFavorite, id }) {
+  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
+
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
 
   if (isLoading) {
     return <h1>Loading...</h1>;

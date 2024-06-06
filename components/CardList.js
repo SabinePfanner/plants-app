@@ -1,6 +1,5 @@
 import Card from "@/components/Card";
 import styled from "styled-components";
-import Modal from "./ModalAndToast/Modal";
 
 const StyledList = styled.ul`
   list-style: none;

@@ -1,8 +1,11 @@
 import GlobalStyle from "@/styles";
-import useSWR, { SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import Header from "@/components/Header.js";
 import Footer from "@/components/Footer";
 import useLocalStorageState from "use-local-storage-state";
+import ToastMessage from "@/components/ModalAndToast/ToastMessage";
+import { useState } from "react";
+import Modal from "@/components/ModalAndToast/Modal";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);
@@ -17,20 +20,20 @@ export default function App({ Component, pageProps }) {
     defaultValue: [],
   });
 
-  // Fetch plants from mongoDB
-  const { data: plants, error, isLoading } = useSWR("/api/plants", fetcher);
+  // Toast Feature
+  const [toastSettings, setToastSettings] = useState({
+    isOpen: false,
+    duration: 0,
+    toastMessage: "",
+  });
 
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!plants) {
-    return;
-  }
+  // Modal Feature
+  const [modalSettings, setModalSettings] = useState({
+    isOpen: false,
+    modalInfoText: "",
+    confirmButtonLabel: "",
+    onClick: null,
+  });
 
   function handleToggleFavorite(id) {
     if (favoriteIDs.includes(id)) {
@@ -38,6 +41,28 @@ export default function App({ Component, pageProps }) {
     } else {
       setFavoriteIDs([...favoriteIDs, id]); // add to favorites
     }
+  }
+
+  // Toast Feature functionality
+  function handleOpenToast(toastMessage) {
+    setToastSettings({
+      isOpen: true,
+      toastMessage: toastMessage,
+      duration: 3000,
+    });
+  }
+
+  function handleCloseToast() {
+    setToastSettings({ isOpen: false });
+  }
+
+  // Modal Feature functionality
+  function handleOpenModal(modalSettings) {
+    setModalSettings({ ...modalSettings, isOpen: true });
+  }
+
+  function handleCloseModal() {
+    setModalSettings({ isOpen: false });
   }
 
   return (
@@ -54,7 +79,22 @@ export default function App({ Component, pageProps }) {
             {...pageProps}
             onToggleFavorite={handleToggleFavorite}
             favoriteIDs={favoriteIDs}
-            plants={plants}
+            toastSettings={toastSettings}
+            onOpenToast={handleOpenToast}
+            onCloseTast={handleCloseToast}
+            modalSettings={modalSettings}
+            onOpenModal={handleOpenModal}
+            onCloseModal={handleCloseModal}
+          />
+          <Modal
+            modalSettings={modalSettings}
+            onOpenModal={handleOpenModal}
+            onCloseModal={handleCloseModal}
+          />
+          <ToastMessage
+            toastSettings={toastSettings}
+            onOpenToast={handleOpenToast}
+            onCloseToast={handleCloseToast}
           />
         </main>
         <Footer />
