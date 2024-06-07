@@ -25,4 +25,10 @@ export default async function handler(request, response) {
       response.status(400).json({ error: error.message });
     }
   }
+
+  if (request.method === "PUT") {
+    const editedPlant = request.body;
+    await Plant.findByIdAndUpdate(id, editedPlant);
+    return response.status(200).json({ status: "Plant successfully updated." });
+  }
 }
