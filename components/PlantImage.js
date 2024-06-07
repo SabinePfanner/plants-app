@@ -17,7 +17,7 @@ const StyledImage = styled(Image)`
   }`}
 `;
 
-export default function PlantImage({ image, id, height = 150, width = 150 }) {
+export default function PlantImage({ image, id, height = 150, width = 250 }) {
   const router = useRouter();
   const location = router.pathname;
 
