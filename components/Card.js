@@ -1,6 +1,7 @@
 import PlantImage from "@/components/PlantImage";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
+import PlantListImage from "./StyledElements/PlantListImage";
 
 const CardContainer = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ export default function Card({
 }) {
   return (
     <CardContainer>
-      <PlantImage
+      <PlantListImage
         image={image}
         isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
