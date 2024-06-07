@@ -1,8 +1,10 @@
 import CardList from "@/components/CardList.js";
 import { CreateNewPlantButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
+import { useState } from "react";
 
 export default function HomePage({ favoriteIDs, onToggleFavorite }) {
+  // const [filter, setFilter] = useState([]);
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -16,6 +18,24 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
   if (!plants) {
     return;
   }
+
+  // function handleFilter({ title }) {
+  //   setFilter((prevSelected) => {
+  //     // if it's in, remove
+  //     const newArray = [...prevSelected];
+  //     if (newArray.includes(title)) {
+  //       return newArray.filter((item) => item != title);
+  //       // else, add
+  //     } else {
+  //       newArray.push(title);
+  //       return newArray;
+  //     }
+  //   });
+  // }
+
+  // function handleResetFilter() {
+  //   setFilter([]);
+  // }
 
   return (
     <>
