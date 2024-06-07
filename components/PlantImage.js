@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
-  position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 const StyledImage = styled(Image)`
@@ -17,30 +17,7 @@ const StyledImage = styled(Image)`
   }`}
 `;
 
-const StyledFavoriteButton = styled.button`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  right: -0.5rem;
-  top: -1.5rem;
-  background: transparent;
-  border: none;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-`;
-
-export default function PlantImage({
-  image,
-  isFavorite,
-  onToggleFavorite,
-  id,
-  height = 150,
-  width = 150,
-}) {
+export default function PlantImage({ image, id, height = 150, width = 150 }) {
   const router = useRouter();
   const location = router.pathname;
 
@@ -55,9 +32,6 @@ export default function PlantImage({
           $location={location}
         ></StyledImage>
       </Link>
-      <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
-        <SvgIcon variant="chili" color={isFavorite ? "#E23D28" : "#79af6e"} />
-      </StyledFavoriteButton>
     </PlantImageContainer>
   );
 }
