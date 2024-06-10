@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import styled from "styled-components";
 import MultiSelectDropdown from "./StyledElements/MultiSelect";
+import SvgIcon from "./StyledElements/SvgIcon";
 
 const StyledListContainer = styled.div`
   display: flex;
@@ -58,27 +59,25 @@ const StyledListElement = styled.li`
 const FilterContainer = styled.section`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  margin: 0 0 0 8%;
+  gap: 5px;
+  margin: 10px 0;
 `;
 
 const ResetButton = styled.button`
-  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  width: 25px;
+  height: 25px;
   border: 0.5px solid #000;
   border-radius: 0.5rem;
-  margin: 0 0 0 20px;
+  margin: 0 5px;
+  padding: 4px;
   background-color: #e62600;
-  color: #fff;
-  max-height: 24px;
 
   &:hover {
     cursor: pointer;
-    background-color: #ff4a26;
-  }
-
-  &:disabled,
-  :hover {
-    cursor: auto;
     background-color: #ff4a26;
   }
 `;
@@ -130,7 +129,7 @@ export default function CardList({
           label={"Growing Conditions"}
         />
         <ResetButton type="reset" onClick={onResetFilter}>
-          Reset filter
+          <SvgIcon variant="reload" color="#fff" />
         </ResetButton>
       </FilterContainer>
       <StyledListContainer>

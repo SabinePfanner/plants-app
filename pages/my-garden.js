@@ -67,7 +67,6 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
         />
       )}
       <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
     </>
   );
 }

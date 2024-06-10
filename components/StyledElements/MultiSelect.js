@@ -1,16 +1,20 @@
 import styled, { css } from "styled-components";
+import { useState } from "react";
 
 const OptionList = styled.ul`
   display: none;
-  left: 0;
-  width: 100%;
   list-style: none;
-  padding-left: 0px;
   border: 0.5px solid black;
   border-radius: 0.5rem;
   padding: 5px 0px;
   margin: 0;
   background-color: #fff;
+  ${(props) =>
+    props.$open &&
+    css`
+      display: block;
+      width: 100%;
+    `};
 `;
 
 const MultiSelectContainer = styled.div`
@@ -19,7 +23,6 @@ const MultiSelectContainer = styled.div`
   &:hover ${OptionList} {
     display: block;
     width: 100%;
-    position: absolute;
   }
 `;
 
@@ -31,6 +34,7 @@ const SelectPlaceholder = styled.div`
   padding: 5px;
   display: flex;
   justify-content: flex-start;
+  width: 100%;
   background-color: #fff;
   ${(p) =>
     p.$isSelected === true &&
@@ -65,8 +69,17 @@ export default function MultiSelectDropdown({
   category,
   label,
 }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <MultiSelectContainer tabIndex="0">
+    <MultiSelectContainer
+      tabIndex="0"
+      onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          setOpen(!open);
+        }
+      }}
+    >
       {selected.length > 0 ? (
         <SelectPlaceholder $isSelected={true}>
           <label>
@@ -78,21 +91,28 @@ export default function MultiSelectDropdown({
           <label>{label} ↓</label>
         </SelectPlaceholder>
       )}
-      <OptionList>
-        {options.map((option) => {
+      <OptionList $open={open}>
+        {options.map((option, index) => {
           const isSelected = selected.includes(option);
           return (
             <>
               <Options
                 onClick={() => toggleOption(category, option)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    toggleOption(category, option);
+                  }
+                  if (event.key === "Tab" && index == options.length - 1) {
+                    setOpen(false);
+                  }
+                }}
                 tabIndex="0"
-                onKeyDown={(event) =>
-                  event.key === "Enter" || event.key === " "
-                    ? toggleOption(category, option)
-                    : null
-                }
               >
-                <Checkbox type="checkbox" checked={isSelected}></Checkbox>
+                <Checkbox
+                  type="checkbox"
+                  checked={isSelected}
+                  tabindex="-1"
+                ></Checkbox>
                 <span>{option}</span>
               </Options>
             </>
