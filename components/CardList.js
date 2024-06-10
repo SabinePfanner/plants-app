@@ -96,39 +96,36 @@ export default function CardList({
     growingConditions: ["Sunny", "Partial shade"],
   };
 
-  // const filteredPlants = plants.filter((plant) =>
-  //   Object.keys(filter).every(
-  //     (category) =>
-  //       filter[category].length === 0 ||
-  //       filter[category].some((filter) => plant[category].includes(filter))
-  //   )
-  // );
+  const filteredPlants = plants.filter((plant) =>
+    Object.keys(filter).every(
+      (category) =>
+        filter[category].length === 0 ||
+        filter[category].some((filter) => plant[category].includes(filter))
+    )
+  );
 
-  let idx = 1;
+  // let idx = 1;
 
-  function filterPlants(plants, filters) {
-    // console.log("Plants at index ", idx, " :", plants);
-    // console.log(filters);
-    const category = Object.keys(filters)[idx - 1];
+  // function filterPlants(plants, filters) {
+  //   // console.log("Plants at index ", idx, " :", plants);
+  //   // console.log(filters);
+  //   const category = Object.keys(filters)[idx - 1];
 
-    if (idx <= Object.keys(filters).length) {
-      // console.log("In if block at index: ", idx, " :", category);
-      const filteredPlants = plants.filter((plant) =>
-        plant[category].includes(
-          filters[category]
-        )
-      );
-      console.log("Filtered plants in if block at index: ", idx, " :", filteredPlants);
-      idx++;
-      return filterPlants(filteredPlants, filters);
-    } else {
-      console.log("inputplants in else block at index: ", idx, " :", category, plants);
-      return plants;
-    }
-  }
+  //   if (idx <= Object.keys(filters).length) {
+  //     // console.log("In if block at index: ", idx, " :", category);
+  //     const filteredPlants = plants.filter((plant) =>
+  //       filters[category].length === 0 ||
+  //       filters[category].some((filter) => plant[category].includes(filter))
 
-  const filteredPlants = filterPlants(plants, filter);
-  console.log(filteredPlants);
+  //     );
+  //     idx++;
+  //     return filterPlants(filteredPlants, filters);
+  //   } else {
+  //     return plants;
+  //   }
+  // }
+
+  // const filteredPlants = filterPlants(plants, filter);
 
   return (
     <>
