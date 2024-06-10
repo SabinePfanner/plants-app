@@ -22,8 +22,6 @@ const FilterContainer = styled.section`
   flex-direction: row;
   justify-content: flex-start;
   margin: 0 0 0 8%;
-  position: fixed;
-  z-index: 1000;
 `;
 
 const ResetButton = styled.button`
@@ -47,119 +45,54 @@ const ResetButton = styled.button`
   }
 `;
 
-export default function CardList({ plants, favoriteIDs, onToggleFavorite }) {
-  const [cropType, setCropType] = useState([]);
+export default function CardList({
+  plants,
+  favoriteIDs,
+  onToggleFavorite,
+  onToggleFilter,
+  onResetFilter,
+  filter,
+  name,
+}) {
+  const filterOptions = {
+    cropType: ["Fruit", "Herb", "Vegetable", "Other"],
+    placement: ["Bed", "Pot"],
+    growingConditions: ["Sunny", "Partial shade"],
+  };
 
-  const cropTypeFilterOptions = ["Fruit", "Herb", "Vegetable", "Other"];
+  const filteredPlants = plants.filter((plant) =>
+    Object.keys(filter).every(
+      (category) =>
+        filter[category].length === 0 ||
+        filter[category].some((filter) => plant[category].includes(filter))
+    )
+  );
 
-  function toggleCropType({ title }) {
-    setCropType((prevSelected) => {
-      // if it's in, remove
-      const newArray = [...prevSelected];
-      if (newArray.includes(title)) {
-        console.log("New Array 1", newArray);
-        return newArray.filter((item) => item != title);
-        // else, add
-      } else {
-        newArray.push(title);
-        console.log("New Array 2 ", newArray);
-        return newArray;
-      }
-    });
-  }
-
-  const [placement, setPlacement] = useState([]);
-
-  const placementFilterOptions = ["Bed", "Pot"];
-
-  function togglePlacement({ title }) {
-    setPlacement((prevSelected) => {
-      // if it's in, remove
-      const newArray = [...prevSelected];
-      if (newArray.includes(title)) {
-        console.log("New Array 1", newArray);
-        return newArray.filter((item) => item != title);
-        // else, add
-      } else {
-        newArray.push(title);
-        console.log("New Array 2 ", newArray);
-        return newArray;
-      }
-    });
-  }
-
-  const [growingConditions, setGrowingConditions] = useState([]);
-
-  const growingConditionsFilterOptions = ["Sunny", "Partial shade"];
-
-  function toggleGrowingConditions({ title }) {
-    setGrowingConditions((prevSelected) => {
-      // if it's in, remove
-      const newArray = [...prevSelected];
-      if (newArray.includes(title)) {
-        console.log("New Array 1", newArray);
-        return newArray.filter((item) => item != title);
-        // else, add
-      } else {
-        newArray.push(title);
-        console.log("New Array 2 ", newArray);
-        return newArray;
-      }
-    });
-  }
-
-  let filteredPlants;
-
-  filteredPlants = plants.filter((plant) => {
-    if (cropType.length > 0) {
-      return cropType.some((filter) => plant.cropType.includes(filter));
-    } else {
-      return plant;
-    }
-  });
-
-  filteredPlants = filteredPlants.filter((plant) => {
-    if (placement.length > 0) {
-      return placement.some((filter) => plant.placement.includes(filter));
-    } else {
-      return plant;
-    }
-  });
-
-  filteredPlants = filteredPlants.filter((plant) => {
-    if (growingConditions.length > 0) {
-      return growingConditions.some((filter) =>
-        plant.growingConditions.includes(filter)
-      );
-    } else {
-      return plant;
-    }
-  });
-
-  function resetFilter() {
-    setCropType([]);
-    setPlacement([]);
-    setGrowingConditions([]);
-  }
   return (
     <>
       <FilterContainer>
         <MultiSelectDropdown
-          options={cropTypeFilterOptions}
-          selected={cropType}
-          toggleOption={toggleCropType}
+          options={filterOptions.cropType}
+          selected={filter.cropType}
+          toggleOption={onToggleFilter}
+          category={"cropType"}
+          label={"Crop Type"}
         />
         <MultiSelectDropdown
-          options={placementFilterOptions}
-          selected={placement}
-          toggleOption={togglePlacement}
+          options={filterOptions.placement}
+          selected={filter.placement}
+          toggleOption={onToggleFilter}
+          category={"placement"}
+          label={"Placement"}
         />
         <MultiSelectDropdown
-          options={growingConditionsFilterOptions}
-          selected={growingConditions}
-          toggleOption={toggleGrowingConditions}
+          options={filterOptions.growingConditions}
+          selected={filter.growingConditions}
+          toggleOption={onToggleFilter}
+          category={"growingConditions"}
+          label={"Growing Conditions"}
         />
-        <ResetButton type="reset" onClick={resetFilter} disabled={false}>
+        <ResetButton type="reset" onClick={onResetFilter}>
           Reset filter
         </ResetButton>
       </FilterContainer>

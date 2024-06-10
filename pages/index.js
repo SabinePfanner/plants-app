@@ -4,7 +4,12 @@ import useSWR from "swr";
 import { useState } from "react";
 
 export default function HomePage({ favoriteIDs, onToggleFavorite }) {
-  // const [filter, setFilter] = useState([]);
+  const [filter, setFilter] = useState({
+    cropType: [],
+    placement: [],
+    growingConditions: [],
+  });
+
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -19,23 +24,23 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
     return;
   }
 
-  // function handleFilter({ title }) {
-  //   setFilter((prevSelected) => {
-  //     // if it's in, remove
-  //     const newArray = [...prevSelected];
-  //     if (newArray.includes(title)) {
-  //       return newArray.filter((item) => item != title);
-  //       // else, add
-  //     } else {
-  //       newArray.push(title);
-  //       return newArray;
-  //     }
-  //   });
-  // }
+  function toggleFilter(category, option) {
+    setFilter((prevFilters) => {
+      // if it's in, remove
+      const newCategoryFilters = prevFilters[category].includes(option)
+        ? prevFilters[category].filter((item) => item !== option)
+        : [...prevFilters[category], option];
+      return { ...prevFilters, [category]: newCategoryFilters };
+    });
+  }
 
-  // function handleResetFilter() {
-  //   setFilter([]);
-  // }
+  function resetFilter() {
+    setFilter({
+      cropType: [],
+      placement: [],
+      growingConditions: [],
+    });
+  }
 
   return (
     <>
@@ -44,6 +49,9 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
         plants={plants}
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
+        onToggleFilter={toggleFilter}
+        onResetFilter={resetFilter}
+        filter={filter}
       />
       <CreateNewPlantButton />
     </>

@@ -84,7 +84,6 @@ export default function App({ Component, pageProps }) {
             onCloseTast={handleCloseToast}
             modalSettings={modalSettings}
             onOpenModal={handleOpenModal}
-            onCloseModal={handleCloseModal}
           />
           <Modal
             modalSettings={modalSettings}
