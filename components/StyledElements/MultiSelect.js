@@ -3,21 +3,17 @@ import { useState } from "react";
 
 const OptionList = styled.ul`
   display: none;
-  left: 0;
-  width: 100%;
   list-style: none;
-  padding-left: 0px;
   border: 0.5px solid black;
   border-radius: 0.5rem;
   padding: 5px 0px;
   margin: 0;
   background-color: #fff;
   ${(props) =>
-    props.$open === true &&
+    props.$open &&
     css`
       display: block;
       width: 100%;
-      position: absolute;
     `};
 `;
 
@@ -27,7 +23,6 @@ const MultiSelectContainer = styled.div`
   &:hover ${OptionList} {
     display: block;
     width: 100%;
-    position: absolute;
   }
 `;
 
@@ -39,9 +34,10 @@ const SelectPlaceholder = styled.div`
   padding: 5px;
   display: flex;
   justify-content: flex-start;
+  width: 100%;
   background-color: #fff;
   ${(p) =>
-    p.$isSelected === true &&
+    p.$isSelected &&
     css`
       background-color: var(--color-green-300);
       font-weight: bold;
@@ -61,7 +57,7 @@ const Options = styled.li`
     background-color: var(--color-green-300);
   }
   ${(p) =>
-    p.$isActive === true &&
+    p.$isActive &&
     css`
       background-color: var(--color-green-300);
     `};
