@@ -37,7 +37,7 @@ const SelectPlaceholder = styled.div`
   width: 100%;
   background-color: #fff;
   ${(p) =>
-    p.$isSelected === true &&
+    p.$isSelected &&
     css`
       background-color: var(--color-green-300);
       font-weight: bold;
@@ -56,6 +56,11 @@ const Options = styled.li`
   :focus:hover {
     background-color: var(--color-green-300);
   }
+  ${(p) =>
+    p.$isActive &&
+    css`
+      background-color: var(--color-green-300);
+    `};
 `;
 
 const Checkbox = styled.input`
@@ -70,6 +75,7 @@ export default function MultiSelectDropdown({
   label,
 }) {
   const [open, setOpen] = useState(false);
+  const [activeOption, setActiveOption] = useState(-1);
 
   return (
     <MultiSelectContainer
@@ -77,6 +83,10 @@ export default function MultiSelectDropdown({
       onKeyDown={(event) => {
         if (event.key === "Enter") {
           setOpen(!open);
+          setActiveOption(-1);
+        }
+        if (event.key === "Tab") {
+          activeOption === -1 && setActiveOption(0);
         }
       }}
     >
@@ -97,13 +107,27 @@ export default function MultiSelectDropdown({
           return (
             <>
               <Options
+                $isActive={index === activeOption}
                 onClick={() => toggleOption(category, option)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
                     toggleOption(category, option);
                   }
-                  if (event.key === "Tab" && index == options.length - 1) {
-                    setOpen(false);
+                  if (event.key === "Tab") {
+                    console.log(event);
+                    if (
+                      (index == options.length - 1 && !event.shiftKey) ||
+                      (index == 0 && event.shiftKey)
+                    ) {
+                      setOpen(false);
+                      setActiveOption(-1);
+                    } else {
+                      if (!event.shiftKey) {
+                        setActiveOption(index + 1);
+                      } else {
+                        setActiveOption(index - 1);
+                      }
+                    }
                   }
                 }}
                 tabIndex="0"
