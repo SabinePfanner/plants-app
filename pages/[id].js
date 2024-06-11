@@ -7,6 +7,7 @@ import {
 } from "@/components/StyledElements/CreateEditDelete";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { signIn, useSession } from "next-auth/react";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -30,13 +31,22 @@ export default function DetailsPage({
   const router = useRouter();
   const { id } = router.query;
   const { mutate } = useSWR(`/api/plants`);
+  const { data: session } = useSession();
 
   function handleOpenModal() {
-    onOpenModal({
-      modalInfoText: "Do you really want to delete this crop?",
-      confirmButtonLabel: "Delete",
-      onClick: handleDelete,
-    });
+    if (session) {
+      onOpenModal({
+        modalInfoText: "Do you really want to delete this crop?",
+        confirmButtonLabel: "Delete",
+        onClick: handleDelete,
+      });
+    } else {
+      onOpenModal({
+        modalInfoText: "Please login to delete your own crops",
+        confirmButtonLabel: "Login",
+        onClick: signIn,
+      });
+    }
   }
 
   async function handleDelete() {
@@ -59,13 +69,13 @@ export default function DetailsPage({
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
       />
-      <DeletePlantButton type="button" onClick={handleOpenModal} />
       <SvgLinkButton
         href={`/edit/${id}`}
         variant="pen"
         color="#E23D28"
         bottom="10rem"
       />
+      <DeletePlantButton type="button" onClick={handleOpenModal} />
     </>
   );
 }
