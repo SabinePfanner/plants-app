@@ -79,7 +79,14 @@ export default function App({
         >
           <GlobalStyle />
 
-          <Header />
+          <Header
+            modalSettings={modalSettings}
+            onOpenModal={handleOpenModal}
+            onCloseModal={handleCloseModal}
+            toastSettings={toastSettings}
+            onOpenToast={handleOpenToast}
+            onCloseToast={handleCloseToast}
+          />
           <main>
             <Component
               {...pageProps}

@@ -11,13 +11,13 @@ export const StyledLoginButton = styled.button`
   }
 `;
 
-export default function Login() {
+export default function Login({ onOpenModal }) {
   const { data: session } = useSession();
 
   if (session) {
     return (
       <>
-        <StyledLoginButton onClick={() => signOut()}>
+        <StyledLoginButton onClick={onOpenModal}>
           <SvgIcon variant="logout" size="30" color="#1D0B07" />
         </StyledLoginButton>
       </>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Login from "./Login";
-import { StyledLoginButton } from "./Login";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -22,12 +23,26 @@ const PositionLogin = styled.section`
   align-self: flex-start;
 `;
 
-export default function Header() {
+export default function Header({ onOpenModal, onCloseModal, onOpenToast }) {
+  const router = useRouter();
+  function handleOpenModal() {
+    onOpenModal({
+      modalInfoText: "Do you really want to logout?",
+      confirmButtonLabel: "Logout",
+      onClick: () => {
+        onCloseModal();
+        signOut({ redirect: false });
+        router.push("/");
+        onOpenToast("Successfully logged out");
+      },
+    });
+  }
+
   return (
     <HeaderContainer>
       <Logo src="/icons/logo.png" alt="App Logo Crop it" />
       <PositionLogin>
-        <Login />
+        <Login onOpenModal={handleOpenModal} />
       </PositionLogin>
     </HeaderContainer>
   );
