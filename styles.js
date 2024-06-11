@@ -10,6 +10,7 @@ export default createGlobalStyle`
   
   :root {
     --color-green: #79af6e;
+    --color-green-300: #add0a5;
   }
 
   main {

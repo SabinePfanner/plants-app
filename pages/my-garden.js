@@ -2,8 +2,14 @@ import CardList from "@/components/CardList";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
+import { useState } from "react";
 
 export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
+  const [filter, setFilter] = useState({
+    cropType: [],
+    placement: [],
+    growingConditions: [],
+  });
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -22,6 +28,24 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     favoriteIDs.includes(plant._id)
   );
 
+  function toggleFilter(category, option) {
+    setFilter((prevFilters) => {
+      // if it's in, remove
+      const newCategoryFilters = prevFilters[category].includes(option)
+        ? prevFilters[category].filter((item) => item !== option)
+        : [...prevFilters[category], option];
+      return { ...prevFilters, [category]: newCategoryFilters };
+    });
+  }
+
+  function resetFilter() {
+    setFilter({
+      cropType: [],
+      placement: [],
+      growingConditions: [],
+    });
+  }
+
   return (
     <>
       <h1>Your hottest crops!</h1>
@@ -37,9 +61,11 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           plants={favoritePlants}
           favoriteIDs={favoriteIDs}
           onToggleFavorite={onToggleFavorite}
+          onToggleFilter={toggleFilter}
+          onResetFilter={resetFilter}
+          filter={filter}
         />
       )}
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
       <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
     </>
   );
