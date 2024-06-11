@@ -8,6 +8,7 @@ import {
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { signIn, useSession } from "next-auth/react";
+import PlantListImage from "@/components/StyledElements/PlantListImage";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -69,6 +70,11 @@ export default function DetailsPage({
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
       />
+      {/* (// Frage: Sollen delete und edit bei Default-Pflanzen garnicht angezeigt
+      werden, wenn eingelogged - aber wenn nicht eingelogged, um login zu
+      triggern?) */}
+      {/* {session && plants.owner !== "default" ? (
+        <> */}
       <SvgLinkButton
         href={`/edit/${id}`}
         variant="pen"
