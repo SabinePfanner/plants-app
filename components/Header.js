@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Login from "./Login";
+import { StyledLoginButton } from "./Login";
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -12,12 +14,21 @@ const HeaderContainer = styled.header`
 
 const Logo = styled.img`
   height: 75px;
+  margin-left: auto;
+`;
+
+const PositionLogin = styled.section`
+  margin-left: auto;
+  align-self: flex-start;
 `;
 
 export default function Header() {
   return (
     <HeaderContainer>
       <Logo src="/icons/logo.png" alt="App Logo Crop it" />
+      <PositionLogin>
+        <Login />
+      </PositionLogin>
     </HeaderContainer>
   );
 }
