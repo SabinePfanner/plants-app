@@ -31,9 +31,8 @@ export default function Header({ onOpenModal, onCloseModal, onOpenToast }) {
       confirmButtonLabel: "Logout",
       onClick: () => {
         onCloseModal();
-        signOut({ redirect: false });
+        signOut();
         router.push("/");
-        onOpenToast("Successfully logged out");
       },
     });
   }

@@ -10,8 +10,7 @@ export default async function handler(request, response) {
   if (request.method === "GET") {
     if (session) {
       const plants = await Plant.find({
-        owner: session.user.email,
-        owner: "default",
+        owner: { $in: [session.user.email, "default"] }, //https://www.mongodb.com/docs/manual/reference/operator/query/in/#mongodb-query-op.-in
       });
       return response.status(200).json(plants);
     } else {

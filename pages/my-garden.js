@@ -8,9 +8,10 @@ import styled from "styled-components";
 const StyledInfo = styled.p`
   margin-top: -25px;
   margin-bottom: 20px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: center;
-  color: #ffb53c;
+  width: 100%;
+  color: #f67b00;
 `;
 
 export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
