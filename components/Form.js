@@ -4,6 +4,7 @@ import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
 import { useState } from "react";
+import Image from "next/image";
 
 const FormContainer = styled.form`
   display: flex;
@@ -46,6 +47,24 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
+const StyledFileInput = styled(Input).attrs({
+  type: "file",
+})`
+  padding: 8px;
+  border: none;
+  &:focus {
+    border-color: #0056b3;
+    outline: none;
+  }
+`;
+
+const StyledImageWrapper = styled.div`
+  width: 100%;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+`;
+
 // Values for custom select components used in form
 const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
@@ -60,6 +79,7 @@ export default function Form({
     name: null,
     botanicalName: null,
     cropType: null,
+    image: null,
     growingConditions: null,
     placement: null,
     perennial: false,
@@ -102,9 +122,23 @@ export default function Form({
     }
   }
 
-  function handleSubmit(event) {
+  const [image, setImage] = useState(null);
+
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+    setImage(file || null);
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const { url } = await response.json();
+
     // Handle custom selects: if not null, add data to form data, otherwise show a custom alert message
     if (
       currentCropType === null ||
@@ -116,6 +150,7 @@ export default function Form({
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
       formData.set("growingConditions", currentGrowingConditions);
+      formData.set("image", url);
       const plantData = Object.fromEntries(formData);
       onSubmit(plantData);
     }
@@ -152,6 +187,39 @@ export default function Form({
         onValueChange={handleCropTypeChange}
         labelButtonText={checkSelectInput(currentCropType, "crop type")}
       />
+      <Label htmlFor="image">Image</Label>
+      <StyledFileInput
+        name="image"
+        id="image"
+        accept="image/*"
+        required
+        onChange={handleImageChange}
+      />
+      {image ? (
+        <StyledImageWrapper>
+          <Image
+            src={URL.createObjectURL(image)}
+            alt="Preview of the image to upload"
+            sizes="300px"
+            fill
+            style={{
+              objectFit: "contain",
+            }}
+          />
+        </StyledImageWrapper>
+      ) : (
+        <StyledImageWrapper>
+          <Image
+            src={data.image}
+            alt="Preview of the image to upload"
+            sizes="300px"
+            fill
+            style={{
+              objectFit: "contain",
+            }}
+          />
+        </StyledImageWrapper>
+      )}
       <FieldsetLabel htmlFor="perennial">Perennial</FieldsetLabel>
       <Fieldset>
         <RadioButtonGroup>
