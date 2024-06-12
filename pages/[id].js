@@ -69,7 +69,7 @@ export default function DetailsPage({
         onIsDataDefault={handleIsDataDefault}
       />
 
-      {session && !isDefault ? (
+      {session && !isDataDefault ? (
         <>
           <SvgLinkButton
             href={`/edit/${id}`}
