@@ -61,7 +61,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       <h1>Your hottest crops!</h1>
       <br />
       <StyledInfo>
-        Please note: Your favourite crops are only saved for this session!
+        Please note: Your favourite crops are for now saved in localstorage!
       </StyledInfo>
       {favoritePlants.length === 0 ? (
         <h2>
