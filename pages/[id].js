@@ -35,8 +35,8 @@ export default function DetailsPage({
   const { data: session } = useSession();
   const [isDataDefault, setIsDataDefault] = useState();
 
-  function handleIsDataDefault(isDefault) {
-    setIsDataDefault(isDefault);
+  function handleIsDataDefault(isDataDefault) {
+    setIsDataDefault(isDataDefault);
   }
 
   function handleOpenModal() {
