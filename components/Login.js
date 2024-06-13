@@ -16,18 +16,14 @@ export default function Login({ onOpenModal }) {
 
   if (session) {
     return (
-      <>
-        <StyledLoginButton onClick={onOpenModal}>
-          <SvgIcon variant="logout" size="30" color="#1D0B07" />
-        </StyledLoginButton>
-      </>
+      <StyledLoginButton onClick={onOpenModal}>
+        <SvgIcon variant="logout" size="30" color="#1D0B07" />
+      </StyledLoginButton>
     );
   }
   return (
-    <>
-      <StyledLoginButton onClick={() => signIn()}>
-        <SvgIcon variant="login" size="30" color="#1D0B07" />
-      </StyledLoginButton>
-    </>
+    <StyledLoginButton onClick={() => signIn()}>
+      <SvgIcon variant="login" size="30" color="#1D0B07" />
+    </StyledLoginButton>
   );
 }
