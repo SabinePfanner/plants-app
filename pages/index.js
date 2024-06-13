@@ -2,6 +2,7 @@ import CardList from "@/components/CardList.js";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
+import Login from "@/components/Login";
 
 export default function HomePage({ favoriteIDs, onToggleFavorite }) {
   const [filter, setFilter] = useState({

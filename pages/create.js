@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import Form from "@/components/Form";
+import { useSession } from "next-auth/react";
+import { InfoAccessDenied } from "@/components/StyledElements/InfoAccessDenied";
 
 export default function CreatePlant({
   onOpenToast,
@@ -7,6 +9,7 @@ export default function CreatePlant({
   onCloseModal,
 }) {
   const router = useRouter();
+  const { status } = useSession();
 
   async function addPlant(plant) {
     const response = await fetch(`/api/plants/`, {
@@ -34,7 +37,9 @@ export default function CreatePlant({
       },
     });
   }
-
+  if (status !== "authenticated") {
+    return <InfoAccessDenied message="to create your own crops" />;
+  }
   return (
     <>
       <h1>Create a new hot crop!</h1>

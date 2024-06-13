@@ -3,6 +3,16 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
+import styled from "styled-components";
+
+const StyledInfo = styled.p`
+  margin-top: -25px;
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 100%;
+  color: #f67b00;
+`;
 
 export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
   const [filter, setFilter] = useState({
@@ -50,6 +60,9 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     <>
       <h1>Your hottest crops!</h1>
       <br />
+      <StyledInfo>
+        Please note: Your favourite crops are for now saved in localstorage!
+      </StyledInfo>
       {favoritePlants.length === 0 ? (
         <h2>
           No plants bookmarked yet.
