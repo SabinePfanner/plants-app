@@ -27,7 +27,12 @@ const Figure = styled.figure`
   margin: 1rem;
 `;
 
-export default function PlantDetails({ favoriteIDs, onToggleFavorite, id }) {
+export default function PlantDetails({
+  favoriteIDs,
+  onToggleFavorite,
+  id,
+  onIsDataDefault,
+}) {
   const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
 
   if (error) {
@@ -41,6 +46,8 @@ export default function PlantDetails({ favoriteIDs, onToggleFavorite, id }) {
   if (!plant) {
     return;
   }
+
+  onIsDataDefault(plant.owner === "default");
 
   return (
     <>

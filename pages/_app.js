@@ -6,6 +6,7 @@ import useLocalStorageState from "use-local-storage-state";
 import ToastMessage from "@/components/ModalAndToast/ToastMessage";
 import { useState } from "react";
 import Modal from "@/components/ModalAndToast/Modal";
+import { SessionProvider } from "next-auth/react";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);
@@ -15,7 +16,10 @@ export async function fetcher(...args) {
   return await response.json();
 }
 
-export default function App({ Component, pageProps }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   const [favoriteIDs, setFavoriteIDs] = useLocalStorageState("favorites", {
     defaultValue: [],
   });
@@ -67,38 +71,48 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <SWRConfig
-        value={{
-          fetcher,
-        }}
-      >
-        <GlobalStyle />
-        <Header />
-        <main>
-          <Component
-            {...pageProps}
-            onToggleFavorite={handleToggleFavorite}
-            favoriteIDs={favoriteIDs}
-            toastSettings={toastSettings}
-            onOpenToast={handleOpenToast}
-            onCloseTast={handleCloseToast}
+      <SessionProvider session={session}>
+        <SWRConfig
+          value={{
+            fetcher,
+          }}
+        >
+          <GlobalStyle />
+
+          <Header
             modalSettings={modalSettings}
             onOpenModal={handleOpenModal}
             onCloseModal={handleCloseModal}
-          />
-          <Modal
-            modalSettings={modalSettings}
-            onOpenModal={handleOpenModal}
-            onCloseModal={handleCloseModal}
-          />
-          <ToastMessage
             toastSettings={toastSettings}
             onOpenToast={handleOpenToast}
             onCloseToast={handleCloseToast}
           />
-        </main>
-        <Footer />
-      </SWRConfig>
+          <main>
+            <Component
+              {...pageProps}
+              onToggleFavorite={handleToggleFavorite}
+              favoriteIDs={favoriteIDs}
+              toastSettings={toastSettings}
+              onOpenToast={handleOpenToast}
+              onCloseTast={handleCloseToast}
+              modalSettings={modalSettings}
+              onOpenModal={handleOpenModal}
+              onCloseModal={handleCloseModal}
+            />
+            <Modal
+              modalSettings={modalSettings}
+              onOpenModal={handleOpenModal}
+              onCloseModal={handleCloseModal}
+            />
+            <ToastMessage
+              toastSettings={toastSettings}
+              onOpenToast={handleOpenToast}
+              onCloseToast={handleCloseToast}
+            />
+          </main>
+          <Footer />
+        </SWRConfig>
+      </SessionProvider>
     </>
   );
 }

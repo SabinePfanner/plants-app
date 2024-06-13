@@ -13,6 +13,7 @@ const plantSchema = new Schema({
   frostSensitive: { type: Boolean, required: true },
   cropType: { type: String, required: true },
   image: { type: String },
+  owner: { type: String, required: true },
 });
 
 const Plant = mongoose.models.Plant || mongoose.model("Plant", plantSchema);
