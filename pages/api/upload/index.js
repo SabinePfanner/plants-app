@@ -14,29 +14,33 @@ export const config = {
 };
 
 export default async function handler(request, response) {
-  if (request.method !== "POST") {
-    return response.status(400).json({ message: "Method not allowed" });
+  if (request.method === "POST") {
+    try {
+      const form = formidable({});
+
+      const [fields, files] = await form.parse(request);
+
+      const file = files.image[0];
+      const { newFilename, filepath } = file;
+
+      const {
+        height,
+        width,
+        secure_url: url,
+      } = await cloudinary.v2.uploader.upload(filepath, {
+        public_id: newFilename,
+        folder: "plants",
+      });
+
+      response.status(201).json({
+        height,
+        width,
+        url,
+      });
+    } catch (error) {
+      response.status(400).json({ error: error.message });
+    }
   }
 
-  const form = formidable({});
-
-  const [fields, files] = await form.parse(request);
-
-  const file = files.image[0];
-  const { newFilename, filepath } = file;
-
-  const {
-    height,
-    width,
-    secure_url: url,
-  } = await cloudinary.v2.uploader.upload(filepath, {
-    public_id: newFilename,
-    folder: "plants",
-  });
-
-  response.status(201).json({
-    height,
-    width,
-    url,
-  });
+  return response.status(400).json({ message: "Method not allowed" });
 }

@@ -140,7 +140,11 @@ export default function CardList({
                 <Card
                   name={plant.name}
                   cropType={plant.cropType}
-                  image={plant.image}
+                  image={
+                    plant.image === "undefined" || plant.image === null
+                      ? "/icons/placeholder.png"
+                      : plant.image
+                  }
                   isFavorite={favoriteIDs.includes(plant._id)}
                   onToggleFavorite={onToggleFavorite}
                   id={plant._id}

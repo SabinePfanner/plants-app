@@ -241,7 +241,7 @@ export default function Form({
         onValueChange={handleCropTypeChange}
         labelButtonText={checkSelectInput(currentCropType, "crop type")}
       />
-      <Label htmlFor="image">Image</Label>
+      <Label htmlFor="fileInput">Image</Label>
       <ImageContainer>
         <VisuallyHidden
           type="file"
@@ -268,31 +268,15 @@ export default function Form({
         </CustomFileInputButton>
 
         <ImagePreviewContainer>
-          {image ? (
-            <StyledImageWrapper>
-              <Image
-                src={URL.createObjectURL(image)}
-                alt="Preview of the image to upload"
-                sizes="300px"
-                fill
-                style={{
-                  objectFit: "contain",
-                }}
-              />
-            </StyledImageWrapper>
-          ) : (
-            <StyledImageWrapper>
-              <Image
-                src={data.image}
-                alt="Preview of the image to upload"
-                sizes="300px"
-                fill
-                style={{
-                  objectFit: "contain",
-                }}
-              />
-            </StyledImageWrapper>
-          )}
+          <StyledImageWrapper>
+            <Image
+              src={image ? URL.createObjectURL(image) : data.image}
+              alt="Preview of the image to upload"
+              sizes="300px"
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </StyledImageWrapper>
           <SelectedFileName>{selectedName || "Preview"}</SelectedFileName>
         </ImagePreviewContainer>
       </ImageContainer>
