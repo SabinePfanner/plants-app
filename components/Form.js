@@ -5,6 +5,7 @@ import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
 import { useState } from "react";
 import Image from "next/image";
+import SvgIcon from "@/components/StyledElements/SvgIcon";
 
 const FormContainer = styled.form`
   display: flex;
@@ -47,22 +48,62 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
-const StyledFileInput = styled(Input).attrs({
-  type: "file",
-})`
-  padding: 8px;
-  border: none;
-  &:focus {
-    border-color: #0056b3;
-    outline: none;
-  }
+const VisuallyHidden = styled.input`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 5px;
+  gap: 6rem;
+`;
+
+const ImagePreviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const StyledImageWrapper = styled.div`
-  width: 100%;
-  height: 300px;
+  width: 100px;
+  height: 100px;
   position: relative;
   overflow: hidden;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+`;
+
+const CustomFileInputButton = styled.label`
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:focus {
+    outline: 2px solid black;
+  }
+`;
+
+const SelectedFileName = styled.p`
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
 `;
 
 // Values for custom select components used in form
@@ -79,7 +120,7 @@ export default function Form({
     name: null,
     botanicalName: null,
     cropType: null,
-    image: null,
+    image: "/icons/placeholder.png",
     growingConditions: null,
     placement: null,
     perennial: false,
@@ -123,12 +164,25 @@ export default function Form({
   }
 
   const [image, setImage] = useState(null);
+  const [selectedName, setSelectedName] = useState("");
+  const [showFileInput, setShowFileInput] = useState(false);
 
-  function handleImageChange(event) {
+  // Function to handle file input change
+  function handleImageUpload(event) {
     const file = event.target.files[0];
-    setImage(file || null);
+    if (file) {
+      setImage(file);
+      setSelectedName(file.name);
+      setShowFileInput(false); // Hide the file input after selecting a file
+    }
   }
 
+  // Function to handle button click
+  function handleFileInputButtonClick(event) {
+    event.preventDefault(); // Ensure default behavior is prevented
+    // Programmatically click the hidden file input
+    document.getElementById("fileInput").click();
+  }
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -188,38 +242,61 @@ export default function Form({
         labelButtonText={checkSelectInput(currentCropType, "crop type")}
       />
       <Label htmlFor="image">Image</Label>
-      <StyledFileInput
-        name="image"
-        id="image"
-        accept="image/*"
-        required
-        onChange={handleImageChange}
-      />
-      {image ? (
-        <StyledImageWrapper>
-          <Image
-            src={URL.createObjectURL(image)}
-            alt="Preview of the image to upload"
-            sizes="300px"
-            fill
-            style={{
-              objectFit: "contain",
-            }}
-          />
-        </StyledImageWrapper>
-      ) : (
-        <StyledImageWrapper>
-          <Image
-            src={data.image}
-            alt="Preview of the image to upload"
-            sizes="300px"
-            fill
-            style={{
-              objectFit: "contain",
-            }}
-          />
-        </StyledImageWrapper>
-      )}
+      <ImageContainer>
+        <VisuallyHidden
+          type="file"
+          name="image"
+          id="fileInput"
+          accept="image/*"
+          onChange={handleImageUpload}
+          required
+        />
+
+        <CustomFileInputButton
+          htmlFor="fileInput"
+          tabIndex="0"
+          onClick={handleFileInputButtonClick}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              handleFileInputButtonClick(event);
+            }
+          }}
+        >
+          <SvgIcon variant="upload" size="80"></SvgIcon>
+          <SelectedFileName>Click to upload</SelectedFileName>
+        </CustomFileInputButton>
+
+        <ImagePreviewContainer>
+          {image ? (
+            <StyledImageWrapper>
+              <Image
+                src={URL.createObjectURL(image)}
+                alt="Preview of the image to upload"
+                sizes="300px"
+                fill
+                style={{
+                  objectFit: "contain",
+                }}
+              />
+            </StyledImageWrapper>
+          ) : (
+            <StyledImageWrapper>
+              <Image
+                src={data.image}
+                alt="Preview of the image to upload"
+                sizes="300px"
+                fill
+                style={{
+                  objectFit: "contain",
+                }}
+              />
+            </StyledImageWrapper>
+          )}
+          <SelectedFileName>{selectedName || "Preview"}</SelectedFileName>
+        </ImagePreviewContainer>
+      </ImageContainer>
+
       <FieldsetLabel htmlFor="perennial">Perennial</FieldsetLabel>
       <Fieldset>
         <RadioButtonGroup>
