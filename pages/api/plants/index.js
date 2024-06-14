@@ -11,7 +11,9 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const plantData = request.body;
+
       const newPlant = await Plant.create(plantData);
+
       response
         .status(201)
         .json({ message: "New crop successfully created", id: newPlant._id });

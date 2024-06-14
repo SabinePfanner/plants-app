@@ -107,16 +107,13 @@ export default function CardList({
   // let idx = 1;
 
   // function filterPlants(plants, filters) {
-  //   // console.log("Plants at index ", idx, " :", plants);
-  //   // console.log(filters);
+  
   //   const category = Object.keys(filters)[idx - 1];
 
   //   if (idx <= Object.keys(filters).length) {
-  //     // console.log("In if block at index: ", idx, " :", category);
   //     const filteredPlants = plants.filter((plant) =>
   //       filters[category].length === 0 ||
   //       filters[category].some((filter) => plant[category].includes(filter))
-
   //     );
   //     idx++;
   //     return filterPlants(filteredPlants, filters);

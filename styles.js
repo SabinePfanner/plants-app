@@ -7,6 +7,31 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  /* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: darkgrey lightgrey;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 1rem;
+}
+
+*::-webkit-scrollbar-track {
+  /* background: orange; */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: blue;
+  border-radius: 20px;
+  border: 3px solid darkgrey;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
   
   :root {
     --color-green: #79af6e;

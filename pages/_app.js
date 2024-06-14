@@ -12,6 +12,7 @@ export async function fetcher(...args) {
   if (!response.ok) {
     throw new Error(`Request with ${JSON.stringify(args)} failed.`);
   }
+
   return await response.json();
 }
 

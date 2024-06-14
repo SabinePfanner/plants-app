@@ -3,6 +3,7 @@ import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
+import TaskPeriod from "@/components/TaskPeriod";
 import { useState } from "react";
 
 const FormContainer = styled.form`
@@ -66,6 +67,10 @@ export default function Form({
     frostSensitive: true,
     waterDemand: 2,
     nutrientDemand: 2,
+    tasks: {
+      // seed: { start: "Early March", end: "Late March" },
+      seed: { start: null, end: null },
+    },
   },
 }) {
   // Select Crop Type
@@ -94,6 +99,15 @@ export default function Form({
     setCurrentGrowingConditions(value);
   }
 
+  // Seed period
+  const [seedPeriod, setSeedPeriod] = useState({
+    seed: { start: null, end: null },
+  });
+
+  function handleSeedPeriod(period) {
+    setSeedPeriod(period);
+  }
+
   function checkSelectInput(input, name) {
     if (!input) {
       return `Select the preferred ${name} ↓`;
@@ -112,11 +126,18 @@ export default function Form({
       currentGrowingConditions === null
     ) {
       alert("Please fill out all inputs");
+    } else if (seedPeriod.start !== null && seedPeriod.end === null) {
+      alert(
+        "You have not defined the end of the seed period. Click on the respective time interval to set."
+      );
     } else {
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
       formData.set("growingConditions", currentGrowingConditions);
+
       const plantData = Object.fromEntries(formData);
+      plantData.tasks = seedPeriod; // needs to be inserted here, since it is an object, not a string
+
       onSubmit(plantData);
     }
   }
@@ -259,6 +280,17 @@ export default function Form({
           </RadioButtonLabel>
         </RadioButtonGroup>
       </Fieldset>
+      <br />
+      <Label htmlFor="seedPeriod">Seed period</Label>
+      <TaskPeriod
+        task={data.tasks}
+        taskName="seed"
+        onSeedPeriod={handleSeedPeriod}
+        // tasks={{
+        //   seed: { start: null, end: null },
+        // }}
+        edit={true}
+      ></TaskPeriod>
       <ButtonGroup>
         <StyledButton type="button" onClick={onDismiss}>
           {cancelButtonText}
