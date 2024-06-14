@@ -61,7 +61,7 @@ const FilterContainer = styled.section`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 5px;
+  gap: 8px;
   margin: 10px 0;
 `;
 

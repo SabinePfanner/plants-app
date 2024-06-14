@@ -6,7 +6,7 @@ const OptionList = styled.ul`
   list-style: none;
   border: 0.5px solid black;
   border-radius: 0.5rem;
-  padding: 5px 0px;
+  padding: 5px 0;
   margin: 0;
   background-color: #fff;
   ${(props) =>
@@ -18,7 +18,7 @@ const OptionList = styled.ul`
 `;
 
 const MultiSelectContainer = styled.div`
-  margin: 0 1px;
+  margin-bottom: 10px;
   position: relative;
   &:hover ${OptionList} {
     display: block;
@@ -31,7 +31,7 @@ const SelectPlaceholder = styled.div`
   border-radius: 0.5rem;
   font-size: 0.7rem;
   color: #423e3e;
-  padding: 5px;
+  padding: 5px 6px 5px 5px;
   display: flex;
   justify-content: flex-start;
   width: 100%;
@@ -48,7 +48,7 @@ const SelectPlaceholder = styled.div`
 const Options = styled.li`
   display: flex;
   align-items: center;
-  padding: 0.8px 2.5px;
+  padding: 0.8px 2px;
   cursor: pointer;
   font-size: 0.7rem;
   &:hover,

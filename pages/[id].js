@@ -7,6 +7,8 @@ import {
 } from "@/components/StyledElements/CreateEditDelete";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 const StyledLink = styled(Link)`
   position: absolute;
@@ -30,6 +32,12 @@ export default function DetailsPage({
   const router = useRouter();
   const { id } = router.query;
   const { mutate } = useSWR(`/api/plants`);
+  const { data: session } = useSession();
+  const [isDataDefault, setIsDataDefault] = useState();
+
+  function handleIsDataDefault(isDataDefault) {
+    setIsDataDefault(isDataDefault);
+  }
 
   function handleOpenModal() {
     onOpenModal({
@@ -58,14 +66,22 @@ export default function DetailsPage({
         id={id}
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
+        onIsDataDefault={handleIsDataDefault}
       />
-      <DeletePlantButton type="button" onClick={handleOpenModal} />
-      <SvgLinkButton
-        href={`/edit/${id}`}
-        variant="pen"
-        color="#E23D28"
-        bottom="10rem"
-      />
+
+      {session && !isDataDefault ? (
+        <>
+          <SvgLinkButton
+            href={`/edit/${id}`}
+            variant="pen"
+            color="#E23D28"
+            bottom="10rem"
+          />
+          <DeletePlantButton type="button" onClick={handleOpenModal} />
+        </>
+      ) : (
+        <> </>
+      )}
     </>
   );
 }

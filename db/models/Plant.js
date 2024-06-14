@@ -39,6 +39,7 @@ const plantSchema = new Schema({
   },
   // tasks: { type: String },
   image: { type: String },
+  owner: { type: String, required: true },
 });
 
 const Plant = mongoose.models.Plant || mongoose.model("Plant", plantSchema);
