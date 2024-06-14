@@ -28,7 +28,7 @@ export const icons = {
     title: "Seed period",
     viewBox: "0 0 24 24",
     path: "M20.7,3.3C20.7,3.3 19.3,3 17.2,3C11.7,3 1.6,5.1 3.2,20.8C4.3,20.9 5.4,21 6.4,21C24.3,21 20.7,3.3 20.7,3.3M7,17C7,17 7,7 17,7C17,7 11,9 7,17Z",
-},
+  },
   login: {
     title: "Login",
     viewBox: "0 0 24 24",
@@ -68,7 +68,6 @@ export const icons = {
     path: "M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z",
   },
 };
-
 
 export default function SvgIcon({ variant, color = "black", size = 50 }) {
   return (

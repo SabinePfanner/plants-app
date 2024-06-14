@@ -105,6 +105,6 @@ export default function PlantDetails({
       </StyledList>
     </PageContainer>
       <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
-    </>
+    </PageContainer>
   );
 }
