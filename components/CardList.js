@@ -94,13 +94,14 @@ export default function CardList({
     cropType: ["Fruit", "Herb", "Vegetable", "Other"],
     placement: ["Bed", "Pot"],
     growingConditions: ["Sunny", "Partial shade"],
+    owner: ["default"],
   };
 
   const filteredPlants = plants.filter((plant) =>
     Object.keys(filter).every(
       (category) =>
-        filter[category].length === 0 ||
-        filter[category].some((filter) => plant[category].includes(filter))
+        filter[category]?.length === 0 ||
+        filter[category]?.some((filter) => plant[category]?.includes(filter))
     )
   );
 
@@ -128,6 +129,14 @@ export default function CardList({
           category={"growingConditions"}
           label={"Growing Conditions"}
         />
+        <MultiSelectDropdown
+          options={filterOptions.owner}
+          selected={filter.growingConditions}
+          toggleOption={onToggleFilter}
+          category={"owner"}
+          label={"Owner"}
+        />
+
         <ResetButton type="reset" onClick={onResetFilter}>
           <SvgIcon variant="reload" color="#fff" />
         </ResetButton>

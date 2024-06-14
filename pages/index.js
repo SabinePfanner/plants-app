@@ -40,6 +40,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
       cropType: [],
       placement: [],
       growingConditions: [],
+      owner: [],
     });
   }
 
