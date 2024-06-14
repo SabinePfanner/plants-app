@@ -8,13 +8,15 @@ import { useState } from "react";
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 800px;
   gap: 0.5rem;
   padding: 1rem;
+  align-self: center;
+  margin: 0 auto;
 `;
 
 const labelStyles = css`
-  font-weight: bold;
+  font-weight: 700;
   margin-top: 0.4rem;
 `;
 const Label = styled.label(labelStyles);

@@ -2,9 +2,14 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 
+const PageContainer = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
 const HighlightBox = styled.section`
   margin: 1rem;
-  background-color: var(--color-green);
+  background-color: var(--primary);
   border-radius: 5px;
 `;
 
@@ -50,7 +55,7 @@ export default function PlantDetails({
   onIsDataDefault(plant.owner === "default");
 
   return (
-    <>
+    <PageContainer>
       <h1>{plant.name}</h1>
       <Figure>
         <PlantImage
@@ -97,6 +102,6 @@ export default function PlantDetails({
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
-    </>
+    </PageContainer>
   );
 }

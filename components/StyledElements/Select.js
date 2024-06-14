@@ -54,11 +54,11 @@ export function CustomSelect({
     ${(props) =>
       props.$active &&
       css`
-        color: var(--color-green);
+        color: var(--primary);
         font-weight: 500;
       `}
     &:hover, :focus, :focus:hover {
-      background-color: var(--color-green);
+      background-color: var(--primary);
       color: #fff;
       outline: 0;
     }

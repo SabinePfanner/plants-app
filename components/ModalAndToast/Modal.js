@@ -4,7 +4,11 @@ import {
   ModalContent,
   ModalInfo,
 } from "@/components/ModalAndToast/ModalStyles/ModalContentAndInfo";
-import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
+import {
+  StyledButton,
+  StyledButtonCancel,
+  ButtonGroup,
+} from "@/components/StyledElements/Buttons";
 
 export default function Modal({ modalSettings, onCloseModal }) {
   //Close modal and quit action
@@ -19,9 +23,13 @@ export default function Modal({ modalSettings, onCloseModal }) {
           <ModalContent>
             <ModalInfo>{modalSettings.modalInfoText}</ModalInfo>
             <ButtonGroup>
-              <StyledButton name="cancel" type="button" onClick={handleCancel}>
+              <StyledButtonCancel
+                name="cancel"
+                type="button"
+                onClick={handleCancel}
+              >
                 Cancel
-              </StyledButton>
+              </StyledButtonCancel>
               <StyledButton
                 name="confirm"
                 type="button"

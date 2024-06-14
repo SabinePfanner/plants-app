@@ -16,6 +16,6 @@ export const RadioButton = styled.input`
     margin: 0.065rem;
   }
   &:checked::after {
-    background-color: var(--color-green);
+    background-color: var(--primary);
   }
 `;
