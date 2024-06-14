@@ -3,6 +3,7 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 import PlantImageCard from "./StyledElements/PlantImageCard";
 
 const CardContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +21,12 @@ const CardContainer = styled.div`
   }
 `;
 
+const DefaultLock = styled.div`
+  position: absolute;
+  top: 2.5px;
+  left: 0.5px;
+`;
+
 const CardInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -31,12 +38,22 @@ export default function Card({
   image,
   name,
   cropType,
+  owner,
   id,
   isFavorite,
   onToggleFavorite,
 }) {
   return (
     <CardContainer>
+      {owner === "default" && (
+        <DefaultLock>
+          <SvgIcon
+            variant="default"
+            color="var(--primary-constrast)"
+            size="16"
+          ></SvgIcon>
+        </DefaultLock>
+      )}
       <PlantImageCard
         image={image}
         isFavorite={isFavorite}

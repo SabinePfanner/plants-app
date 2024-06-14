@@ -126,6 +126,7 @@ export default function CardList({
               <Card
                 key={plant._id}
                 name={plant.name}
+                owner={plant.owner}
                 cropType={plant.cropType}
                 image={plant.image}
                 isFavorite={favoriteIDs.includes(plant._id)}
