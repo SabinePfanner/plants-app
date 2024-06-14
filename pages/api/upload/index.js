@@ -40,7 +40,7 @@ export default async function handler(request, response) {
     } catch (error) {
       response.status(400).json({ error: error.message });
     }
+  } else {
+    return response.status(405).json({ message: "Method not allowed" });
   }
-
-  return response.status(400).json({ message: "Method not allowed" });
 }

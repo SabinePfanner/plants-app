@@ -166,6 +166,7 @@ export default function Form({
   const [image, setImage] = useState(null);
   const [selectedName, setSelectedName] = useState("");
   const [showFileInput, setShowFileInput] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Function to handle file input change
   function handleImageUpload(event) {
@@ -187,10 +188,14 @@ export default function Form({
     event.preventDefault();
     const formData = new FormData(event.target);
 
+    setLoading(true);
+
     const response = await fetch("/api/upload", {
       method: "POST",
       body: formData,
     });
+    setLoading(false);
+
     const { url } = await response.json();
 
     // Handle custom selects: if not null, add data to form data, otherwise show a custom alert message
@@ -392,7 +397,9 @@ export default function Form({
         <StyledButton type="button" onClick={onDismiss}>
           {cancelButtonText}
         </StyledButton>
-        <StyledButton type="submit">{submitButtonText}</StyledButton>
+        <StyledButton type="submit" disabled={loading}>
+          {submitButtonText}
+        </StyledButton>
       </ButtonGroup>
     </FormContainer>
   );
