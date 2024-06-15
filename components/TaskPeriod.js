@@ -154,7 +154,6 @@ export default function TaskPeriod({
   edit = false,
   onSeedPeriod,
 }) {
-
   // Task periods (seed etc.)
   const [period, setPeriod] = useState(task); // { seed: { start: null, end: null } }
 
@@ -165,14 +164,17 @@ export default function TaskPeriod({
   // - on first click on any interval, start is set
   // - further click start resets if no end selected yet
   // - when start is selected and other interval clicked, it is set as period end
-  function handleSetPeriod(selection) {
+  function handleSetPeriod(interval) {
     if (!period[taskName].start) {
-      setPeriod({ [taskName]: { start: selection, end: null } });
-    } else if (period[taskName].start === selection) {
+      setPeriod({ [taskName]: { start: interval, end: null } });
+    } else if (
+      period[taskName].start === interval &&
+      !(period[taskName].start && period[taskName].end)
+    ) {
       setPeriod({ [taskName]: { start: null, end: null } });
     } else if (!period[taskName].end) {
       setPeriod({
-        [taskName]: { start: period[taskName].start, end: selection },
+        [taskName]: { start: period[taskName].start, end: interval },
       });
     }
   }
@@ -197,8 +199,17 @@ export default function TaskPeriod({
   if (edit || period[taskName].end) {
     return (
       <>
-      {!edit && (<StyledH4>{taskName[0].toUpperCase() + taskName.slice(1)} period</StyledH4>)}
-        <StyledPeriodContainer>
+        {!edit && (
+          <StyledH4>
+            {taskName[0].toUpperCase() + taskName.slice(1)} period
+          </StyledH4>
+        )}
+        <StyledPeriodContainer
+          onMouseLeave={() =>
+            !(period[taskName].start && period[taskName].end) &&
+            (setHoverIndex(-1) || handleResetPeriod())
+          }
+        >
           <StyledPeriodGrid>
             <StyledDummySection />
             {months.map((month, index) => (
@@ -225,7 +236,7 @@ export default function TaskPeriod({
                 onClick={handleResetPeriod}
                 onKeyDown={(event) =>
                   event.key === "Enter" || event.key === " "
-                    ? handleResetPeriod()
+                    ? handleResetPeriod() && setHoverIndex(-1)
                     : null
                 }
               >
@@ -266,6 +277,9 @@ export default function TaskPeriod({
                   }}
                   $highlighted={
                     // highlight intervals if period start is set & interval >= start & hovered/within set interval
+                    (index === hoverIndex &&
+                      !period[taskName].start &&
+                      hoverIndex !== -1) ||
                     interval === period[taskName].start ||
                     (period[taskName].start &&
                       index > periodIndices.start &&

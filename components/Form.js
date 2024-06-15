@@ -47,6 +47,11 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
+const StyledPeriodSubheader = styled.span`
+  font-size: 1rem;
+  font-weight: normal;
+`;
+
 // Values for custom select components used in form
 const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
@@ -281,7 +286,16 @@ export default function Form({
         </RadioButtonGroup>
       </Fieldset>
       <br />
-      <Label htmlFor="seedPeriod">Seed period</Label>
+      <Label htmlFor="seedPeriod">
+        Seed period:{" "}
+        <StyledPeriodSubheader>
+          {seedPeriod.seed.start === null
+            ? "click an interval to set period start"
+            : seedPeriod.seed.end === null
+            ? "click an interval to set period end"
+            : `${seedPeriod.seed.start} \u2013 ${seedPeriod.seed.end}`}
+        </StyledPeriodSubheader>
+      </Label>{" "}
       <TaskPeriod
         task={data.tasks}
         taskName="seed"
