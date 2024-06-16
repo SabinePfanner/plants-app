@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 /* Tooltip container */
 export const StyledTooltipContainer = styled.div`
-  position: relative;
-  display: inline-block;
+  position: absolute;
+  display: block;
 `;
 
 /* Tooltip text */
