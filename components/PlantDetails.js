@@ -28,6 +28,41 @@ const Figure = styled.figure`
   margin: 1rem;
 `;
 
+const StyledPeriodSummaryContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1rem;
+`;
+
+const StyledPeriodSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: ${(props) => props.$color};
+  color: white;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0.5rem 1rem 1rem;
+  border-radius: 0.5rem;
+`;
+
+const StyledPeriodText = styled.div`
+  font-weight: ${(props) => props.$weight};
+  font-size: ${(props) => props.$size};
+  margin-bottom: 0.1rem;
+`;
+
+const StyledPeriodContainer = styled.div`
+  overflow-x: "auto";
+  overflow-y: hidden;
+`;
+
+const StyledNote = styled.p`
+  margin: 0 1.5rem;
+  font-style: italic;
+`;
+
 export default function PlantDetails({
   favoriteIDs,
   onToggleFavorite,
@@ -49,6 +84,21 @@ export default function PlantDetails({
   }
 
   onIsDataDefault(plant.owner === "default");
+
+  // Filter out tasks that have defined periods
+  const tasksArray = Object.entries(plant.tasks);
+  const tasksArrayFiltered = tasksArray.filter(
+    (task) => task[1].start && task[1].end
+  );
+  const tasksFiltered = Object.fromEntries(tasksArrayFiltered);
+
+  const periodColors = {
+    Seed: "#D27D2D",
+    Cultivation: "#FFC000",
+    Planting: "#79af6e",
+    Harvest: "#E23D28",
+    Pruning: "#71797E",
+  };
 
   return (
     <>
@@ -98,7 +148,41 @@ export default function PlantDetails({
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
-      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
+      {Object.keys(tasksFiltered).length > 0 ? (
+        <>
+          <StyledPeriodSummaryContainer>
+            {Object.keys(tasksFiltered).map((task, index) => {
+              return (
+                <StyledPeriodSummary key={task} $color={periodColors[task]}>
+                  <StyledPeriodText $weight="bold" $size="1rem">
+                    {task}
+                  </StyledPeriodText>
+                  <StyledPeriodText $weight="normal" $size="0.9rem">
+                    {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
+                  </StyledPeriodText>
+                </StyledPeriodSummary>
+              );
+            })}
+          </StyledPeriodSummaryContainer>
+
+          <StyledPeriodContainer>
+            {Object.keys(tasksFiltered).map((task, index) => {
+              return (
+                <TaskPeriod
+                  key={task}
+                  task={plant.tasks[task]}
+                  taskName={task}
+                  edit={false}
+                  showHeader={index === 0}
+                  color={periodColors[task]}
+                ></TaskPeriod>
+              );
+            })}
+          </StyledPeriodContainer>
+        </>
+      ) : (
+        <StyledNote>No periods defined for this plant yet.</StyledNote>
+      )}
     </>
   );
 }
