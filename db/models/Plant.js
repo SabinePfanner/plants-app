@@ -2,26 +2,21 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-// Define the nested schema for 'seed'
+// Define the nested task schema
 // Courtesy of chatGPT
-const seedSchema = new Schema({
-  start: {
-    type: Schema.Types.Mixed,
-    default: null
+const taskSchema = new Schema(
+  {
+    start: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
+    end: {
+      type: Schema.Types.Mixed,
+      default: null,
+    },
   },
-  end: {
-    type: Schema.Types.Mixed,
-    default: null
-  }
-}, { _id: false });
-
-// Define the schema for 'tasks'
-const tasksSchema = new Schema({
-  seed: {
-    type: seedSchema,
-    default: { start: null, end: null } 
-  }
-}, { _id: false });
+  { _id: false }
+);
 
 const plantSchema = new Schema({
   name: { type: String, required: true },
@@ -34,10 +29,16 @@ const plantSchema = new Schema({
   frostSensitive: { type: Boolean, required: true },
   cropType: { type: String, required: true },
   tasks: {
-    type: tasksSchema,
-    default: { seed: { start: null, end: null }}
+    type: Map,
+    of: taskSchema,
+    default: {
+      Seed: { start: null, end: null },
+      Cultivation: { start: null, end: null },
+      Planting: { start: null, end: null },
+      Harvest: { start: null, end: null },
+      Pruning: { start: null, end: null },
+    }, // Default to an empty object
   },
-  // tasks: { type: String },
   image: { type: String },
   owner: { type: String, required: true },
 });
