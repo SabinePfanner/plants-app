@@ -3,6 +3,7 @@ import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
+import TaskPeriod from "@/components/TaskPeriod";
 import { useState } from "react";
 import Image from "next/image";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
@@ -10,14 +11,17 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 800px;
   gap: 0.5rem;
   padding: 1rem;
+  align-self: center;
+  margin: 0 auto;
 `;
 
 const labelStyles = css`
-  font-weight: bold;
+  font-weight: 700;
   margin-top: 0.4rem;
+  color: var(--primary-contrast);
 `;
 const Label = styled.label(labelStyles);
 
@@ -41,11 +45,18 @@ const RadioButtonGroup = styled.div`
 const RadioButtonLabel = styled.label`
   display: flex;
   align-items: flex-end;
+  color: var(--primary-contrast);
 `;
 
 const RangeInputLabels = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--primary-contrast);
+`;
+
+const StyledPeriodSubheader = styled.span`
+  font-size: 1rem;
+  font-weight: normal;
 `;
 
 const VisuallyHidden = styled.input`
@@ -146,6 +157,9 @@ export default function Form({
     frostSensitive: true,
     waterDemand: 2,
     nutrientDemand: 2,
+    tasks: {
+      seed: { start: null, end: null },
+    },
   },
   isEditImage = true,
   onCreatePage,
@@ -175,6 +189,15 @@ export default function Form({
 
   function handleGrowingConditionsChange(value) {
     setCurrentGrowingConditions(value);
+  }
+
+  // Seed period
+  const [seedPeriod, setSeedPeriod] = useState({
+    seed: { start: null, end: null },
+  });
+
+  function handleSeedPeriod(period) {
+    setSeedPeriod(period);
   }
 
   function checkSelectInput(input, name) {
@@ -228,6 +251,10 @@ export default function Form({
       currentGrowingConditions === null
     ) {
       alert("Please fill out all inputs");
+    } else if (seedPeriod.start !== null && seedPeriod.end === null) {
+      alert(
+        "You have not defined the end of the seed period. Click on the respective time interval to set."
+      );
     } else {
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
@@ -238,6 +265,7 @@ export default function Form({
         formData.set("image", data.image);
       }
       const plantData = Object.fromEntries(formData);
+      plantData.tasks = seedPeriod; // needs to be inserted here, since it is an object, not a string
 
       onSubmit(plantData);
     }
@@ -345,7 +373,6 @@ export default function Form({
           <StyledIconText>{selectedName || "Preview"}</StyledIconText>
         </ImagePreviewContainer>
       </ImageContainer>
-
       <FieldsetLabel htmlFor="perennial">Perennial</FieldsetLabel>
       <Fieldset>
         <RadioButtonGroup>
@@ -453,6 +480,23 @@ export default function Form({
           </RadioButtonLabel>
         </RadioButtonGroup>
       </Fieldset>
+      <br />
+      <Label htmlFor="seedPeriod">
+        Seed period:{" "}
+        <StyledPeriodSubheader>
+          {seedPeriod.seed.start === null
+            ? "click an interval to set period start"
+            : seedPeriod.seed.end === null
+            ? "click an interval to set period end"
+            : `${seedPeriod.seed.start} \u2013 ${seedPeriod.seed.end}`}
+        </StyledPeriodSubheader>
+      </Label>{" "}
+      <TaskPeriod
+        task={data.tasks}
+        taskName="seed"
+        onSeedPeriod={handleSeedPeriod}
+        edit={true}
+      ></TaskPeriod>
       <ButtonGroup>
         <StyledButton type="button" onClick={onDismiss}>
           {cancelButtonText}

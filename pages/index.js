@@ -2,7 +2,6 @@ import CardList from "@/components/CardList.js";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
-import Login from "@/components/Login";
 
 export default function HomePage({ favoriteIDs, onToggleFavorite }) {
   const [filter, setFilter] = useState({
@@ -54,7 +53,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
         onResetFilter={resetFilter}
         filter={filter}
       />
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
+      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
     </>
   );
 }

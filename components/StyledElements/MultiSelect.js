@@ -30,7 +30,7 @@ const SelectPlaceholder = styled.div`
   border: 0.5px solid black;
   border-radius: 0.5rem;
   font-size: 0.7rem;
-  color: #423e3e;
+  color: var(--primary-contrast);
   padding: 5px 6px 5px 5px;
   display: flex;
   justify-content: flex-start;
@@ -39,8 +39,8 @@ const SelectPlaceholder = styled.div`
   ${(p) =>
     p.$isSelected &&
     css`
-      background-color: var(--color-green-300);
-      font-weight: bold;
+      background-color: var(--primary-light);
+      font-weight: 900;
       border: 1px solid black;
     `};
 `;
@@ -54,17 +54,17 @@ const Options = styled.li`
   &:hover,
   :focus,
   :focus:hover {
-    background-color: var(--color-green-300);
+    background-color: var(--primary-light);
   }
   ${(p) =>
     p.$isActive &&
     css`
-      background-color: var(--color-green-300);
+      background-color: var(--primary-light);
     `};
 `;
 
 const Checkbox = styled.input`
-  accent-color: var(--color-green);
+  accent-color: var(--primary);
 `;
 
 export default function MultiSelectDropdown({
@@ -107,6 +107,7 @@ export default function MultiSelectDropdown({
           return (
             <>
               <Options
+                key={options}
                 $isActive={index === activeOption}
                 onClick={() => toggleOption(category, option)}
                 onKeyDown={(event) => {
@@ -114,7 +115,6 @@ export default function MultiSelectDropdown({
                     toggleOption(category, option);
                   }
                   if (event.key === "Tab") {
-                    console.log(event);
                     if (
                       (index == options.length - 1 && !event.shiftKey) ||
                       (index == 0 && event.shiftKey)
@@ -135,7 +135,7 @@ export default function MultiSelectDropdown({
                 <Checkbox
                   type="checkbox"
                   checked={isSelected}
-                  tabindex="-1"
+                  tabIndex="-1"
                 ></Checkbox>
                 <span>{option}</span>
               </Options>

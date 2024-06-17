@@ -23,6 +23,8 @@ export default function EditPlant({ onOpenToast, onOpenModal, onCloseModal }) {
     if (response.ok) {
       router.push(`/${id}`);
       onOpenToast("Crop successfully edited!");
+    } else {
+      console.error(response.status);
     }
   }
 

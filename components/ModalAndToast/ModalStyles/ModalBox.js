@@ -11,7 +11,7 @@ export const ModalBox = styled.section`
   justify-content: center;
   align-items: center;
   background-color: ${(props) =>
-    props.$isActionConfirmed ? `lightgreen` : `lightgrey`};
-  border: 2px solid var(--color-green);
+    props.$isActionConfirmed ? `var(--success-background)` : `#eee`};
+  border: 2px solid var(--success-border);
   border-radius: 0.5rem;
 `;

@@ -74,7 +74,7 @@ export default function DetailsPage({
           <SvgLinkButton
             href={`/edit/${id}`}
             variant="pen"
-            color="#E23D28"
+            color="var(--secondary)"
             bottom="10rem"
           />
           <DeletePlantButton type="button" onClick={handleOpenModal} />
