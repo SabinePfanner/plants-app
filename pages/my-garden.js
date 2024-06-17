@@ -19,6 +19,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     cropType: [],
     placement: [],
     growingConditions: [],
+    owner: [],
   });
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
@@ -53,6 +54,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       cropType: [],
       placement: [],
       growingConditions: [],
+      owner: [],
     });
   }
 
