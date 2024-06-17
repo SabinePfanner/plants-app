@@ -103,7 +103,6 @@ export default function PlantDetails({
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
-    </PageContainer>
       <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
     </PageContainer>
   );
