@@ -114,7 +114,6 @@ export default function MultiSelectDropdown({
                     toggleOption(category, option);
                   }
                   if (event.key === "Tab") {
-                    console.log(event);
                     if (
                       (index == options.length - 1 && !event.shiftKey) ||
                       (index == 0 && event.shiftKey)

@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
+import TaskPeriod from "@/components/TaskPeriod";
 
 const HighlightBox = styled.section`
   margin: 1rem;
@@ -97,6 +98,7 @@ export default function PlantDetails({
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
+      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
     </>
   );
 }
