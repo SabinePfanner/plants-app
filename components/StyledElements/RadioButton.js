@@ -11,7 +11,7 @@ export const RadioButton = styled.input`
     content: "";
     display: block;
     border-radius: 50%;
-    width: 12x;
+    width: 12px;
     height: 12px;
     margin: 0.065rem;
   }

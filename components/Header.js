@@ -23,7 +23,7 @@ const PositionLogin = styled.section`
   align-self: flex-start;
 `;
 
-export default function Header({ onOpenModal, onCloseModal, onOpenToast }) {
+export default function Header({ onOpenModal, onCloseModal }) {
   const router = useRouter();
   function handleOpenModal() {
     onOpenModal({

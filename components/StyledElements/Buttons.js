@@ -13,7 +13,7 @@ export const StyledButton = styled.button`
   width: 5.5rem;
   font-weight: 700;
   border: 2px solid var(--primary-dark);
-  color: var(--primary-contrast)
+  color: var(--primary-contrast);
   margin: 1rem 0.5rem 1rem 0.5rem;
   &:hover {
     cursor: pointer;
@@ -28,7 +28,7 @@ export const StyledButtonCancel = styled.button`
   width: 5.5rem;
   font-weight: 700;
   border: 2px solid var(--secondary-light);
-  color: var(--primary-contrast)
+  color: var(--primary-contrast);
   margin: 1rem 0.5rem 1rem 0.5rem;
   &:hover {
     cursor: pointer;
