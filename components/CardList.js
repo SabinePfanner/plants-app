@@ -27,7 +27,7 @@ const StyledList = styled.ul`
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 599px) {
     // iPhone SE
     grid-template-columns: 1fr;
   }

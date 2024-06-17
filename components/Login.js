@@ -3,6 +3,9 @@ import SvgIcon from "./StyledElements/SvgIcon";
 import styled from "styled-components";
 
 export const StyledLoginButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 5px;
   background: transparent;
   border: none;
   &:hover {
@@ -17,13 +20,13 @@ export default function Login({ onOpenModal }) {
   if (session) {
     return (
       <StyledLoginButton onClick={onOpenModal}>
-        <SvgIcon variant="logout" size="30" color="#1D0B07" />
+        <SvgIcon variant="logout" size="25" color="var(--primary-contrast)" />
       </StyledLoginButton>
     );
   }
   return (
     <StyledLoginButton onClick={() => signIn()}>
-      <SvgIcon variant="login" size="30" color="#1D0B07" />
+      <SvgIcon variant="login" size="25" color="var(--primary-contrast)" />
     </StyledLoginButton>
   );
 }
