@@ -43,7 +43,11 @@ export default function CreatePlant({
   return (
     <>
       <h1>Create a new hot crop!</h1>
-      <Form onSubmit={addPlant} onDismiss={handleOpenModal} />
+      <Form
+        onSubmit={addPlant}
+        onDismiss={handleOpenModal}
+        onCreatePage={true}
+      />
     </>
   );
 }
