@@ -22,7 +22,7 @@ export default function EditPlant({ onOpenToast, onOpenModal, onCloseModal }) {
 
     if (response.ok) {
       router.push(`/${id}`);
-      onOpenToast("Crop succesfully edited!");
+      onOpenToast("Crop successfully edited!");
     }
   }
 
@@ -50,6 +50,8 @@ export default function EditPlant({ onOpenToast, onOpenModal, onCloseModal }) {
         onDismiss={handleOpenModal}
         data={plant}
         submitButtonText={"Edit plant"}
+        isEditImage={false}
+        onCreatePage={false}
       />
     </>
   );

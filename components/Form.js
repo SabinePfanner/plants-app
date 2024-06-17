@@ -50,10 +50,6 @@ const RangeInputLabels = styled.div`
 
 const VisuallyHidden = styled.input`
   position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
@@ -67,7 +63,7 @@ const ImageContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   margin-left: 5px;
-  gap: 6rem;
+  gap: 4rem;
 `;
 
 const ImagePreviewContainer = styled.div`
@@ -78,8 +74,8 @@ const ImagePreviewContainer = styled.div`
 `;
 
 const StyledImageWrapper = styled.div`
-  width: 100px;
-  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
   position: relative;
   overflow: hidden;
   border: 2px solid black;
@@ -96,14 +92,37 @@ const CustomFileInputButton = styled.label`
   }
   &:focus {
     outline: 2px solid black;
+    border-radius: 0.5rem;
+    padding: 1px;
   }
 `;
 
-const SelectedFileName = styled.p`
+const StyledImageButton = styled.button`
+  text-align: center;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:focus {
+    outline: 2px solid black;
+  }
+`;
+
+const StyledIconText = styled.p`
   margin-top: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
   color: #333;
+`;
+
+const IconWithTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 // Values for custom select components used in form
@@ -128,7 +147,10 @@ export default function Form({
     waterDemand: 2,
     nutrientDemand: 2,
   },
+  isEditImage = true,
+  onCreatePage,
 }) {
+  const [editImage, setEditImage] = useState(isEditImage);
   // Select Crop Type
 
   const [currentCropType, setCurrentCropType] = useState(data.cropType);
@@ -184,6 +206,7 @@ export default function Form({
     // Programmatically click the hidden file input
     document.getElementById("fileInput").click();
   }
+
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -209,8 +232,13 @@ export default function Form({
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
       formData.set("growingConditions", currentGrowingConditions);
-      formData.set("image", url);
+      if (editImage) {
+        formData.set("image", url);
+      } else {
+        formData.set("image", data.image);
+      }
       const plantData = Object.fromEntries(formData);
+
       onSubmit(plantData);
     }
   }
@@ -248,29 +276,61 @@ export default function Form({
       />
       <Label htmlFor="fileInput">Image</Label>
       <ImageContainer>
-        <VisuallyHidden
-          type="file"
-          name="image"
-          id="fileInput"
-          accept="image/*"
-          onChange={handleImageUpload}
-          required
-        />
+        {editImage ? (
+          <>
+            <VisuallyHidden
+              type="file"
+              name="image"
+              id="fileInput"
+              accept="image/*"
+              onChange={handleImageUpload}
+              required
+            />
 
-        <CustomFileInputButton
-          htmlFor="fileInput"
-          tabIndex="0"
-          onClick={handleFileInputButtonClick}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              handleFileInputButtonClick(event);
-            }
-          }}
-        >
-          <SvgIcon variant="upload" size="80"></SvgIcon>
-          <SelectedFileName>Click to upload</SelectedFileName>
-        </CustomFileInputButton>
+            <CustomFileInputButton
+              htmlFor="fileInput"
+              tabIndex="0"
+              onClick={handleFileInputButtonClick}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  handleFileInputButtonClick(event);
+                }
+              }}
+            >
+              <SvgIcon
+                variant="upload"
+                max-height="80"
+                max-width="80"
+              ></SvgIcon>
+              <StyledIconText>Click to upload</StyledIconText>
+            </CustomFileInputButton>
+
+            {!onCreatePage && (
+              <IconWithTextContainer>
+                <StyledImageButton
+                  hidden={onCreatePage}
+                  type="button"
+                  onClick={() => setEditImage(false)}
+                >
+                  <SvgIcon
+                    variant="cancel"
+                    max-height="80"
+                    max-width="80"
+                  ></SvgIcon>
+                </StyledImageButton>
+                <StyledIconText>Cancel image upload</StyledIconText>
+              </IconWithTextContainer>
+            )}
+          </>
+        ) : (
+          <IconWithTextContainer>
+            <StyledImageButton type="button" onClick={() => setEditImage(true)}>
+              <SvgIcon variant="pen" max-height="80" max-width="80"></SvgIcon>
+            </StyledImageButton>
+            <StyledIconText>Edit image</StyledIconText>
+          </IconWithTextContainer>
+        )}
 
         <ImagePreviewContainer>
           <StyledImageWrapper>
@@ -282,7 +342,7 @@ export default function Form({
               style={{ objectFit: "contain" }}
             />
           </StyledImageWrapper>
-          <SelectedFileName>{selectedName || "Preview"}</SelectedFileName>
+          <StyledIconText>{selectedName || "Preview"}</StyledIconText>
         </ImagePreviewContainer>
       </ImageContainer>
 
