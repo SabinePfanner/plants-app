@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
+import TaskPeriod from "@/components/TaskPeriod";
 
 const PageContainer = styled.div`
   margin: 0 auto;
@@ -103,5 +104,7 @@ export default function PlantDetails({
         </StyledListElement>
       </StyledList>
     </PageContainer>
+      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
+    </>
   );
 }

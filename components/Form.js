@@ -3,6 +3,7 @@ import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
+import TaskPeriod from "@/components/TaskPeriod";
 import { useState } from "react";
 
 const FormContainer = styled.form`
@@ -48,6 +49,11 @@ const RangeInputLabels = styled.div`
   justify-content: space-between;
 `;
 
+const StyledPeriodSubheader = styled.span`
+  font-size: 1rem;
+  font-weight: normal;
+`;
+
 // Values for custom select components used in form
 const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
@@ -68,6 +74,9 @@ export default function Form({
     frostSensitive: true,
     waterDemand: 2,
     nutrientDemand: 2,
+    tasks: {
+      seed: { start: null, end: null },
+    },
   },
 }) {
   // Select Crop Type
@@ -96,6 +105,15 @@ export default function Form({
     setCurrentGrowingConditions(value);
   }
 
+  // Seed period
+  const [seedPeriod, setSeedPeriod] = useState({
+    seed: { start: null, end: null },
+  });
+
+  function handleSeedPeriod(period) {
+    setSeedPeriod(period);
+  }
+
   function checkSelectInput(input, name) {
     if (!input) {
       return `Select the preferred ${name} ↓`;
@@ -114,11 +132,18 @@ export default function Form({
       currentGrowingConditions === null
     ) {
       alert("Please fill out all inputs");
+    } else if (seedPeriod.start !== null && seedPeriod.end === null) {
+      alert(
+        "You have not defined the end of the seed period. Click on the respective time interval to set."
+      );
     } else {
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
       formData.set("growingConditions", currentGrowingConditions);
+
       const plantData = Object.fromEntries(formData);
+      plantData.tasks = seedPeriod; // needs to be inserted here, since it is an object, not a string
+
       onSubmit(plantData);
     }
   }
@@ -261,6 +286,23 @@ export default function Form({
           </RadioButtonLabel>
         </RadioButtonGroup>
       </Fieldset>
+      <br />
+      <Label htmlFor="seedPeriod">
+        Seed period:{" "}
+        <StyledPeriodSubheader>
+          {seedPeriod.seed.start === null
+            ? "click an interval to set period start"
+            : seedPeriod.seed.end === null
+            ? "click an interval to set period end"
+            : `${seedPeriod.seed.start} \u2013 ${seedPeriod.seed.end}`}
+        </StyledPeriodSubheader>
+      </Label>{" "}
+      <TaskPeriod
+        task={data.tasks}
+        taskName="seed"
+        onSeedPeriod={handleSeedPeriod}
+        edit={true}
+      ></TaskPeriod>
       <ButtonGroup>
         <StyledButton type="button" onClick={onDismiss}>
           {cancelButtonText}
