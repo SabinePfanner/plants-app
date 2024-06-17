@@ -10,15 +10,7 @@ const PageContainer = styled.div`
 `;
 
 const ListContainer = styled.div`
-const PageContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   flex-direction: column;
   align-items: center;
 `;
