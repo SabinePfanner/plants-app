@@ -4,7 +4,6 @@ import { RadioButton } from "@/components/StyledElements/RadioButton";
 import { RangeInput } from "@/components/StyledElements/RangeSlider";
 import { CustomSelect } from "@/components/StyledElements/Select";
 import TaskPeriod from "@/components/TaskPeriod";
-import { useState, useCallback } from "react";
 
 const FormContainer = styled.form`
   display: flex;
@@ -116,15 +115,9 @@ export default function Form({
   // Periods
   const [periods, setPeriods] = useState(data.tasks);
 
-  console.log("periods", periods);
-
   function handleSetPeriod(task, period) {
     setPeriods({ ...periods, [task]: period });
   }
-
-  // const handleSetPeriod = useCallback((task, period) => {
-  //   setPeriods({ ...periods, [task]: period });
-  // }, []);
 
   function checkSelectInput(input, name) {
     if (!input) {

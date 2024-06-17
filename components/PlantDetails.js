@@ -167,7 +167,6 @@ export default function PlantDetails({
 
           <StyledPeriodContainer>
             {Object.keys(tasksFiltered).map((task, index) => {
-              console.log("task key in period container: ", task)
               return (
                 <TaskPeriod
                   key={task}

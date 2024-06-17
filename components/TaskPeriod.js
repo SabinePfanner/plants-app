@@ -133,10 +133,6 @@ const StyledResetButton = styled.button`
   }
 `;
 
-const StyledH4 = styled.h4`
-  margin: 0 1.5rem;
-`;
-
 export default function TaskPeriod({
   task,
   taskName,
@@ -147,8 +143,6 @@ export default function TaskPeriod({
 }) {
   // Task periods (seed etc.)
   const [period, setPeriod] = useState(task); // eg { seed: { start: null, end: null } }
-
-  console.log("Period in TaskPeriod: ", period);
 
   // Index of interval cell currently hovered
   const [hoverIndex, setHoverIndex] = useState();
