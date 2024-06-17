@@ -19,7 +19,7 @@ const StyledList = styled.ul`
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-columns: auto;
+  grid-template-row: auto;
   grid-gap: 0.5rem;
   padding-inline-start: 0;
 
