@@ -94,7 +94,7 @@ export default function PlantDetails({
 
   const periodColors = {
     Seed: "#D27D2D",
-    Cultivation: "#FFC000",
+    Cultivation: "#AA336A",
     Planting: "#79af6e",
     Harvest: "#E23D28",
     Pruning: "#71797E",
@@ -167,6 +167,7 @@ export default function PlantDetails({
 
           <StyledPeriodContainer>
             {Object.keys(tasksFiltered).map((task, index) => {
+              console.log("task key in period container: ", task)
               return (
                 <TaskPeriod
                   key={task}
