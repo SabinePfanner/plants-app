@@ -7,7 +7,7 @@ const trackHeight = "10px";
 
 // colours
 const upperColor = "lightgrey";
-const lowerColor = "var(--color-green)";
+const lowerColor = "var(--primary)";
 const upperBackground = `linear-gradient(to bottom, ${upperColor}, ${upperColor}) 100% 50% / 100% ${trackHeight} no-repeat transparent`;
 const lowerBackground = `linear-gradient(to bottom, ${lowerColor}, ${lowerColor}) 100% 50% / 100% ${trackHeight} no-repeat transparent`;
 

@@ -3,9 +3,14 @@ import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
 
+const PageContainer = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
 const HighlightBox = styled.section`
   margin: 1rem;
-  background-color: var(--color-green);
+  background-color: var(--primary);
   border-radius: 5px;
 `;
 
@@ -101,7 +106,7 @@ export default function PlantDetails({
   };
 
   return (
-    <>
+    <PageContainer>
       <h1>{plant.name}</h1>
       <Figure>
         <PlantImage
@@ -183,6 +188,7 @@ export default function PlantDetails({
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
-    </>
+      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
+    </PageContainer>
   );
 }
