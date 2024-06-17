@@ -39,7 +39,7 @@ export function CustomSelect({
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
-    background: #fafafa;
+    background: #eee;
     ${(p) =>
       p.$isVisible !== true &&
       css`
@@ -50,6 +50,7 @@ export function CustomSelect({
   const DropdownItem = styled.div`
     margin: 0.3rem 0;
     font-size: 0.9rem;
+    color: var(--primary-contrast);
     cursor: pointer;
     ${(props) =>
       props.$active &&

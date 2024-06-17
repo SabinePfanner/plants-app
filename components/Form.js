@@ -19,6 +19,7 @@ const FormContainer = styled.form`
 const labelStyles = css`
   font-weight: 700;
   margin-top: 0.4rem;
+  color: var(--primary-contrast);
 `;
 const Label = styled.label(labelStyles);
 
@@ -42,11 +43,13 @@ const RadioButtonGroup = styled.div`
 const RadioButtonLabel = styled.label`
   display: flex;
   align-items: flex-end;
+  color: var(--primary-contrast);
 `;
 
 const RangeInputLabels = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--primary-contrast);
 `;
 
 const StyledPeriodSubheader = styled.span`
