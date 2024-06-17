@@ -19,7 +19,7 @@ const StyledList = styled.ul`
 const StyledLink = styled(Link)`
   justify-self: center;
   text-decoration: none;
-  color: black;
+  color: var(--primary-contrast);
   &:hover {
     color: white;
   }

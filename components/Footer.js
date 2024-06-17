@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Navigation from "@/components/Navigation";
 
 const StyledFooter = styled.footer`
-  background-color: #79af6e;
+  background-color: var(--primary);
   position: fixed;
   left: 0;
   bottom: 0;

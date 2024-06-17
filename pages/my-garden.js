@@ -67,7 +67,8 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
         <h2>
           No plants bookmarked yet.
           <br /> Add crops to your garden by clicking on a plant&apos;s favorite
-          button <SvgIcon variant={"chili"} color={"#79af6e"} size={20} />.
+          button{" "}
+          <SvgIcon variant={"chili"} color={"var(--primary)"} size={20} />.
         </h2>
       ) : (
         <CardList
@@ -79,7 +80,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           filter={filter}
         />
       )}
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
+      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
     </>
   );
 }

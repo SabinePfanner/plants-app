@@ -5,6 +5,8 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
+  height: 150px;
+  width: 200px;
   position: relative;
 `;
 
@@ -38,8 +40,6 @@ export default function PlantImage({
   isFavorite,
   onToggleFavorite,
   id,
-  height = 150,
-  width = 150,
 }) {
   const router = useRouter();
   const location = router.pathname;
@@ -50,13 +50,15 @@ export default function PlantImage({
         <StyledImage
           src={!image ? "/images/chili.jpg" : image}
           alt={"Image of plant"}
-          width={width}
-          height={height}
           $location={location}
+          fill
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
-        <SvgIcon variant="chili" color={isFavorite ? "#E23D28" : "#79af6e"} />
+        <SvgIcon
+          variant="chili"
+          color={isFavorite ? "var(--secondary)" : "var(--primary)"}
+        />
       </StyledFavoriteButton>
     </PlantImageContainer>
   );
