@@ -73,7 +73,6 @@ export default function Form({
     waterDemand: 2,
     nutrientDemand: 2,
     tasks: {
-      // seed: { start: "Early March", end: "Late March" },
       seed: { start: null, end: null },
     },
   },
@@ -300,9 +299,6 @@ export default function Form({
         task={data.tasks}
         taskName="seed"
         onSeedPeriod={handleSeedPeriod}
-        // tasks={{
-        //   seed: { start: null, end: null },
-        // }}
         edit={true}
       ></TaskPeriod>
       <ButtonGroup>

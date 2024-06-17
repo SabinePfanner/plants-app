@@ -18,10 +18,6 @@ export default createGlobalStyle`
   width: 1rem;
 }
 
-*::-webkit-scrollbar-track {
-  /* background: orange; */
-}
-
 *::-webkit-scrollbar-thumb {
   background-color: blue;
   border-radius: 20px;

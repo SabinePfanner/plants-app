@@ -63,7 +63,6 @@ const StyledMonth = styled.div`
 
 const StyledInterval = styled.div`
   display: flex;
-  /* position: relative; */
   width: 100%;
   height: 100%;
   background-color: ${(props) => (props.$highlighted ? "#79af6e" : "#E0E0E0")};
@@ -121,7 +120,6 @@ const StyledDummySection = styled.section`
   display: flex;
   justify-content: center;
   align-content: center;
-  /* align-items: center; */
   grid-column: span 1;
   min-height: 25px;
 `;

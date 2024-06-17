@@ -29,7 +29,6 @@ export const StyledTooltipText = styled.span`
   transition: opacity 0.3s;
 
   &:hover {
-    /* visibility: visible; */
     opacity: 1;
   }
 
