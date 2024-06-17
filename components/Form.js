@@ -9,14 +9,17 @@ import { useState } from "react";
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 800px;
   gap: 0.5rem;
   padding: 1rem;
+  align-self: center;
+  margin: 0 auto;
 `;
 
 const labelStyles = css`
-  font-weight: bold;
+  font-weight: 700;
   margin-top: 0.4rem;
+  color: var(--primary-contrast);
 `;
 const Label = styled.label(labelStyles);
 
@@ -40,11 +43,13 @@ const RadioButtonGroup = styled.div`
 const RadioButtonLabel = styled.label`
   display: flex;
   align-items: flex-end;
+  color: var(--primary-contrast);
 `;
 
 const RangeInputLabels = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--primary-contrast);
 `;
 
 const StyledPeriodSubheader = styled.span`
