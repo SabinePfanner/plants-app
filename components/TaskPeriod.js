@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import {
-  StyledTooltipContainer,
-  StyledTooltipText,
-} from "@/components/StyledElements/HoverTooltip";
 
 const months = [
   "December",
@@ -38,10 +34,7 @@ const StyledPeriodGrid = styled.div`
   grid-template-columns: 40px repeat(36, 1fr);
   grid-column-gap: 0px;
   row-gap: 0.2rem;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  min-width: 600px;
+  min-width: 500px;
   margin: 0rem 0 0.5rem 0;
 `;
 
@@ -58,7 +51,6 @@ const StyledMonth = styled.div`
 
 const StyledInterval = styled.div`
   display: flex;
-  width: 100%;
   height: 100%;
   background-color: ${(props) =>
     props.$highlighted ? props.$color : "#E0E0E0"};
@@ -180,14 +172,14 @@ export default function TaskPeriod({
 
   if (edit || period.end) {
     return (
-      <>
-        <StyledPeriodGrid>
-          {showHeader && <StyledDummySection />}
+      <div key={taskName + "topFragment"}>
+        <StyledPeriodGrid key={taskName + "Grid"}>
+          {showHeader && <StyledDummySection key={taskName + "Dummy"} />}
           {showHeader &&
-            months.map((month, index) => (
+            months.map((month) => (
               <>
                 <StyledMonth
-                  key={month}
+                  key={taskName + month}
                   $alternateBackground={[
                     "December",
                     "January",
@@ -204,6 +196,7 @@ export default function TaskPeriod({
 
           {edit ? (
             <StyledResetButton
+              key={taskName + "ResetButton"}
               type="button"
               onClick={handleResetPeriod}
               onKeyDown={(event) =>
@@ -212,17 +205,27 @@ export default function TaskPeriod({
                   : null
               }
             >
-              <StyledSvgIcon variant="reload" color="grey" size="25" />
+              <StyledSvgIcon
+                variant="reload"
+                color="grey"
+                size="25"
+                key={taskName + "ResetSvg"}
+              />
             </StyledResetButton>
           ) : (
-            <StyledDummySection>
-              <StyledSvgIcon variant={taskName} color="grey" size="25" />
+            <StyledDummySection key={taskName + "Icon"}>
+              <StyledSvgIcon
+                variant={taskName}
+                color="grey"
+                size="25"
+                key={taskName + "IconSvg"}
+              />
             </StyledDummySection>
           )}
           {intervals.map((interval, index) => {
             return (
               <StyledInterval
-                key={interval}
+                key={taskName + interval + index}
                 onClick={() => {
                   edit && handleSetPeriod(interval);
                 }}
@@ -270,21 +273,11 @@ export default function TaskPeriod({
                 tabIndex="0"
               >
                 &nbsp;
-                {!edit &&
-                  index >= periodIndices.start &&
-                  index <= periodIndices.end && (
-                    <StyledTooltipContainer>
-                      <StyledTooltipText>
-                        {taskName[0].toUpperCase() + taskName.slice(1)} period:{" "}
-                        {period.start}-{period.end}
-                      </StyledTooltipText>
-                    </StyledTooltipContainer>
-                  )}
               </StyledInterval>
             );
           })}
         </StyledPeriodGrid>
-      </>
+      </div>
     );
   }
 }

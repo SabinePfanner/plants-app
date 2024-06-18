@@ -59,8 +59,7 @@ const StyledPeriodText = styled.div`
 `;
 
 const StyledPeriodContainer = styled.div`
-  overflow-x: "auto";
-  overflow-y: hidden;
+  overflow-x: auto;
 `;
 
 const StyledNote = styled.p`
@@ -155,35 +154,36 @@ export default function PlantDetails({
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
         <>
-          <StyledPeriodSummaryContainer>
-            {Object.keys(tasksFiltered).map((task, index) => {
+          <StyledPeriodSummaryContainer key = "periodSummariesContainer">
+            {Object.keys(tasksFiltered).map((task) => {
               return (
-                <StyledPeriodSummary key={task} $color={periodColors[task]}>
-                  <StyledPeriodText $weight="bold" $size="1rem">
+                <StyledPeriodSummary key={task + "PeriodSummary"} $color={periodColors[task]}>
+                  <StyledPeriodText $weight="bold" $size="1rem"  key={task + "PeriodSummaryHeader"}>
                     {task}
                   </StyledPeriodText>
-                  <StyledPeriodText $weight="normal" $size="0.9rem">
+                  <StyledPeriodText $weight="normal" $size="0.9rem" key={task + "PeriodSummaryText"}>
                     {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
                   </StyledPeriodText>
                 </StyledPeriodSummary>
               );
             })}
           </StyledPeriodSummaryContainer>
-
-          <StyledPeriodContainer>
-            {Object.keys(tasksFiltered).map((task, index) => {
-              return (
-                <TaskPeriod
-                  key={task}
-                  task={plant.tasks[task]}
-                  taskName={task}
-                  edit={false}
-                  showHeader={index === 0}
-                  color={periodColors[task]}
-                ></TaskPeriod>
-              );
-            })}
-          </StyledPeriodContainer>
+          <div style={{width: "100%", overflowX: "hidden"}}>
+            <StyledPeriodContainer key = "periodContainer">
+              {Object.keys(tasksFiltered).map((task, index) => {
+                return (
+                  <TaskPeriod
+                    key={task + "PeriodGrid"}
+                    task={plant.tasks[task]}
+                    taskName={task}
+                    edit={false}
+                    showHeader={index === 0}
+                    color={periodColors[task]}
+                  ></TaskPeriod>
+                );
+              })}
+            </StyledPeriodContainer>
+          </div>
         </>
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
