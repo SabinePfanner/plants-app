@@ -121,24 +121,27 @@ export default function CardList({
       </FilterContainer>
       <ListContainer>
         <StyledList>
-          {filteredPlants.map((plant) => {
-            return (
-              <Card
-                key={plant._id}
-                name={plant.name}
-                owner={plant.owner}
-                cropType={plant.cropType}
-                image={
-                  plant.image === "undefined" || plant.image === null
-                    ? "/icons/placeholder.png"
-                    : plant.image
-                }
-                isFavorite={favoriteIDs.includes(plant._id)}
-                onToggleFavorite={onToggleFavorite}
-                id={plant._id}
-              />
-            );
-          })}
+          {filteredPlants
+            .slice()
+            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+            .map((plant) => {
+              return (
+                <Card
+                  key={plant._id}
+                  name={plant.name}
+                  owner={plant.owner}
+                  cropType={plant.cropType}
+                  image={
+                    plant.image === "undefined" || plant.image === null
+                      ? "/icons/placeholder.png"
+                      : plant.image
+                  }
+                  isFavorite={favoriteIDs.includes(plant._id)}
+                  onToggleFavorite={onToggleFavorite}
+                  id={plant._id}
+                />
+              );
+            })}
         </StyledList>
       </ListContainer>
     </PageContainer>
