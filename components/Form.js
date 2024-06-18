@@ -139,7 +139,7 @@ const IconWithTextContainer = styled.div`
 // Values for custom select components used in form
 const cropTypes = ["Fruit", "Herb", "Vegetable", "Other"];
 const placements = ["Bed", "Pot", "Pot or Bed"];
-const growingConditions = ["Sunny", "Partial Shade"];
+const growingConditions = ["Sunny", "Partial shade"];
 
 export default function Form({
   onSubmit,

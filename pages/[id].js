@@ -32,11 +32,6 @@ export default function DetailsPage({
   const { id } = router.query;
   const { mutate } = useSWR(`/api/plants`);
   const { data: session } = useSession();
-  const [isDataDefault, setIsDataDefault] = useState();
-
-  function handleIsDataDefault(isDataDefault) {
-    setIsDataDefault(isDataDefault);
-  }
 
   function handleOpenModal() {
     onOpenModal({
@@ -57,6 +52,21 @@ export default function DetailsPage({
       router.push(`/`);
     }
   }
+  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
+
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!plant) {
+    return <h2>Plant not found</h2>;
+  }
+
+  const isDataDefault = plant.owner === "default";
 
   return (
     <>
@@ -67,7 +77,7 @@ export default function DetailsPage({
         id={id}
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
-        onIsDataDefault={handleIsDataDefault}
+        plant={plant}
       />
 
       {session && !isDataDefault ? (

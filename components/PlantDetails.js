@@ -37,24 +37,8 @@ export default function PlantDetails({
   favoriteIDs,
   onToggleFavorite,
   id,
-  onIsDataDefault,
+  plant,
 }) {
-  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
-
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!plant) {
-    return;
-  }
-
-  onIsDataDefault(plant.owner === "default");
-
   return (
     <PageContainer>
       <h1>{plant.name}</h1>
