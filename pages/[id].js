@@ -9,15 +9,14 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import SvgIcon from "@/components/StyledElements/SvgIcon";
 
 const StyledLink = styled(Link)`
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 50px;
+  top: 5px;
+  left: 3px;
   display: flex;
   align-items: center;
-  padding: 10px;
   text-decoration: none;
   color: black;
 `;
@@ -61,7 +60,9 @@ export default function DetailsPage({
 
   return (
     <>
-      <StyledLink href="/">←</StyledLink>
+      <StyledLink href="/">
+        <SvgIcon variant="back" size="25"></SvgIcon>
+      </StyledLink>
       <PlantDetails
         id={id}
         favoriteIDs={favoriteIDs}

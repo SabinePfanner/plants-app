@@ -279,7 +279,7 @@ export default function Form({
         name="name"
         type="text"
         minLength="1"
-        maxLength="75"
+        maxLength="50"
         defaultValue={data.name}
         required
       />

@@ -32,6 +32,7 @@ const CardInfoContainer = styled.div`
   justify-content: space-between;
   margin-top: 8px;
   min-width: 200px;
+  max-width: 200px;
 `;
 
 export default function Card({
