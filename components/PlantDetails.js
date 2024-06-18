@@ -3,6 +3,14 @@ import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
 
+const periodColors = {
+  Seed: "#D27D2D",
+  Cultivation: "#AA336A",
+  Planting: "#79af6e",
+  Harvest: "#E23D28",
+  Pruning: "#71797E",
+};
+
 const PageContainer = styled.div`
   margin: 0 auto;
   max-width: 800px;
@@ -96,14 +104,6 @@ export default function PlantDetails({
   );
   const tasksFiltered = Object.fromEntries(tasksArrayFiltered);
 
-  const periodColors = {
-    Seed: "#D27D2D",
-    Cultivation: "#AA336A",
-    Planting: "#79af6e",
-    Harvest: "#E23D28",
-    Pruning: "#71797E",
-  };
-
   return (
     <PageContainer>
       <h1>{plant.name}</h1>
@@ -153,35 +153,46 @@ export default function PlantDetails({
         </StyledListElement>
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
-        <div key = "periodSummariesContainer">
-          <StyledPeriodSummaryContainer key = "periodSummariesContainer">
+        <div key="periodSummariesContainer">
+          <StyledPeriodSummaryContainer key="periodSummariesContainer">
             {Object.keys(tasksFiltered).map((task) => {
               return (
-                <StyledPeriodSummary key={task + "PeriodSummary"} $color={periodColors[task]}>
-                  <StyledPeriodText $weight="bold" $size="1rem"  key={task + "PeriodSummaryHeader"}>
+                <StyledPeriodSummary
+                  key={task + "PeriodSummary"}
+                  $color={periodColors[task]}
+                >
+                  <StyledPeriodText
+                    $weight="bold"
+                    $size="1rem"
+                    key={task + "PeriodSummaryHeader"}
+                  >
                     {task}
                   </StyledPeriodText>
-                  <StyledPeriodText $weight="normal" $size="0.9rem" key={task + "PeriodSummaryText"}>
+                  <StyledPeriodText
+                    $weight="normal"
+                    $size="0.9rem"
+                    key={task + "PeriodSummaryText"}
+                  >
                     {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
                   </StyledPeriodText>
                 </StyledPeriodSummary>
               );
             })}
           </StyledPeriodSummaryContainer>
-            <StyledPeriodContainer key = "periodContainer">
-              {Object.keys(tasksFiltered).map((task, index) => {
-                return (
-                  <TaskPeriod
-                    key={task + "PeriodGrid"}
-                    task={plant.tasks[task]}
-                    taskName={task}
-                    edit={false}
-                    showHeader={index === 0}
-                    color={periodColors[task]}
-                  ></TaskPeriod>
-                );
-              })}
-            </StyledPeriodContainer>
+          <StyledPeriodContainer key="periodContainer">
+            {Object.keys(tasksFiltered).map((task, index) => {
+              return (
+                <TaskPeriod
+                  key={task + "PeriodGrid"}
+                  task={plant.tasks[task]}
+                  taskName={task}
+                  edit={false}
+                  showHeader={index === 0}
+                  color={periodColors[task]}
+                ></TaskPeriod>
+              );
+            })}
+          </StyledPeriodContainer>
         </div>
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
