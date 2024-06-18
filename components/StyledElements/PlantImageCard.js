@@ -52,6 +52,7 @@ export default function PlantImageCard({
           alt={"Image of plant"}
           $location={location}
           fill
+          sizes="100%"
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>

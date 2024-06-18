@@ -52,6 +52,8 @@ export default function PlantImage({
           alt={"Image of plant"}
           $location={location}
           fill
+          sizes="100%"
+          priority={true}
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
