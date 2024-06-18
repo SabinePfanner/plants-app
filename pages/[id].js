@@ -64,7 +64,7 @@ export default function DetailsPage({
   }
 
   if (!plant) {
-    return;
+    return <h2>Plant not found</h2>;
   }
 
   const isDataDefault = plant.owner === "default";
