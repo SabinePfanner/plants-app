@@ -62,7 +62,7 @@ export default function PlantDetails({
         <PlantImage
           image={
             plant.image === "undefined" || plant.image === null
-              ? "/icons/placeholder.png"
+              ? "/icons/placeholder.jpg"
               : plant.image
           }
           alt={plant.name}

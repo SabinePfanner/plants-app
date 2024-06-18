@@ -150,7 +150,7 @@ export default function Form({
     name: null,
     botanicalName: null,
     cropType: null,
-    image: "/icons/placeholder.png",
+    image: "/icons/placeholder.jpg",
     growingConditions: null,
     placement: null,
     perennial: false,
