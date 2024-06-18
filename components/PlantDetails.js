@@ -60,7 +60,11 @@ export default function PlantDetails({
       <h1>{plant.name}</h1>
       <Figure>
         <PlantImage
-          image={plant.image}
+          image={
+            plant.image === "undefined" || plant.image === null
+              ? "/icons/placeholder.png"
+              : plant.image
+          }
           alt={plant.name}
           isFavorite={favoriteIDs.includes(id) ? true : false}
           onToggleFavorite={onToggleFavorite}

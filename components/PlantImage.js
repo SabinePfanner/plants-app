@@ -48,7 +48,7 @@ export default function PlantImage({
     <PlantImageContainer>
       <Link href={`/${id}`} legacyBehavior>
         <StyledImage
-          src={!image ? "/images/chili.jpg" : image}
+          src={!image ? "/icons/placeholder.png" : image}
           alt={"Image of plant"}
           $location={location}
           fill
