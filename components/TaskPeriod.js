@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 const months = [
   "December",
@@ -134,7 +135,9 @@ export default function TaskPeriod({
   color,
 }) {
   // Task periods (seed etc.)
-  const [localPeriod, setLocalPeriod] = useState(task); // eg { seed: { start: null, end: null } }
+  // const [localPeriod, setLocalPeriod] = useState(task); // eg { seed: { start: null, end: null } }
+  const [localPeriodStart, setLocalPeriodStart] = useState(task.start);
+  const [localPeriodEnd, setLocalPeriodEnd] = useState(task.end);
 
   // Index of interval cell currently hovered
   const [hoverIndex, setHoverIndex] = useState();
@@ -144,33 +147,48 @@ export default function TaskPeriod({
   // - further click start resets if no end selected yet
   // - when start is selected and other interval clicked, it is set as period end
   function handlesetLocalPeriod(interval) {
-    if (!localPeriod.start) {
-      setLocalPeriod({ start: interval, end: null });
-    } else if (localPeriod.start === interval && !(localPeriod.start && localPeriod.end)) {
-      setLocalPeriod({ start: null, end: null });
-    } else if (!localPeriod.end) {
-      setLocalPeriod({ start: localPeriod.start, end: interval });
+    if (!localPeriodStart) {
+      setLocalPeriodStart(interval);
+    } else if (
+      localPeriodStart === interval &&
+      !(localPeriodStart && localPeriodEnd)
+    ) {
+      setLocalPeriodStart(null);
+      setLocalPeriodEnd(null);
+    } else if (!localPeriodEnd) {
+      setLocalPeriodEnd(interval);
     }
   }
+  // function handlesetLocalPeriod(interval) {
+  //   if (!localPeriod.start) {
+  //     setLocalPeriod({ start: interval, end: null });
+  //   } else if (localPeriod.start === interval && !(localPeriod.start && localPeriod.end)) {
+  //     setLocalPeriod({ start: null, end: null });
+  //   } else if (!localPeriod.end) {
+  //     setLocalPeriod({ start: localPeriod.start, end: interval });
+  //   }
+  // }
 
   function handleResetLocalPeriod() {
-    setLocalPeriod({ start: null, end: null });
+    setLocalPeriodStart(null);
+    setLocalPeriodEnd(null);
   }
 
   useEffect(() => {
-    if (edit) onSetPeriod(taskName, localPeriod);
-  }, [localPeriod, taskName, edit]);
+    if (edit)
+      onSetPeriod(taskName, { start: localPeriodStart, end: localPeriodEnd });
+  }, [localPeriodStart, localPeriodEnd, taskName, edit, onSetPeriod]);
 
   const periodIndices = {
-    start: localPeriod.start
-      ? intervals.findIndex((interval) => interval === localPeriod.start)
+    start: localPeriodStart
+      ? intervals.findIndex((interval) => interval === localPeriodStart)
       : null,
-    end: localPeriod.end
-      ? intervals.findIndex((interval) => interval === localPeriod.end)
+    end: localPeriodEnd
+      ? intervals.findIndex((interval) => interval === localPeriodEnd)
       : null,
   };
 
-  if (edit || localPeriod.end) {
+  if (edit || localPeriodEnd) {
     return (
       <div key={taskName + "topFragment"}>
         <StyledPeriodGrid key={taskName + "Grid"}>
@@ -233,7 +251,8 @@ export default function TaskPeriod({
                   const extraIndex = event.shiftKey ? -1 : 1;
                   event.key === "Enter" || event.key === " "
                     ? handlesetLocalPeriod(interval)
-                    : event.key === "Tab" && !(localPeriod.start && localPeriod.end)
+                    : event.key === "Tab" &&
+                      !(localPeriodStart && localPeriodEnd)
                     ? setHoverIndex(
                         intervals.findIndex(
                           (intervalIntern) => interval === intervalIntern
@@ -242,7 +261,7 @@ export default function TaskPeriod({
                     : null;
                 }}
                 onMouseOver={() => {
-                  !(localPeriod.start && localPeriod.end) &&
+                  !(localPeriodStart && localPeriodEnd) &&
                     setHoverIndex(
                       intervals.findIndex(
                         (intervalIntern) => interval === intervalIntern
@@ -252,23 +271,23 @@ export default function TaskPeriod({
                 $highlighted={
                   // highlight intervals if period start is set & interval >= start & hovered/within set interval
                   (index === hoverIndex &&
-                    !localPeriod.start &&
+                    !localPeriodStart &&
                     hoverIndex !== -1) ||
-                  interval === localPeriod.start ||
-                  (localPeriod.start &&
+                  interval === localPeriodStart ||
+                  (localPeriodStart &&
                     index > periodIndices.start &&
                     (index <= hoverIndex || index <= periodIndices.end))
                 }
-                $isPeriodStart={interval === localPeriod.start}
-                $isPeriodEnd={localPeriod.start && interval === localPeriod.end}
+                $isPeriodStart={interval === localPeriodStart}
+                $isPeriodEnd={localPeriodStart && interval === localPeriodEnd}
                 $precedesPeriodStart={index === periodIndices.start - 1}
                 $followsPeriodEnd={
-                  localPeriod.start &&
-                  localPeriod.end &&
+                  localPeriodStart &&
+                  localPeriodEnd &&
                   index === periodIndices.end + 1 &&
                   (!edit || index === hoverIndex + 1)
                 }
-                $active={!(localPeriod.start && localPeriod.end)}
+                $active={!(localPeriodStart && localPeriodEnd)}
                 $color={color}
                 tabIndex="0"
               >
