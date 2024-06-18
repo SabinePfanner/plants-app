@@ -2,13 +2,14 @@ import CardList from "@/components/CardList.js";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
-import Login from "@/components/Login";
+import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
 
 export default function HomePage({ favoriteIDs, onToggleFavorite }) {
   const [filter, setFilter] = useState({
     cropType: [],
     placement: [],
     growingConditions: [],
+    activePeriods: [],
   });
 
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
@@ -25,6 +26,8 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
     return;
   }
 
+  const activeTasksByPlant = getActiveTasksByPlant(plants, months);
+
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {
       // if it's in, remove
@@ -40,6 +43,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
       cropType: [],
       placement: [],
       growingConditions: [],
+      activePeriods: [],
     });
   }
 
@@ -53,6 +57,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
         onToggleFilter={toggleFilter}
         onResetFilter={resetFilter}
         filter={filter}
+        activeTasksByPlant={activeTasksByPlant}
       />
       <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
     </>

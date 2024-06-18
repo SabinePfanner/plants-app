@@ -62,12 +62,15 @@ const StyledInterval = styled.div`
   height: 100%;
   background-color: ${(props) =>
     props.$highlighted ? props.$color : "#E0E0E0"};
+  
   justify-content: center;
   color: ${(props) => (props.$highlighted ? "#79af6e" : "lightgrey")};
   border-right: 0.05rem solid white;
   font-size: 0rem;
   min-height: 25px;
   cursor: default;
+
+  ${(props) => props.$isCurrentInterval && `filter: brightness(85%);`};
 
   border-radius: ${(props) =>
     props.$isPeriodStart
@@ -144,11 +147,10 @@ export default function TaskPeriod({
   edit = false,
   showHeader = true,
   color,
+  currentInterval,
 }) {
   // Task periods (seed etc.)
   const [period, setPeriod] = useState(task); // eg { seed: { start: null, end: null } }
-
-  console.log("Period in TaskPeriod: ", period);
 
   // Index of interval cell currently hovered
   const [hoverIndex, setHoverIndex] = useState();
@@ -273,6 +275,7 @@ export default function TaskPeriod({
                 }
                 $active={!(period.start && period.end)}
                 $color={color}
+                $isCurrentInterval={!edit && interval === currentInterval}
                 tabIndex="0"
               >
                 &nbsp;

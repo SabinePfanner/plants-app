@@ -134,7 +134,7 @@ export default function MultiSelectDropdown({
                 <Checkbox
                   type="checkbox"
                   checked={isSelected}
-                  tabindex="-1"
+                  tabIndex="-1"
                 ></Checkbox>
                 <span>{option}</span>
               </Options>

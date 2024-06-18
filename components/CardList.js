@@ -89,65 +89,56 @@ export default function CardList({
   onToggleFilter,
   onResetFilter,
   filter,
+  activeTasksByPlant,
 }) {
   const filterOptions = {
     cropType: ["Fruit", "Herb", "Vegetable", "Other"],
     placement: ["Bed", "Pot"],
     growingConditions: ["Sunny", "Partial shade"],
+    activePeriods: ["Seed", "Cultivation", "Planting", "Harvest", "Pruning"],
   };
 
-  const filteredPlants = plants.filter((plant) =>
-    Object.keys(filter).every(
-      (category) =>
-        filter[category].length === 0 ||
-        filter[category].some((filter) => plant[category].includes(filter))
-    )
-  );
+  const filterOptionsLabels = {
+    cropType: "Crop Type",
+    placement: "Placement",
+    growingConditions: "Growing Conditions",
+    activePeriods: "Current Tasks",
+  };
 
-  // let idx = 1;
-
-  // function filterPlants(plants, filters) {
-  
-  //   const category = Object.keys(filters)[idx - 1];
-
-  //   if (idx <= Object.keys(filters).length) {
-  //     const filteredPlants = plants.filter((plant) =>
-  //       filters[category].length === 0 ||
-  //       filters[category].some((filter) => plant[category].includes(filter))
-  //     );
-  //     idx++;
-  //     return filterPlants(filteredPlants, filters);
-  //   } else {
-  //     return plants;
-  //   }
-  // }
-
-  // const filteredPlants = filterPlants(plants, filter);
+  const filteredPlants = plants.filter((plant) => {
+    return Object.keys(filter).every((category) => {
+      if (category === "activePeriods") {
+        const plantIdIndex = activeTasksByPlant.findIndex(
+          (activePlantTask) => activePlantTask[0] === plant._id
+        );
+        return (
+          filter[category].length === 0 ||
+          filter[category].some((filter) =>
+            activeTasksByPlant[plantIdIndex][1].includes(filter)
+          )
+        );
+      } else {
+        return (
+          filter[category].length === 0 ||
+          filter[category].some((filter) => plant[category].includes(filter))
+        );
+      }
+    });
+  });
 
   return (
     <>
       <FilterContainer>
-        <MultiSelectDropdown
-          options={filterOptions.cropType}
-          selected={filter.cropType}
-          toggleOption={onToggleFilter}
-          category={"cropType"}
-          label={"Crop Type"}
-        />
-        <MultiSelectDropdown
-          options={filterOptions.placement}
-          selected={filter.placement}
-          toggleOption={onToggleFilter}
-          category={"placement"}
-          label={"Placement"}
-        />
-        <MultiSelectDropdown
-          options={filterOptions.growingConditions}
-          selected={filter.growingConditions}
-          toggleOption={onToggleFilter}
-          category={"growingConditions"}
-          label={"Growing Conditions"}
-        />
+        {Object.keys(filterOptions).map((option) => (
+          <MultiSelectDropdown
+            key={option}
+            options={filterOptions[option]}
+            selected={filter[option]}
+            toggleOption={onToggleFilter}
+            category={option}
+            label={filterOptionsLabels[option]}
+          />
+        ))}
         <ResetButton type="reset" onClick={onResetFilter}>
           <SvgIcon variant="reload" color="#fff" />
         </ResetButton>

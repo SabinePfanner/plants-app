@@ -4,6 +4,7 @@ import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
 import styled from "styled-components";
+import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
 
 const StyledInfo = styled.p`
   margin-top: -25px;
@@ -19,7 +20,9 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     cropType: [],
     placement: [],
     growingConditions: [],
+    activePeriods: [],
   });
+
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -38,6 +41,8 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     favoriteIDs.includes(plant._id)
   );
 
+  const activeTasksByPlant = getActiveTasksByPlant(plants, months);
+
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {
       // if it's in, remove
@@ -53,6 +58,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       cropType: [],
       placement: [],
       growingConditions: [],
+      activePeriods: [],
     });
   }
 
@@ -77,6 +83,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           onToggleFilter={toggleFilter}
           onResetFilter={resetFilter}
           filter={filter}
+          activeTasksByPlant={activeTasksByPlant}
         />
       )}
       <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
