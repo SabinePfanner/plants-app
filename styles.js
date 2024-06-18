@@ -61,7 +61,7 @@ export default createGlobalStyle`
   }
 
   main {
-    margin-bottom: 15vh;
+    margin-bottom: 10vh;
   }
 
   h1 {

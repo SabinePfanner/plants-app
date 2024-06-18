@@ -76,6 +76,11 @@ export default function MultiSelectDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const [activeOption, setActiveOption] = useState(-1);
+  const [isChecked, setIsChecked] = useState(false);
+
+  function checkHandler() {
+    setIsChecked(!isChecked);
+  }
 
   return (
     <MultiSelectContainer
@@ -101,13 +106,12 @@ export default function MultiSelectDropdown({
           <label>{label} ↓</label>
         </SelectPlaceholder>
       )}
-      <OptionList $open={open}>
+      <OptionList key={category} $open={open}>
         {options.map((option, index) => {
           const isSelected = selected.includes(option);
           return (
-            <>
+            <div key={option}>
               <Options
-                key={options}
                 $isActive={index === activeOption}
                 onClick={() => toggleOption(category, option)}
                 onKeyDown={(event) => {
@@ -135,11 +139,12 @@ export default function MultiSelectDropdown({
                 <Checkbox
                   type="checkbox"
                   checked={isSelected}
+                  onChange={checkHandler}
                   tabIndex="-1"
                 ></Checkbox>
                 <span>{option}</span>
               </Options>
-            </>
+            </div>
           );
         })}
       </OptionList>
