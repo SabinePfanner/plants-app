@@ -30,7 +30,7 @@ export default function Header({ onOpenModal, onCloseModal }) {
 
   return (
     <HeaderContainer>
-      <Logo></Logo>
+      <Logo />
       <Login onOpenModal={handleOpenModal} />
     </HeaderContainer>
   );
