@@ -54,6 +54,9 @@ export default function PlantImage({
           fill
           sizes="100%"
           priority={true}
+          style={{
+            objectFit: "cover",
+          }}
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
