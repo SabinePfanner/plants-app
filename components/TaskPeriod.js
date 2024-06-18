@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 const months = [
   "December",
@@ -155,19 +154,10 @@ export default function TaskPeriod({
     ) {
       setLocalPeriodStart(null);
       setLocalPeriodEnd(null);
-    } else if (!localPeriodEnd) {
+    } else if (!localPeriodEnd && hoverIndex > periodIndices.start) {
       setLocalPeriodEnd(interval);
     }
   }
-  // function handlesetLocalPeriod(interval) {
-  //   if (!localPeriod.start) {
-  //     setLocalPeriod({ start: interval, end: null });
-  //   } else if (localPeriod.start === interval && !(localPeriod.start && localPeriod.end)) {
-  //     setLocalPeriod({ start: null, end: null });
-  //   } else if (!localPeriod.end) {
-  //     setLocalPeriod({ start: localPeriod.start, end: interval });
-  //   }
-  // }
 
   function handleResetLocalPeriod() {
     setLocalPeriodStart(null);
@@ -175,8 +165,7 @@ export default function TaskPeriod({
   }
 
   useEffect(() => {
-    if (edit)
-      onSetPeriod(taskName, { start: localPeriodStart, end: localPeriodEnd });
+    if (edit) onSetPeriod({ start: localPeriodStart, end: localPeriodEnd });
   }, [localPeriodStart, localPeriodEnd, taskName, edit, onSetPeriod]);
 
   const periodIndices = {
@@ -195,21 +184,19 @@ export default function TaskPeriod({
           {showHeader && <StyledDummySection key={taskName + "Dummy"} />}
           {showHeader &&
             months.map((month) => (
-              <>
-                <StyledMonth
-                  key={taskName + month}
-                  $alternateBackground={[
-                    "December",
-                    "January",
-                    "February",
-                    "June",
-                    "July",
-                    "August",
-                  ].includes(month)}
-                >
-                  {month.substring(0, 3)}
-                </StyledMonth>
-              </>
+              <StyledMonth
+                key={taskName + month}
+                $alternateBackground={[
+                  "December",
+                  "January",
+                  "February",
+                  "June",
+                  "July",
+                  "August",
+                ].includes(month)}
+              >
+                {month.substring(0, 3)}
+              </StyledMonth>
             ))}
 
           {edit ? (

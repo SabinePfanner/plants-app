@@ -119,11 +119,45 @@ export default function Form({
   }
 
   // Periods
-  const [periods, setPeriods] = useState(data.tasks);
+  const [seedPeriod, setSeedPeriod] = useState(data.tasks.Seed);
+  const [cultivationPeriod, setCultivationPeriod] = useState(
+    data.tasks.Cultivation
+  );
+  const [plantingPeriod, setPlantingPeriod] = useState(data.tasks.Planting);
+  const [harvestPeriod, setHarvestPeriod] = useState(data.tasks.Harvest);
+  const [pruningPeriod, setPruningPeriod] = useState(data.tasks.Pruning);
 
-  function handleSetPeriod(task, period) {
-    setPeriods({ ...periods, [task]: period });
+  const definedPeriods = {
+    Seed: seedPeriod,
+    Cultivation: cultivationPeriod,
+    Planting: plantingPeriod,
+    Harvest: harvestPeriod,
+    Pruning: pruningPeriod,
+  };
+
+  function handleSetSeedPeriod(period) {
+    setSeedPeriod(period);
   }
+  function handleSetCultivationPeriod(period) {
+    setCultivationPeriod(period);
+  }
+  function handleSetPlantingPeriod(period) {
+    setPlantingPeriod(period);
+  }
+  function handleSetHarvestPeriod(period) {
+    setHarvestPeriod(period);
+  }
+  function handleSetPruningPeriod(period) {
+    setPruningPeriod(period);
+  }
+
+  const periodHandleFunctions = {
+    Seed: setSeedPeriod,
+    Cultivation: setCultivationPeriod,
+    Planting: setPlantingPeriod,
+    Harvest: setHarvestPeriod,
+    Pruning: setPruningPeriod,
+  };
 
   function checkSelectInput(input, name) {
     if (!input) {
@@ -149,7 +183,7 @@ export default function Form({
       formData.set("growingConditions", currentGrowingConditions);
 
       const plantData = Object.fromEntries(formData);
-      plantData.tasks = periods; // needs to be inserted here, since it is an object, not a string
+      plantData.tasks = definedPeriods; // needs to be inserted here, since it is an object, not a string
 
       onSubmit(plantData);
     }
@@ -296,27 +330,27 @@ export default function Form({
       <br />
       {Object.keys(data.tasks).map((task) => {
         return (
-          <>
+          <div key={task}>
             <Label htmlFor={task}>
               {task} period:{" "}
               <StyledPeriodSubheader>
-                {periods[task].start === null
+                {definedPeriods[task].start === null
                   ? "click an interval to set period start"
-                  : periods[task].end === null
+                  : definedPeriods[task].end === null
                   ? "click an interval to set period end"
-                  : `${periods[task].start} \u2013 ${periods[task].end}`}
+                  : `${definedPeriods[task].start} \u2013 ${definedPeriods[task].end}`}
               </StyledPeriodSubheader>
             </Label>{" "}
             <StyledPeriodContainer>
               <TaskPeriod
                 task={data.tasks[task]}
                 taskName={task}
-                onSetPeriod={handleSetPeriod}
+                onSetPeriod={periodHandleFunctions[task]}
                 edit={true}
                 color="#79af6e"
               ></TaskPeriod>
             </StyledPeriodContainer>
-          </>
+          </div>
         );
       })}
       <ButtonGroup>

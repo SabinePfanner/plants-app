@@ -153,7 +153,7 @@ export default function PlantDetails({
         </StyledListElement>
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
-        <>
+        <div key = "periodSummariesContainer">
           <StyledPeriodSummaryContainer key = "periodSummariesContainer">
             {Object.keys(tasksFiltered).map((task) => {
               return (
@@ -168,7 +168,6 @@ export default function PlantDetails({
               );
             })}
           </StyledPeriodSummaryContainer>
-          <div style={{width: "100%", overflowX: "hidden"}}>
             <StyledPeriodContainer key = "periodContainer">
               {Object.keys(tasksFiltered).map((task, index) => {
                 return (
@@ -183,8 +182,7 @@ export default function PlantDetails({
                 );
               })}
             </StyledPeriodContainer>
-          </div>
-        </>
+        </div>
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
