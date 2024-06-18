@@ -27,7 +27,7 @@ const StyledList = styled.ul`
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 599px) {
     // iPhone SE
     grid-template-columns: 1fr;
   }
@@ -81,15 +81,24 @@ export default function CardList({
     cropType: ["Fruit", "Herb", "Vegetable", "Other"],
     placement: ["Bed", "Pot"],
     growingConditions: ["Sunny", "Partial shade"],
+    owner: ["Default crops", "My crops"],
   };
 
-  const filteredPlants = plants.filter((plant) =>
-    Object.keys(filter).every(
-      (category) =>
+  const filteredPlants = plants.filter((plant) => {
+    return Object.keys(filter).every((category) => {
+      if (category === "owner" && filter[category].includes("My crops")) {
+        return plant[category] !== "default";
+      }
+      if (category === "owner" && filter[category].includes("Default crops")) {
+        return plant[category] === "default";
+      }
+
+      return (
         filter[category].length === 0 ||
         filter[category].some((filter) => plant[category].includes(filter))
-    )
-  );
+      );
+    });
+  });
 
   return (
     <PageContainer>
@@ -115,6 +124,14 @@ export default function CardList({
           category={"growingConditions"}
           label={"Growing Conditions"}
         />
+        <MultiSelectDropdown
+          options={filterOptions.owner}
+          selected={filter.owner}
+          toggleOption={onToggleFilter}
+          category={"owner"}
+          label={"Crop Owner"}
+        />
+
         <ResetButton type="reset" onClick={onResetFilter}>
           <SvgIcon variant="reload" color="#fff" />
         </ResetButton>
@@ -128,7 +145,11 @@ export default function CardList({
                 name={plant.name}
                 owner={plant.owner}
                 cropType={plant.cropType}
-                image={plant.image}
+                image={
+                  plant.image === "undefined" || plant.image === null
+                    ? "/icons/placeholder.png"
+                    : plant.image
+                }
                 isFavorite={favoriteIDs.includes(plant._id)}
                 onToggleFavorite={onToggleFavorite}
                 id={plant._id}

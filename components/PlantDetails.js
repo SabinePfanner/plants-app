@@ -79,24 +79,9 @@ export default function PlantDetails({
   favoriteIDs,
   onToggleFavorite,
   id,
-  onIsDataDefault,
+  plant,
 }) {
-  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
-
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!plant) {
-    return;
-  }
-
-  onIsDataDefault(plant.owner === "default");
-
+  
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
   const tasksArrayFiltered = tasksArray.filter(
@@ -109,7 +94,11 @@ export default function PlantDetails({
       <h1>{plant.name}</h1>
       <Figure>
         <PlantImage
-          image={plant.image}
+          image={
+            plant.image === "undefined" || plant.image === null
+              ? "/icons/placeholder.png"
+              : plant.image
+          }
           alt={plant.name}
           isFavorite={favoriteIDs.includes(id) ? true : false}
           onToggleFavorite={onToggleFavorite}

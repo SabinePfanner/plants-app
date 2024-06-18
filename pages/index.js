@@ -8,6 +8,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
     cropType: [],
     placement: [],
     growingConditions: [],
+    owner: [],
   });
 
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
@@ -39,6 +40,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
       cropType: [],
       placement: [],
       growingConditions: [],
+      owner: [],
     });
   }
 
