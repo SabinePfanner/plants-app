@@ -29,6 +29,7 @@ const tasksSchema = new Schema(
   { _id: false }
 );
 
+
 const plantSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -49,6 +50,7 @@ const plantSchema = new Schema(
   },
   { timestamps: true }
 );
+
 
 const Plant = mongoose.models.Plant || mongoose.model("Plant", plantSchema);
 

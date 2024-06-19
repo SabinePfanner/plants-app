@@ -48,10 +48,15 @@ export default function PlantImageCard({
     <PlantImageContainer>
       <Link href={`/${id}`} legacyBehavior>
         <StyledImage
-          src={!image ? "/icons/placeholder.png" : image}
+          src={!image ? "/icons/placeholder.jpg" : image}
           alt={"Image of plant"}
           $location={location}
           fill
+          sizes="100%"
+          priority={true}
+          style={{
+            objectFit: "cover",
+          }}
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
