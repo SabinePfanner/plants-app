@@ -1,62 +1,86 @@
-import PlantImage from "@/components/PlantImage";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import PlantListImage from "./StyledElements/PlantListImage";
+import PlantImageCard from "./StyledElements/PlantImageCard";
 
 const CardContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin: 1rem;
-  padding: 2rem 1rem 1rem 1rem;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.5rem 1rem 1rem 1rem;
   border: transparent;
   border-radius: 0.5rem;
-  max-width: 300px;
+  width: 230px;
+  height: 230px;
+  background: #fff;
+  box-shadow: 0 4px 6px var(--primary);
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+`;
+
+const DefaultLock = styled.div`
+  position: absolute;
+  top: 2.5px;
+  left: 0.5px;
 `;
 
 const CardInfoContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-`;
-
-const StyledFavoriteButton = styled.button`
-  position: relative;
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  width: 2.5rem;
-  height: 2.5rem;
-  top: -11.7rem;
-  background: transparent;
-  border: none;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
+  margin-top: 8px;
+  min-width: 200px;
+  max-width: 200px;
 `;
 
 export default function Card({
   image,
   name,
   cropType,
+  owner,
   id,
   isFavorite,
   onToggleFavorite,
 }) {
   return (
     <CardContainer>
-      <PlantListImage
+      {owner === "default" && (
+        <DefaultLock>
+          <SvgIcon
+            variant="default"
+            color="var(--primary-constrast)"
+            size="16"
+          ></SvgIcon>
+        </DefaultLock>
+      )}
+      <PlantImageCard
         image={image}
         isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
         id={id}
       />
       <CardInfoContainer>
-        <div>{name}</div> <div>{cropType}</div>
+        <div>{name}</div>{" "}
+        {cropType === "Fruit" ? (
+          <div>
+            <SvgIcon variant="fruit" color="var(--secondary)" size="25" />
+          </div>
+        ) : cropType === "Vegetable" ? (
+          <div>
+            <SvgIcon variant="vegetable" color="var(--accent)" size="25" />
+          </div>
+        ) : cropType === "Herb" ? (
+          <div>
+            <SvgIcon variant="herb" color="var(--primary)" size="25" />
+          </div>
+        ) : (
+          <div>
+            <SvgIcon variant="other" color="var(--primary)" size="25" />
+          </div>
+        )}
       </CardInfoContainer>
-      <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
-        <SvgIcon variant="chili" color={isFavorite ? "#E23D28" : "#79af6e"} />
-      </StyledFavoriteButton>
     </CardContainer>
   );
 }

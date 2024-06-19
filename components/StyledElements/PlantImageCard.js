@@ -35,7 +35,7 @@ const StyledFavoriteButton = styled.button`
   }
 `;
 
-export default function PlantImage({
+export default function PlantImageCard({
   image,
   isFavorite,
   onToggleFavorite,

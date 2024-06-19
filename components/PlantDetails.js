@@ -8,9 +8,22 @@ import {
   months,
 } from "@/utils/TaskPeriodUtils";
 
+const periodColors = {
+  Seed: "#D27D2D",
+  Cultivation: "#AA336A",
+  Planting: "#79af6e",
+  Harvest: "#E23D28",
+  Pruning: "#71797E",
+};
+
+const PageContainer = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
 const HighlightBox = styled.section`
   margin: 1rem;
-  background-color: var(--color-green);
+  background-color: var(--primary);
   border-radius: 5px;
 `;
 
@@ -75,8 +88,7 @@ const StyledPeriodText = styled.div`
 `;
 
 const StyledPeriodContainer = styled.div`
-  overflow-x: "auto";
-  overflow-y: hidden;
+  overflow-x: auto;
 `;
 
 const StyledNote = styled.p`
@@ -88,24 +100,9 @@ export default function PlantDetails({
   favoriteIDs,
   onToggleFavorite,
   id,
-  onIsDataDefault,
+  plant,
 }) {
-  const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
-
-  if (error) {
-    return <p>Could not fetch data!</p>;
-  }
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!plant) {
-    return;
-  }
-
-  onIsDataDefault(plant.owner === "default");
-
+  
   // Get current time period / interval
   const currentInterval = getCurrentInterval(months);
   const currentTasks = getActiveTasksByPlant([plant], months)[0][1];
@@ -136,11 +133,15 @@ export default function PlantDetails({
   };
 
   return (
-    <>
+    <PageContainer>
       <h1>{plant.name}</h1>
       <Figure>
         <PlantImage
-          image={plant.image}
+          image={
+            plant.image === "undefined" || plant.image === null
+              ? "/icons/placeholder.jpg"
+              : plant.image
+          }
           alt={plant.name}
           isFavorite={favoriteIDs.includes(id) ? true : false}
           onToggleFavorite={onToggleFavorite}
@@ -184,8 +185,8 @@ export default function PlantDetails({
         </StyledListElement>
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
-        <>
-          {Object.keys(activeTasks).length > 0 && (
+        <div key="periodSummariesContainer">
+                 {Object.keys(activeTasks).length > 0 && (
             <StyledPeriodSummaryContainer>
               <StyledPeriodSummaryHeader>
                 Current tasks
@@ -207,9 +208,8 @@ export default function PlantDetails({
               })}
             </StyledPeriodSummaryContainer>
           )}
-
-          {Object.keys(inactiveTasks).length > 0 && (
-            <StyledPeriodSummaryContainer>
+         {Object.keys(inactiveTasks).length > 0 && (
+            <StyledPeriodSummaryContainer  key="periodSummariesContainer">
               <StyledPeriodSummaryHeader>Other tasks</StyledPeriodSummaryHeader>
               {Object.keys(inactiveTasks).map((task) => {
                 return (
@@ -233,7 +233,7 @@ export default function PlantDetails({
             {Object.keys(tasksFiltered).map((task, index) => {
               return (
                 <TaskPeriod
-                  key={task}
+                  key={task + "PeriodGrid"}
                   task={plant.tasks[task]}
                   taskName={task}
                   edit={false}
@@ -244,10 +244,11 @@ export default function PlantDetails({
               );
             })}
           </StyledPeriodContainer>
-        </>
+        </div>
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
-    </>
+      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
+    </PageContainer>
   );
 }

@@ -10,6 +10,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
     placement: [],
     growingConditions: [],
     activePeriods: [],
+    owner: [],
   });
 
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
@@ -44,6 +45,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
       placement: [],
       growingConditions: [],
       activePeriods: [],
+      owner: [],
     });
   }
 
@@ -59,7 +61,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
         filter={filter}
         activeTasksByPlant={activeTasksByPlant}
       />
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
+      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
     </>
   );
 }

@@ -41,7 +41,9 @@ const plantSchema = new Schema({
   },
   image: { type: String },
   owner: { type: String, required: true },
-});
+},
+  { timestamps: true }
+);
 
 const Plant = mongoose.models.Plant || mongoose.model("Plant", plantSchema);
 

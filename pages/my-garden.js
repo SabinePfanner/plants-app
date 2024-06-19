@@ -21,6 +21,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     placement: [],
     growingConditions: [],
     activePeriods: [],
+    owner: [],
   });
 
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
@@ -59,6 +60,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       placement: [],
       growingConditions: [],
       activePeriods: [],
+      owner: [],
     });
   }
 
@@ -73,7 +75,8 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
         <h2>
           No plants bookmarked yet.
           <br /> Add crops to your garden by clicking on a plant&apos;s favorite
-          button <SvgIcon variant={"chili"} color={"#79af6e"} size={20} />.
+          button{" "}
+          <SvgIcon variant={"chili"} color={"var(--primary)"} size={20} />.
         </h2>
       ) : (
         <CardList
@@ -86,7 +89,7 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           activeTasksByPlant={activeTasksByPlant}
         />
       )}
-      <SvgLinkButton href="/create" variant="plus" color="#E23D28" />
+      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
     </>
   );
 }

@@ -39,7 +39,7 @@ export function CustomSelect({
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
-    background: #fafafa;
+    background: #eee;
     ${(p) =>
       p.$isVisible !== true &&
       css`
@@ -50,15 +50,16 @@ export function CustomSelect({
   const DropdownItem = styled.div`
     margin: 0.3rem 0;
     font-size: 0.9rem;
+    color: var(--primary-contrast);
     cursor: pointer;
     ${(props) =>
       props.$active &&
       css`
-        color: var(--color-green);
+        color: var(--primary);
         font-weight: 500;
       `}
     &:hover, :focus, :focus:hover {
-      background-color: var(--color-green);
+      background-color: var(--primary);
       color: #fff;
       outline: 0;
     }

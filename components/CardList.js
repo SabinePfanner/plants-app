@@ -3,56 +3,43 @@ import styled from "styled-components";
 import MultiSelectDropdown from "./StyledElements/MultiSelect";
 import SvgIcon from "./StyledElements/SvgIcon";
 
-const StyledListContainer = styled.div`
+const PageContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
 const StyledList = styled.ul`
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  gap: 1rem;
-`;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-row: auto;
+  grid-gap: 0.5rem;
+  padding-inline-start: 0;
 
-const StyledListElement = styled.li`
-  flex: 1 1 calc(50% - 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 300px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-  @media (max-width: 768px) {
-    flex: 1 1 calc(100% - 1rem);
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 599px) {
     // iPhone SE
-    flex: 1 1 calc(100% - 0.5rem);
-    margin: 0.25rem;
+    grid-template-columns: 1fr;
   }
 
   @media (min-width: 1024px) {
     // Desktop (3-column layout)
-    flex: 1 1 calc(33.33% - 1rem);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @media (min-width: 1440px) {
     // Larger screen (4-column layout)
-    flex: 1 1 calc(25% - 1rem);
+    grid-template-columns: repeat(6, 1fr);
   }
 `;
 
@@ -74,11 +61,11 @@ const ResetButton = styled.button`
   border-radius: 0.5rem;
   margin: 0 5px;
   padding: 4px;
-  background-color: #e62600;
+  background-color: var(--secondary);
 
   &:hover {
     cursor: pointer;
-    background-color: #ff4a26;
+    background-color: var(--secondary-light-300);
   }
 `;
 
@@ -96,6 +83,7 @@ export default function CardList({
     placement: ["Bed", "Pot"],
     growingConditions: ["Sunny", "Partial shade"],
     activePeriods: ["Seed", "Cultivation", "Planting", "Harvest", "Pruning"],
+    owner: ["Default crops", "My crops"],
   };
 
   const filterOptionsLabels = {
@@ -127,7 +115,7 @@ export default function CardList({
   });
 
   return (
-    <>
+    <PageContainer>
       <FilterContainer>
         {Object.keys(filterOptions).map((option) => (
           <MultiSelectDropdown
@@ -143,24 +131,28 @@ export default function CardList({
           <SvgIcon variant="reload" color="#fff" />
         </ResetButton>
       </FilterContainer>
-      <StyledListContainer>
+      <ListContainer>
         <StyledList>
           {filteredPlants.map((plant) => {
             return (
-              <StyledListElement key={plant._id}>
-                <Card
-                  name={plant.name}
-                  cropType={plant.cropType}
-                  image={plant.image}
-                  isFavorite={favoriteIDs.includes(plant._id)}
-                  onToggleFavorite={onToggleFavorite}
-                  id={plant._id}
-                />
-              </StyledListElement>
+              <Card
+                key={plant._id}
+                name={plant.name}
+                owner={plant.owner}
+                cropType={plant.cropType}
+                image={
+                  plant.image === "undefined" || plant.image === null
+                    ? "/icons/placeholder.jpg"
+                    : plant.image
+                }
+                isFavorite={favoriteIDs.includes(plant._id)}
+                onToggleFavorite={onToggleFavorite}
+                id={plant._id}
+              />
             );
           })}
         </StyledList>
-      </StyledListContainer>
-    </>
+      </ListContainer>
+    </PageContainer>
   );
 }
