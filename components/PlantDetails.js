@@ -2,6 +2,11 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
+import {
+  getCurrentInterval,
+  getActiveTasksByPlant,
+  months,
+} from "@/utils/TaskPeriodUtils";
 
 const periodColors = {
   Seed: "#D27D2D",
@@ -43,10 +48,15 @@ const Figure = styled.figure`
 
 const StyledPeriodSummaryContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   margin: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 0.1rem solid grey;
+  border-radius: 0.5rem;
 `;
 
 const StyledPeriodSummary = styled.div`
@@ -55,9 +65,20 @@ const StyledPeriodSummary = styled.div`
   background: ${(props) => props.$color};
   color: white;
   align-items: center;
-  padding: 0.5rem 1rem;
-  margin: 1rem 0.5rem 1rem 1rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
   border-radius: 0.5rem;
+`;
+
+const StyledPeriodSummaryHeader = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: -1rem;
+  background: white;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid grey;
 `;
 
 const StyledPeriodText = styled.div`
@@ -82,12 +103,34 @@ export default function PlantDetails({
   plant,
 }) {
   
+  // Get current time period / interval
+  const currentInterval = getCurrentInterval(months);
+  const currentTasks = getActiveTasksByPlant([plant], months)[0][1];
+
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
   const tasksArrayFiltered = tasksArray.filter(
     (task) => task[1].start && task[1].end
   );
+
+  const activeTasksArray = tasksArrayFiltered.filter((task) =>
+    currentTasks.includes(task[0])
+  );
+  const inactiveTasksArray = tasksArrayFiltered.filter(
+    (task) => !currentTasks.includes(task[0])
+  );
+
   const tasksFiltered = Object.fromEntries(tasksArrayFiltered);
+  const activeTasks = Object.fromEntries(activeTasksArray);
+  const inactiveTasks = Object.fromEntries(inactiveTasksArray);
+
+  const periodColors = {
+    Seed: "#D27D2D",
+    Cultivation: "#FFC000",
+    Planting: "#79af6e",
+    Harvest: "#E23D28",
+    Pruning: "#71797E",
+  };
 
   return (
     <PageContainer>
@@ -143,32 +186,50 @@ export default function PlantDetails({
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
-          <StyledPeriodSummaryContainer key="periodSummariesContainer">
-            {Object.keys(tasksFiltered).map((task) => {
-              return (
-                <StyledPeriodSummary
-                  key={task + "PeriodSummary"}
-                  $color={periodColors[task]}
-                >
-                  <StyledPeriodText
-                    $weight="bold"
-                    $size="1rem"
-                    key={task + "PeriodSummaryHeader"}
-                  >
-                    {task}
-                  </StyledPeriodText>
-                  <StyledPeriodText
-                    $weight="normal"
-                    $size="0.9rem"
-                    key={task + "PeriodSummaryText"}
-                  >
-                    {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
-                  </StyledPeriodText>
-                </StyledPeriodSummary>
-              );
-            })}
-          </StyledPeriodSummaryContainer>
-          <StyledPeriodContainer key="periodContainer">
+                 {Object.keys(activeTasks).length > 0 && (
+            <StyledPeriodSummaryContainer>
+              <StyledPeriodSummaryHeader>
+                Current tasks
+              </StyledPeriodSummaryHeader>
+              {Object.keys(activeTasks).map((task) => {
+                return (
+                  <StyledPeriodSummary key={task} $color={periodColors[task]}>
+                    <StyledPeriodText $weight="bold" $size="calc(70% + 0.5vw)">
+                      {task}
+                    </StyledPeriodText>
+                    <StyledPeriodText
+                      $weight="normal"
+                      $size="calc(70% + 0.4vw)"
+                    >
+                      {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
+                    </StyledPeriodText>
+                  </StyledPeriodSummary>
+                );
+              })}
+            </StyledPeriodSummaryContainer>
+          )}
+         {Object.keys(inactiveTasks).length > 0 && (
+            <StyledPeriodSummaryContainer  key="periodSummariesContainer">
+              <StyledPeriodSummaryHeader>Other tasks</StyledPeriodSummaryHeader>
+              {Object.keys(inactiveTasks).map((task) => {
+                return (
+                  <StyledPeriodSummary key={task} $color={periodColors[task]}>
+                    <StyledPeriodText $weight="bold" $size="calc(70% + 0.5vw)">
+                      {task}
+                    </StyledPeriodText>
+                    <StyledPeriodText
+                      $weight="normal"
+                      $size="calc(70% + 0.4vw)"
+                    >
+                      {plant.tasks[task].start} &mdash; {plant.tasks[task].end}
+                    </StyledPeriodText>
+                  </StyledPeriodSummary>
+                );
+              })}
+            </StyledPeriodSummaryContainer>
+          )}
+
+          <StyledPeriodContainer>
             {Object.keys(tasksFiltered).map((task, index) => {
               return (
                 <TaskPeriod
@@ -178,6 +239,7 @@ export default function PlantDetails({
                   edit={false}
                   showHeader={index === 0}
                   color={periodColors[task]}
+                  currentInterval={currentInterval}
                 ></TaskPeriod>
               );
             })}
