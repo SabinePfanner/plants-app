@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 
+
 const months = [
   "December",
   "January",
