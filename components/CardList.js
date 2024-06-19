@@ -91,6 +91,7 @@ export default function CardList({
     placement: "Placement",
     growingConditions: "Growing Conditions",
     activePeriods: "Current Tasks",
+    owner: "Crop Owner",
   };
 
   const filteredPlants = plants.filter((plant) => {
@@ -105,12 +106,17 @@ export default function CardList({
             activeTasksByPlant[plantIdIndex][1].includes(filter)
           )
         );
-      } else {
-        return (
-          filter[category].length === 0 ||
-          filter[category].some((filter) => plant[category].includes(filter))
-        );
+      } else if (category === "owner") {
+        if (filter[category].includes("My crops")) {
+          return plant[category] !== "default";
+        } else if (filter[category].includes("Default crops")) {
+          return plant[category] === "default";
+        }
       }
+      return (
+        filter[category].length === 0 ||
+        filter[category].some((filter) => plant[category].includes(filter))
+      );
     });
   });
 
