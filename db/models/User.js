@@ -2,12 +2,11 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const favoriteSchema = new Schema({
+const userSchema = new Schema({
   owner: { type: String, required: true },
   favorites: { type: Array, required: true },
 });
 
-const Favorites =
-  mongoose.models.Favorites || mongoose.model("Favorites", favoriteSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-export default Favorites;
+export default User;

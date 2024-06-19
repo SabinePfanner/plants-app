@@ -1,5 +1,5 @@
 import dbConnect from "@/db/connect";
-import Favorites from "@/db/models/Favorites";
+import User from "@/db/models/User";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
@@ -12,7 +12,7 @@ export default async function handler(request, response) {
       if (session) {
         const favoritesData = request.body;
         console.log("Post-method", favoritesData);
-        await Favorites.create({
+        await User.create({
           favorites: favoritesData,
           owner: session.user.email,
         });
@@ -29,5 +29,13 @@ export default async function handler(request, response) {
     }
   } else {
     return response.status(405).json({ status: "Method not allowed" });
+  }
+
+  if (request.method === "PUT") {
+    const favoritesData = request.body;
+    await User.findByIdAndUpdate(id, favoritesData);
+    // Find the joke by its ID and update the joke using its ID and the new data.
+    return response.status(200).json({ status: `Joke ${id} updated!` });
+    // Return an OK status on successful update
   }
 }
