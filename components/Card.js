@@ -21,7 +21,7 @@ const CardContainer = styled.div`
   }
 `;
 
-export const DefaultLock = styled.div`
+const DefaultLock = styled.div`
   position: absolute;
   top: 2.5px;
   left: 0.5px;

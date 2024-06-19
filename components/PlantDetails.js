@@ -17,6 +17,12 @@ const PageContainer = styled.div`
   max-width: 800px;
 `;
 
+const StyledHeadlinebox = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+`;
+
 const HighlightBox = styled.section`
   margin: 1rem;
   background-color: var(--primary-light);
@@ -39,7 +45,7 @@ const StyledHighlightList = styled.ul`
 `;
 
 const StyledListElement = styled.li`
-  margin: 1.2rem;
+  //margin: 1.2rem;
   padding: 0.8rem;
 `;
 
@@ -125,7 +131,17 @@ export default function PlantDetails({
 
   return (
     <PageContainer>
-      <h1>{plant.name}</h1>
+      <StyledHeadlinebox>
+        {plant.owner === "default" && (
+          <SvgIcon
+            variant="default"
+            color="var(--primary-constrast)"
+            size="16"
+          ></SvgIcon>
+        )}
+        <h1>{plant.name}</h1>
+      </StyledHeadlinebox>
+
       <Figure>
         <PlantImage
           image={
@@ -157,25 +173,25 @@ export default function PlantDetails({
           </StyledHighlightListElement>
           <StyledHighlightListElement>
             {plant.cropType === "Fruit" ? (
-              <StyledHighlightListElement>
+              <>
                 <SvgIcon variant="fruit" color="var(--secondary)" size="25" />
                 <span>Fruit</span>
-              </StyledHighlightListElement>
+              </>
             ) : plant.cropType === "Vegetable" ? (
-              <StyledHighlightListElement>
+              <>
                 <SvgIcon variant="vegetable" color="var(--accent)" size="25" />
                 <span>Vegetable</span>
-              </StyledHighlightListElement>
+              </>
             ) : plant.cropType === "Herb" ? (
-              <StyledHighlightListElement>
+              <>
                 <SvgIcon variant="herb" color="var(--primary)" size="25" />
                 <span>Herb</span>
-              </StyledHighlightListElement>
+              </>
             ) : (
-              <StyledHighlightListElement>
+              <>
                 <SvgIcon variant="other" color="var(--primary)" size="25" />
                 <span>Other</span>
-              </StyledHighlightListElement>
+              </>
             )}
           </StyledHighlightListElement>
         </StyledHighlightList>
