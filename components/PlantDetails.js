@@ -17,6 +17,25 @@ const PageContainer = styled.div`
   max-width: 800px;
 `;
 
+const DetailsHeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CardDetailsContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5´2rem 1rem 1rem 1rem;
+  border: transparent;
+  border-radius: 0.5rem;
+  width: 230px;
+  height: 230px;
+  box-shadow: 0 4px 6px var(--primary);
+`;
+
 const StyledHeadlinebox = styled.div`
   display: flex;
   justify-content: center;
@@ -131,32 +150,34 @@ export default function PlantDetails({
 
   return (
     <PageContainer>
-      <StyledHeadlinebox>
-        {plant.owner === "default" && (
-          <SvgIcon
-            variant="default"
-            color="var(--primary-constrast)"
-            size="16"
-          ></SvgIcon>
-        )}
-        <h1>{plant.name}</h1>
-      </StyledHeadlinebox>
+      <DetailsHeaderContainer>
+        <CardDetailsContainer>
+          <StyledHeadlinebox>
+            {plant.owner === "default" && (
+              <SvgIcon
+                variant="default"
+                color="var(--primary-constrast)"
+                size="16"
+              ></SvgIcon>
+            )}
+            <h1>{plant.name}</h1>
+          </StyledHeadlinebox>
 
-      <Figure>
-        <PlantImage
-          image={
-            plant.image === "undefined" || plant.image === null
-              ? "/icons/placeholder.jpg"
-              : plant.image
-          }
-          alt={plant.name}
-          isFavorite={favoriteIDs.includes(id) ? true : false}
-          onToggleFavorite={onToggleFavorite}
-          id={id}
-          width={350}
-          height={200}
-        />
-      </Figure>
+          <PlantImage
+            image={
+              plant.image === "undefined" || plant.image === null
+                ? "/icons/placeholder.jpg"
+                : plant.image
+            }
+            alt={plant.name}
+            isFavorite={favoriteIDs.includes(id) ? true : false}
+            onToggleFavorite={onToggleFavorite}
+            id={id}
+            width={350}
+            height={200}
+          />
+        </CardDetailsContainer>
+      </DetailsHeaderContainer>
       <HighlightBox>
         <StyledHighlightList>
           <StyledHighlightListElement>
