@@ -28,12 +28,18 @@ const CardDetailsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.5´2rem 1rem 1rem 1rem;
+  padding: 0.5rem 1rem 1rem 1rem;
   border: transparent;
   border-radius: 0.5rem;
-  width: 230px;
-  height: 230px;
   box-shadow: 0 4px 6px var(--primary);
+  width: 500px;
+  height: 300px;
+
+  @media (max-width: 599px) {
+    // iPhone SE
+    width: 250px;
+    height: 250px;
+  }
 `;
 
 const StyledHeadlinebox = styled.div`
@@ -43,10 +49,15 @@ const StyledHeadlinebox = styled.div`
 `;
 
 const HighlightBox = styled.section`
-  margin: 1rem;
+  margin: 1rem 3rem 0 3rem;
   background-color: var(--primary-light);
   border: 2px solid var(--primary);
   border-radius: 5px;
+
+  @media (max-width: 599px) {
+    // iPhone SE
+    width: 75%;
+  }
 `;
 
 const StyledList = styled.ul`
@@ -59,8 +70,13 @@ const StyledHighlightList = styled.ul`
   display: flex;
   justify-content: space-between;
   list-style: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   width: 100%;
+
+  @media (max-width: 599px) {
+    // iPhone SE
+    flex-direction: column;
+  }
 `;
 
 const StyledListElement = styled.li`
