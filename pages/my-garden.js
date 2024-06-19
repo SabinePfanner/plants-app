@@ -4,6 +4,7 @@ import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
 import styled from "styled-components";
+import { useSession } from "next-auth/react";
 
 const StyledInfo = styled.p`
   margin-top: -25px;
@@ -14,13 +15,18 @@ const StyledInfo = styled.p`
   color: #f67b00;
 `;
 
-export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
+export default function MyGarden({
+  favoriteIDsLocal,
+  favoriteIDsOwner,
+  onToggleFavorite,
+}) {
   const [filter, setFilter] = useState({
     cropType: [],
     placement: [],
     growingConditions: [],
     owner: [],
   });
+  const { status } = useSession();
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -35,8 +41,10 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     return;
   }
 
-  const favoritePlants = plants.filter((plant) =>
-    favoriteIDs.includes(plant._id)
+  const favoritePlants = plants.filter(
+    (plant) =>
+      favoriteIDsOwner.includes(plant._id) ||
+      favoriteIDsLocal.includes(plant._id)
   );
 
   function toggleFilter(category, option) {
@@ -75,11 +83,13 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       ) : (
         <CardList
           plants={favoritePlants}
-          favoriteIDs={favoriteIDs}
+          favoriteIDsLocal={favoriteIDsLocal}
+          favoriteIDsOwner={favoriteIDsOwner}
           onToggleFavorite={onToggleFavorite}
           onToggleFilter={toggleFilter}
           onResetFilter={resetFilter}
           filter={filter}
+          session={status === "authenticated"}
         />
       )}
       <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />

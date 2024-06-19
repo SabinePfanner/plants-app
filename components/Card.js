@@ -41,6 +41,7 @@ export default function Card({
   cropType,
   owner,
   id,
+  session,
   isFavorite,
   onToggleFavorite,
 }) {
@@ -60,6 +61,7 @@ export default function Card({
         isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
         id={id}
+        session={session}
       />
       <CardInfoContainer>
         <div>{name}</div>{" "}

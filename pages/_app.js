@@ -56,6 +56,7 @@ export default function App({
       } else {
         setFavoriteIDsOwner([...favoriteIDsOwner, id]); // add to favorites
       }
+
       const response = await fetch("/api/plants/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,12 +74,9 @@ export default function App({
         setFavoriteIDsLocal([...favoriteIDsLocal, id]); // add to favorites
       }
     }
-    const favoriteIDs = session ? favoriteIDsOwner : favoriteIDsLocal;
     console.log(
       "Session",
       session,
-      "List Favorite IDs App",
-      favoriteIDs,
       "FavoriteIDsOwner",
       favoriteIDsOwner,
       "FavoriteIDsLocal",
@@ -130,7 +128,8 @@ export default function App({
             <Component
               {...pageProps}
               onToggleFavorite={handleToggleFavorite}
-              favoriteIDs={favoriteIDsLocal}
+              favoriteIDsLocal={favoriteIDsLocal}
+              favoriteIDsOwner={favoriteIDsOwner}
               toastSettings={toastSettings}
               onOpenToast={handleOpenToast}
               onCloseTast={handleCloseToast}

@@ -2,7 +2,6 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
-import { useSession } from "next-auth/react";
 
 const PageContainer = styled.div`
   margin: 0 auto;
@@ -35,12 +34,13 @@ const Figure = styled.figure`
 `;
 
 export default function PlantDetails({
-  favoriteIDs,
+  favoriteIDsLocal,
+  favoriteIDsOwner,
   onToggleFavorite,
   id,
   plant,
+  session,
 }) {
-  const session = useSession();
   return (
     <PageContainer>
       <h1>{plant.name}</h1>
@@ -52,7 +52,15 @@ export default function PlantDetails({
               : plant.image
           }
           alt={plant.name}
-          isFavorite={favoriteIDs.includes(id) ? true : false}
+          isFavorite={
+            session
+              ? favoriteIDsOwner.includes(id)
+                ? true
+                : false
+              : favoriteIDsLocal.includes(id)
+              ? true
+              : false
+          }
           onToggleFavorite={onToggleFavorite}
           id={id}
           width={350}

@@ -21,7 +21,8 @@ const StyledLink = styled(Link)`
 `;
 
 export default function DetailsPage({
-  favoriteIDs,
+  favoriteIDsLocal,
+  favoriteIDsOwner,
   onToggleFavorite,
   onOpenModal,
   onOpenToast,
@@ -30,7 +31,7 @@ export default function DetailsPage({
   const router = useRouter();
   const { id } = router.query;
   const { mutate } = useSWR(`/api/plants`);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   function handleOpenModal() {
     onOpenModal({
@@ -66,6 +67,7 @@ export default function DetailsPage({
   }
 
   const isDataDefault = plant.owner === "default";
+  console.log("SessionIDJS", session);
 
   return (
     <>
@@ -74,10 +76,11 @@ export default function DetailsPage({
       </StyledLink>
       <PlantDetails
         id={id}
-        favoriteIDs={favoriteIDs}
+        favoriteIDsLocal={favoriteIDsLocal}
+        favoriteIDsOwner={favoriteIDsOwner}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
-        session={session}
+        session={status === "authenticated"}
       />
 
       {session && !isDataDefault ? (
