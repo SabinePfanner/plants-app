@@ -147,7 +147,7 @@ export default function CardList({
                 cropType={plant.cropType}
                 image={
                   plant.image === "undefined" || plant.image === null
-                    ? "/icons/placeholder.png"
+                    ? "/icons/placeholder.jpg"
                     : plant.image
                 }
                 isFavorite={favoriteIDs.includes(plant._id)}
