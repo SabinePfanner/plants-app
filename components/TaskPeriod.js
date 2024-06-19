@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
-import {
-  StyledTooltipContainer,
-  StyledTooltipText,
-} from "@/components/StyledElements/HoverTooltip";
 
 const months = [
   "December",
@@ -29,25 +25,17 @@ function* cartesian(head, ...tail) {
 }
 
 // Get cartesian of months and within-months periods
-const intervals = [...cartesian(["early ", "mid ", "late "], months)].map(
-  (key) => key.join("")
+const intervals = [...cartesian(["early", "mid", "late"], months)].map((key) =>
+  key.join(" ")
 );
-
-const StyledPeriodContainer = styled.div`
-  overflow-x: auto;
-  overflow-y: hidden;
-`;
 
 const StyledPeriodGrid = styled.div`
   display: grid;
   grid-template-columns: 40px repeat(36, 1fr);
   grid-column-gap: 0px;
   row-gap: 0.2rem;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  min-width: 600px;
-  margin: 1rem 0 0.5rem 0;
+  min-width: 500px;
+  margin: 0rem 0 0.5rem 0;
 `;
 
 const StyledMonth = styled.div`
@@ -63,21 +51,22 @@ const StyledMonth = styled.div`
 
 const StyledInterval = styled.div`
   display: flex;
-  width: 100%;
   height: 100%;
-  background-color: ${(props) => (props.$highlighted ? "#79af6e" : "#E0E0E0")};
+  background-color: ${(props) =>
+    props.$highlighted ? props.$color : "#E0E0E0"};
   justify-content: center;
   color: ${(props) => (props.$highlighted ? "#79af6e" : "lightgrey")};
+  border-right: 0.05rem solid white;
+  font-size: 0rem;
+  min-height: 25px;
+  cursor: default;
+
   border-radius: ${(props) =>
     props.$isPeriodStart
       ? "0.5rem 0 0 0.5rem"
       : props.$isPeriodEnd
       ? "0 0.5rem 0.5rem 0"
       : "none"};
-  border-right: 0.05rem solid white;
-  font-size: 0rem;
-  cursor: default;
-  min-height: 25px;
 
   ${(props) =>
     props.$active &&
@@ -120,7 +109,6 @@ const StyledDummySection = styled.section`
   display: flex;
   justify-content: center;
   align-content: center;
-  grid-column: span 1;
   min-height: 25px;
 `;
 
@@ -130,30 +118,25 @@ const StyledResetButton = styled.button`
   height: 100%;
   background: transparent;
   border: none;
+  min-height: 25px;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
   }
-  min-height: 25px;
-`;
-
-const StyledNote = styled.p`
-  margin: 0 1.5rem;
-  font-style: italic;
-`;
-
-const StyledH4 = styled.h4`
-  margin: 0 1.5rem;
 `;
 
 export default function TaskPeriod({
   task,
   taskName,
+  onSetPeriod,
   edit = false,
-  onSeedPeriod,
+  showHeader = true,
+  color,
 }) {
   // Task periods (seed etc.)
-  const [period, setPeriod] = useState(task); // { seed: { start: null, end: null } }
+  // const [localPeriod, setLocalPeriod] = useState(task); // eg { seed: { start: null, end: null } }
+  const [localPeriodStart, setLocalPeriodStart] = useState(task.start);
+  const [localPeriodEnd, setLocalPeriodEnd] = useState(task.end);
 
   // Index of interval cell currently hovered
   const [hoverIndex, setHoverIndex] = useState();
@@ -162,161 +145,145 @@ export default function TaskPeriod({
   // - on first click on any interval, start is set
   // - further click start resets if no end selected yet
   // - when start is selected and other interval clicked, it is set as period end
-  function handleSetPeriod(interval) {
-    if (!period[taskName].start) {
-      setPeriod({ [taskName]: { start: interval, end: null } });
+  function handlesetLocalPeriod(interval) {
+    if (!localPeriodStart) {
+      setLocalPeriodStart(interval);
     } else if (
-      period[taskName].start === interval &&
-      !(period[taskName].start && period[taskName].end)
+      localPeriodStart === interval &&
+      !(localPeriodStart && localPeriodEnd)
     ) {
-      setPeriod({ [taskName]: { start: null, end: null } });
-    } else if (!period[taskName].end) {
-      setPeriod({
-        [taskName]: { start: period[taskName].start, end: interval },
-      });
+      setLocalPeriodStart(null);
+      setLocalPeriodEnd(null);
+    } else if (!localPeriodEnd && hoverIndex > periodIndices.start) {
+      setLocalPeriodEnd(interval);
     }
   }
 
-  function handleResetPeriod() {
-    setPeriod({ [taskName]: { start: null, end: null } });
+  function handleResetLocalPeriod() {
+    setLocalPeriodStart(null);
+    setLocalPeriodEnd(null);
   }
 
   useEffect(() => {
-    if (edit) onSeedPeriod(period);
-  }, [period, edit, onSeedPeriod]);
+    if (edit) onSetPeriod({ start: localPeriodStart, end: localPeriodEnd });
+  }, [localPeriodStart, localPeriodEnd, taskName, edit, onSetPeriod]);
 
   const periodIndices = {
-    start: period[taskName].start
-      ? intervals.findIndex((interval) => interval === period[taskName].start)
+    start: localPeriodStart
+      ? intervals.findIndex((interval) => interval === localPeriodStart)
       : null,
-    end: period[taskName].end
-      ? intervals.findIndex((interval) => interval === period[taskName].end)
+    end: localPeriodEnd
+      ? intervals.findIndex((interval) => interval === localPeriodEnd)
       : null,
   };
 
-  if (edit || period[taskName].end) {
+  if (edit || localPeriodEnd) {
     return (
-      <>
-        {!edit && (
-          <StyledH4>
-            {taskName[0].toUpperCase() + taskName.slice(1)} period
-          </StyledH4>
-        )}
-        <StyledPeriodContainer
-          onMouseLeave={() =>
-            !(period[taskName].start && period[taskName].end) &&
-            (setHoverIndex(-1) || handleResetPeriod())
-          }
-        >
-          <StyledPeriodGrid>
-            <StyledDummySection />
-            {months.map((month, index) => (
-              <>
-                <StyledMonth
-                  key={month}
-                  $alternateBackground={[
-                    "December",
-                    "January",
-                    "February",
-                    "June",
-                    "July",
-                    "August",
-                  ].includes(month)}
-                >
-                  {month.substring(0, 3)}
-                </StyledMonth>
-              </>
+      <div key={taskName + "topFragment"}>
+        <StyledPeriodGrid key={taskName + "Grid"}>
+          {showHeader && <StyledDummySection key={taskName + "Dummy"} />}
+          {showHeader &&
+            months.map((month) => (
+              <StyledMonth
+                key={taskName + month}
+                $alternateBackground={[
+                  "December",
+                  "January",
+                  "February",
+                  "June",
+                  "July",
+                  "August",
+                ].includes(month)}
+              >
+                {month.substring(0, 3)}
+              </StyledMonth>
             ))}
 
-            {edit ? (
-              <StyledResetButton
-                type="button"
-                onClick={handleResetPeriod}
-                onKeyDown={(event) =>
+          {edit ? (
+            <StyledResetButton
+              key={taskName + "ResetButton"}
+              type="button"
+              onClick={handleResetLocalPeriod}
+              onKeyDown={(event) =>
+                event.key === "Enter" || event.key === " "
+                  ? handleResetLocalPeriod() && setHoverIndex(-1)
+                  : null
+              }
+            >
+              <StyledSvgIcon
+                variant="reload"
+                color="grey"
+                size="25"
+                key={taskName + "ResetSvg"}
+              />
+            </StyledResetButton>
+          ) : (
+            <StyledDummySection key={taskName + "Icon"}>
+              <StyledSvgIcon
+                variant={taskName}
+                color="grey"
+                size="25"
+                key={taskName + "IconSvg"}
+              />
+            </StyledDummySection>
+          )}
+          {intervals.map((interval, index) => {
+            return (
+              <StyledInterval
+                key={taskName + interval + index}
+                onClick={() => {
+                  edit && handlesetLocalPeriod(interval);
+                }}
+                onKeyDown={(event) => {
+                  const extraIndex = event.shiftKey ? -1 : 1;
                   event.key === "Enter" || event.key === " "
-                    ? handleResetPeriod() && setHoverIndex(-1)
-                    : null
-                }
-              >
-                <StyledSvgIcon variant="reload" color="grey" size="25" />
-              </StyledResetButton>
-            ) : (
-              <StyledDummySection>
-                <StyledSvgIcon variant={taskName} color="grey" size="25" />
-              </StyledDummySection>
-            )}
-            {intervals.map((interval, index) => {
-              return (
-                <StyledInterval
-                  key={interval}
-                  onClick={() => {
-                    edit && handleSetPeriod(interval);
-                  }}
-                  onKeyDown={(event) => {
-                    const extraIndex = event.shiftKey ? -1 : 1;
-                    event.key === "Enter" || event.key === " "
-                      ? handleSetPeriod(interval)
-                      : event.key === "Tab" &&
-                        !(period[taskName].start && period[taskName].end)
-                      ? setHoverIndex(
-                          intervals.findIndex(
-                            (intervalIntern) => interval === intervalIntern
-                          ) + extraIndex // needs extra index with tab-navigation
-                        )
-                      : null;
-                  }}
-                  onMouseOver={() => {
-                    !(period[taskName].start && period[taskName].end) &&
-                      setHoverIndex(
+                    ? handlesetLocalPeriod(interval)
+                    : event.key === "Tab" &&
+                      !(localPeriodStart && localPeriodEnd)
+                    ? setHoverIndex(
                         intervals.findIndex(
                           (intervalIntern) => interval === intervalIntern
-                        )
-                      );
-                  }}
-                  $highlighted={
-                    // highlight intervals if period start is set & interval >= start & hovered/within set interval
-                    (index === hoverIndex &&
-                      !period[taskName].start &&
-                      hoverIndex !== -1) ||
-                    interval === period[taskName].start ||
-                    (period[taskName].start &&
-                      index > periodIndices.start &&
-                      (index <= hoverIndex || index <= periodIndices.end))
-                  }
-                  $isPeriodStart={interval === period[taskName].start}
-                  $isPeriodEnd={
-                    period[taskName].start && interval === period[taskName].end
-                  }
-                  $precedesPeriodStart={index === periodIndices.start - 1}
-                  $followsPeriodEnd={
-                    period[taskName].start &&
-                    period[taskName].end &&
-                    index === periodIndices.end + 1 &&
-                    (!edit || index === hoverIndex + 1)
-                  }
-                  $active={!(period[taskName].start && period[taskName].end)}
-                  tabIndex="0"
-                >
-                  &nbsp;
-                  {!edit &&
-                    index >= periodIndices.start &&
-                    index <= periodIndices.end && (
-                      <StyledTooltipContainer>
-                        <StyledTooltipText>
-                          {taskName[0].toUpperCase() + taskName.slice(1)}{" "}
-                          period: {period[taskName].start}-
-                          {period[taskName].end}
-                        </StyledTooltipText>
-                      </StyledTooltipContainer>
-                    )}
-                </StyledInterval>
-              );
-            })}
-          </StyledPeriodGrid>
-        </StyledPeriodContainer>
-      </>
+                        ) + extraIndex // needs extra index with tab-navigation
+                      )
+                    : null;
+                }}
+                onMouseOver={() => {
+                  !(localPeriodStart && localPeriodEnd) &&
+                    setHoverIndex(
+                      intervals.findIndex(
+                        (intervalIntern) => interval === intervalIntern
+                      )
+                    );
+                }}
+                $highlighted={
+                  // highlight intervals if period start is set & interval >= start & hovered/within set interval
+                  (index === hoverIndex &&
+                    !localPeriodStart &&
+                    hoverIndex !== -1) ||
+                  interval === localPeriodStart ||
+                  (localPeriodStart &&
+                    index > periodIndices.start &&
+                    (index <= hoverIndex || index <= periodIndices.end))
+                }
+                $isPeriodStart={interval === localPeriodStart}
+                $isPeriodEnd={localPeriodStart && interval === localPeriodEnd}
+                $precedesPeriodStart={index === periodIndices.start - 1}
+                $followsPeriodEnd={
+                  localPeriodStart &&
+                  localPeriodEnd &&
+                  index === periodIndices.end + 1 &&
+                  (!edit || index === hoverIndex + 1)
+                }
+                $active={!(localPeriodStart && localPeriodEnd)}
+                $color={color}
+                tabIndex="0"
+              >
+                &nbsp;
+              </StyledInterval>
+            );
+          })}
+        </StyledPeriodGrid>
+      </div>
     );
-  } else {
-    return <StyledNote>No seed period defined yet.</StyledNote>;
   }
 }

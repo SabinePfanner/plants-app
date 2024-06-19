@@ -54,6 +54,12 @@ const RangeInputLabels = styled.div`
   color: var(--primary-contrast);
 `;
 
+const StyledPeriodContainer = styled.div`
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 1rem;
+`;
+
 const StyledPeriodSubheader = styled.span`
   font-size: 1rem;
   font-weight: normal;
@@ -158,7 +164,11 @@ export default function Form({
     waterDemand: 2,
     nutrientDemand: 2,
     tasks: {
-      seed: { start: null, end: null },
+      Seed: { start: null, end: null },
+      Cultivation: { start: null, end: null },
+      Planting: { start: null, end: null },
+      Harvest: { start: null, end: null },
+      Pruning: { start: null, end: null },
     },
   },
   isEditImage = true,
@@ -191,14 +201,46 @@ export default function Form({
     setCurrentGrowingConditions(value);
   }
 
-  // Seed period
-  const [seedPeriod, setSeedPeriod] = useState({
-    seed: { start: null, end: null },
-  });
+  // Periods
+  const [seedPeriod, setSeedPeriod] = useState(data.tasks.Seed);
+  const [cultivationPeriod, setCultivationPeriod] = useState(
+    data.tasks.Cultivation
+  );
+  const [plantingPeriod, setPlantingPeriod] = useState(data.tasks.Planting);
+  const [harvestPeriod, setHarvestPeriod] = useState(data.tasks.Harvest);
+  const [pruningPeriod, setPruningPeriod] = useState(data.tasks.Pruning);
 
-  function handleSeedPeriod(period) {
+  const definedPeriods = {
+    Seed: seedPeriod,
+    Cultivation: cultivationPeriod,
+    Planting: plantingPeriod,
+    Harvest: harvestPeriod,
+    Pruning: pruningPeriod,
+  };
+
+  function handleSetSeedPeriod(period) {
     setSeedPeriod(period);
   }
+  function handleSetCultivationPeriod(period) {
+    setCultivationPeriod(period);
+  }
+  function handleSetPlantingPeriod(period) {
+    setPlantingPeriod(period);
+  }
+  function handleSetHarvestPeriod(period) {
+    setHarvestPeriod(period);
+  }
+  function handleSetPruningPeriod(period) {
+    setPruningPeriod(period);
+  }
+
+  const periodHandleFunctions = {
+    Seed: setSeedPeriod,
+    Cultivation: setCultivationPeriod,
+    Planting: setPlantingPeriod,
+    Harvest: setHarvestPeriod,
+    Pruning: setPruningPeriod,
+  };
 
   function checkSelectInput(input, name) {
     if (!input) {
@@ -251,10 +293,6 @@ export default function Form({
       currentGrowingConditions === null
     ) {
       alert("Please fill out all inputs");
-    } else if (seedPeriod.start !== null && seedPeriod.end === null) {
-      alert(
-        "You have not defined the end of the seed period. Click on the respective time interval to set."
-      );
     } else {
       formData.set("cropType", currentCropType);
       formData.set("placement", currentPlacement);
@@ -265,7 +303,7 @@ export default function Form({
         formData.set("image", data.image);
       }
       const plantData = Object.fromEntries(formData);
-      plantData.tasks = seedPeriod; // needs to be inserted here, since it is an object, not a string
+      plantData.tasks = definedPeriods; // needs to be inserted here, since it is an object, not a string
 
       onSubmit(plantData);
     }
@@ -481,22 +519,31 @@ export default function Form({
         </RadioButtonGroup>
       </Fieldset>
       <br />
-      <Label htmlFor="seedPeriod">
-        Seed period:{" "}
-        <StyledPeriodSubheader>
-          {seedPeriod.seed.start === null
-            ? "click an interval to set period start"
-            : seedPeriod.seed.end === null
-            ? "click an interval to set period end"
-            : `${seedPeriod.seed.start} \u2013 ${seedPeriod.seed.end}`}
-        </StyledPeriodSubheader>
-      </Label>{" "}
-      <TaskPeriod
-        task={data.tasks}
-        taskName="seed"
-        onSeedPeriod={handleSeedPeriod}
-        edit={true}
-      ></TaskPeriod>
+      {Object.keys(data.tasks).map((task) => {
+        return (
+          <div key={task}>
+            <Label htmlFor={task}>
+              {task} period:{" "}
+              <StyledPeriodSubheader>
+                {definedPeriods[task].start === null
+                  ? "click an interval to set period start"
+                  : definedPeriods[task].end === null
+                  ? "click an interval to set period end"
+                  : `${definedPeriods[task].start} \u2013 ${definedPeriods[task].end}`}
+              </StyledPeriodSubheader>
+            </Label>{" "}
+            <StyledPeriodContainer>
+              <TaskPeriod
+                task={data.tasks[task]}
+                taskName={task}
+                onSetPeriod={periodHandleFunctions[task]}
+                edit={true}
+                color="#79af6e"
+              ></TaskPeriod>
+            </StyledPeriodContainer>
+          </div>
+        );
+      })}
       <ButtonGroup>
         <StyledButton type="button" onClick={onDismiss}>
           {cancelButtonText}
