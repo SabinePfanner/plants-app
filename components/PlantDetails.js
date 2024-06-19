@@ -2,6 +2,7 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
+import SvgIcon from "./StyledElements/SvgIcon";
 
 const periodColors = {
   Seed: "#D27D2D",
@@ -18,7 +19,8 @@ const PageContainer = styled.div`
 
 const HighlightBox = styled.section`
   margin: 1rem;
-  background-color: var(--primary);
+  background-color: var(--primary-light);
+  border: 2px solid var(--primary);
   border-radius: 5px;
 `;
 
@@ -28,9 +30,42 @@ const StyledList = styled.ul`
   padding: 0.5rem 0.5rem;
 `;
 
+const StyledHighlightList = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+`;
+
 const StyledListElement = styled.li`
-  margin: 0 1.2rem;
-  padding: 0.2rem 1.8rem;
+  margin: 1.2rem;
+  padding: 0.8rem;
+`;
+
+const StyledHighlightListElement = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+`;
+
+const StyledName = styled.h2`
+  font-size: 22px;
+`;
+
+const StyledCondition = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--primary);
+`;
+
+const StyledSvgBox = styled.div`
+  display: flex;
 `;
 
 const Figure = styled.figure`
@@ -81,7 +116,6 @@ export default function PlantDetails({
   id,
   plant,
 }) {
-  
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
   const tasksArrayFiltered = tasksArray.filter(
@@ -108,38 +142,270 @@ export default function PlantDetails({
         />
       </Figure>
       <HighlightBox>
-        <StyledList>
-          <StyledListElement>{plant.botanicalName}</StyledListElement>
-          <StyledListElement>{plant.cropType}</StyledListElement>
-          <StyledListElement>
+        <StyledHighlightList>
+          <StyledHighlightListElement>
+            <StyledName>{plant.botanicalName}</StyledName>
+          </StyledHighlightListElement>
+
+          <StyledHighlightListElement>
+            <SvgIcon
+              variant="clock"
+              color="var(--primary-contrast)"
+              size="25"
+            />
             {plant.perennial ? "Perennial plant" : "Annual plant"}
-          </StyledListElement>
-        </StyledList>
+          </StyledHighlightListElement>
+          <StyledHighlightListElement>
+            {plant.cropType === "Fruit" ? (
+              <StyledHighlightListElement>
+                <SvgIcon variant="fruit" color="var(--secondary)" size="25" />
+                <span>Fruit</span>
+              </StyledHighlightListElement>
+            ) : plant.cropType === "Vegetable" ? (
+              <StyledHighlightListElement>
+                <SvgIcon variant="vegetable" color="var(--accent)" size="25" />
+                <span>Vegetable</span>
+              </StyledHighlightListElement>
+            ) : plant.cropType === "Herb" ? (
+              <StyledHighlightListElement>
+                <SvgIcon variant="herb" color="var(--primary)" size="25" />
+                <span>Herb</span>
+              </StyledHighlightListElement>
+            ) : (
+              <StyledHighlightListElement>
+                <SvgIcon variant="other" color="var(--primary)" size="25" />
+                <span>Other</span>
+              </StyledHighlightListElement>
+            )}
+          </StyledHighlightListElement>
+        </StyledHighlightList>
       </HighlightBox>
       <StyledList>
-        <StyledListElement>Placement: {plant.placement}</StyledListElement>
-        <StyledListElement>
-          Growing Conditions: {plant.growingConditions}
-        </StyledListElement>
-        <StyledListElement>
-          Water demand:{" "}
-          {plant.waterDemand === "1"
-            ? "Low"
-            : plant.nutrientDemand === "2"
-            ? "Medium"
-            : "High"}
-        </StyledListElement>
-        <StyledListElement>
-          Nutrient demand:{" "}
-          {plant.nutrientDemand === "1"
-            ? "Low"
-            : plant.nutrientDemand === "2"
-            ? "Medium"
-            : "High"}
-        </StyledListElement>
-        <StyledListElement>
-          Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
-        </StyledListElement>
+        <StyledPeriodSummaryContainer>
+          <StyledListElement>
+            <StyledCondition>
+              {plant.growingConditions === "Sunny" ? (
+                <>
+                  <SvgIcon
+                    variant="sunny"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Sunny</span>
+                </>
+              ) : (
+                <>
+                  <SvgIcon
+                    variant="partialShade"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Partial shade</span>
+                </>
+              )}
+            </StyledCondition>
+          </StyledListElement>
+          <StyledListElement>
+            <StyledCondition>
+              {plant.placement === "Bed" ? (
+                <>
+                  <SvgIcon
+                    variant="bed"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Bed</span>
+                </>
+              ) : plant.placement === "Pot" ? (
+                <>
+                  <SvgIcon
+                    variant="pot"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Pot</span>
+                </>
+              ) : (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="pot"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="bed"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>Pot or bed</span>
+                </>
+              )}
+            </StyledCondition>
+          </StyledListElement>
+          <StyledListElement>
+            <StyledCondition>
+              {plant.frostSensitive ? (
+                <>
+                  <SvgIcon
+                    variant="snowflakeOff"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Frost sensitive</span>
+                </>
+              ) : (
+                <>
+                  <SvgIcon
+                    variant="snowflake"
+                    color="var(--primary-contrast)"
+                    size="25"
+                  />
+                  <span>Frost insensitive</span>
+                </>
+              )}
+            </StyledCondition>
+          </StyledListElement>
+        </StyledPeriodSummaryContainer>
+        <StyledPeriodSummaryContainer>
+          <StyledListElement>
+            <StyledCondition>
+              {plant.waterDemand === "1" ? (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="water"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="water"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>Low water demand</span>
+                </>
+              ) : plant.waterDemand === "2" ? (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="water"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>Medium water demand</span>
+                </>
+              ) : (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="waterFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>High water demand</span>
+                </>
+              )}
+            </StyledCondition>
+          </StyledListElement>
+          <StyledListElement>
+            <StyledCondition>
+              {plant.nutrientDemand === "1" ? (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrient"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrient"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>Low nutrient demand</span>
+                </>
+              ) : plant.nutrientDemand === "2" ? (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrient"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>Medium nutrient demand</span>
+                </>
+              ) : (
+                <>
+                  <StyledSvgBox>
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                    <SvgIcon
+                      variant="nutrientFill"
+                      color="var(--primary-contrast)"
+                      size="25"
+                    />
+                  </StyledSvgBox>
+                  <span>High nutrient demand</span>
+                </>
+              )}
+            </StyledCondition>
+          </StyledListElement>{" "}
+        </StyledPeriodSummaryContainer>
       </StyledList>
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
