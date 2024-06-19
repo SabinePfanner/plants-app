@@ -2,6 +2,7 @@ import Card from "@/components/Card";
 import styled from "styled-components";
 import MultiSelectDropdown from "./StyledElements/MultiSelect";
 import SvgIcon from "./StyledElements/SvgIcon";
+import { useSession } from "next-auth/react";
 
 const PageContainer = styled.div`
   display: flex;
@@ -77,6 +78,7 @@ export default function CardList({
   onResetFilter,
   filter,
 }) {
+  const session = useSession();
   const filterOptions = {
     cropType: ["Fruit", "Herb", "Vegetable", "Other"],
     placement: ["Bed", "Pot"],
@@ -153,6 +155,7 @@ export default function CardList({
                 isFavorite={favoriteIDs.includes(plant._id)}
                 onToggleFavorite={onToggleFavorite}
                 id={plant._id}
+                session={session}
               />
             );
           })}

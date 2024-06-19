@@ -2,6 +2,7 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
+import { useSession } from "next-auth/react";
 
 const PageContainer = styled.div`
   margin: 0 auto;
@@ -39,6 +40,7 @@ export default function PlantDetails({
   id,
   plant,
 }) {
+  const session = useSession();
   return (
     <PageContainer>
       <h1>{plant.name}</h1>
@@ -55,6 +57,7 @@ export default function PlantDetails({
           id={id}
           width={350}
           height={200}
+          session={session}
         />
       </Figure>
       <HighlightBox>

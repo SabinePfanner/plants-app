@@ -8,7 +8,6 @@ import {
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 
 const StyledLink = styled(Link)`
@@ -78,6 +77,7 @@ export default function DetailsPage({
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
+        session={session}
       />
 
       {session && !isDataDefault ? (

@@ -21,10 +21,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
-  const [favoriteIDs, setFavoriteIDs] = useLocalStorageState("favorites", {
-    defaultValue: [],
-  });
-
   // Toast Feature
   const [toastSettings, setToastSettings] = useState({
     isOpen: false,
@@ -40,12 +36,54 @@ export default function App({
     onClick: null,
   });
 
-  function handleToggleFavorite(id) {
-    if (favoriteIDs.includes(id)) {
-      setFavoriteIDs(favoriteIDs.filter((favoriteID) => favoriteID !== id)); // remove from favorites
-    } else {
-      setFavoriteIDs([...favoriteIDs, id]); // add to favorites
+  const [favoriteIDsLocal, setFavoriteIDsLocal] = useLocalStorageState(
+    "favorites",
+    {
+      defaultValue: [],
     }
+  );
+
+  const [favoriteIDsOwner, setFavoriteIDsOwner] = useState([]);
+
+  async function handleToggleFavorite(id, session) {
+    console.log("App", session);
+    if (session) {
+      console.log("App2", session);
+      if (favoriteIDsOwner.includes(id)) {
+        setFavoriteIDsOwner(
+          favoriteIDsOwner.filter((favoriteIDOwner) => favoriteIDOwner !== id)
+        ); // remove from favorites
+      } else {
+        setFavoriteIDsOwner([...favoriteIDsOwner, id]); // add to favorites
+      }
+      const response = await fetch("/api/plants/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(favoriteIDsOwner),
+      });
+      if (!response.ok) {
+        console.error(response.status);
+      }
+    } else {
+      if (favoriteIDsLocal.includes(id)) {
+        setFavoriteIDsLocal(
+          favoriteIDsLocal.filter((favoriteIDLocal) => favoriteIDLocal !== id)
+        ); // remove from favorites
+      } else {
+        setFavoriteIDsLocal([...favoriteIDsLocal, id]); // add to favorites
+      }
+    }
+    const favoriteIDs = session ? favoriteIDsOwner : favoriteIDsLocal;
+    console.log(
+      "Session",
+      session,
+      "List Favorite IDs App",
+      favoriteIDs,
+      "FavoriteIDsOwner",
+      favoriteIDsOwner,
+      "FavoriteIDsLocal",
+      favoriteIDsLocal
+    );
   }
 
   // Toast Feature functionality
@@ -92,7 +130,7 @@ export default function App({
             <Component
               {...pageProps}
               onToggleFavorite={handleToggleFavorite}
-              favoriteIDs={favoriteIDs}
+              favoriteIDs={favoriteIDsLocal}
               toastSettings={toastSettings}
               onOpenToast={handleOpenToast}
               onCloseTast={handleCloseToast}

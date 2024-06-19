@@ -40,6 +40,7 @@ export default function PlantImage({
   isFavorite,
   onToggleFavorite,
   id,
+  session,
 }) {
   const router = useRouter();
   const location = router.pathname;
@@ -54,7 +55,7 @@ export default function PlantImage({
           fill
         ></StyledImage>
       </Link>
-      <StyledFavoriteButton onClick={() => onToggleFavorite(id)}>
+      <StyledFavoriteButton onClick={() => onToggleFavorite(id, session)}>
         <SvgIcon
           variant="chili"
           color={isFavorite ? "var(--secondary)" : "var(--primary)"}
