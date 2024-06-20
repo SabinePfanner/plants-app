@@ -28,7 +28,15 @@ export default async function handler(request, response) {
 
   if (request.method === "PUT") {
     const editedPlant = request.body;
-    await Plant.findByIdAndUpdate(id, editedPlant);
+
+    if (editedPlant.updateImages) {
+      await Plant.findByIdAndUpdate(id, {
+        $push: { detailsImages: { $each: editedPlant.detailsImages }},
+      });
+    } else {
+      await Plant.findByIdAndUpdate(id, editedPlant);
+    }
     return response.status(200).json({ status: "Plant successfully updated." });
   }
+
 }

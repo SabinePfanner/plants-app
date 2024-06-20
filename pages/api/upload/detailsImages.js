@@ -17,24 +17,21 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const form = formidable({});
+
       const [fields, files] = await form.parse(request);
-      const file = files.image[0];
-      const { newFilename, filepath } = file;
 
-      const {
-        height,
-        width,
-        secure_url: url,
-      } = await cloudinary.v2.uploader.upload(filepath, {
-        public_id: newFilename,
-        folder: "plants",
-      });
+      const images = [];
+      for (const file of files.image) {
+        const { filepath, newFilename } = file;
 
-      response.status(201).json({
-        height,
-        width,
-        url,
-      });
+        const result = await cloudinary.v2.uploader.upload(filepath, {
+          public_id: newFilename,
+          folder: "plants",
+        });
+
+        images.push(result);
+      }
+      response.status(201).json({ images });
     } catch (error) {
       response.status(400).json({ error: error.message });
     }

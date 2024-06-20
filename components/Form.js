@@ -65,7 +65,7 @@ const StyledPeriodSubheader = styled.span`
   font-weight: normal;
 `;
 
-const VisuallyHidden = styled.input`
+export const VisuallyHidden = styled.input`
   position: absolute;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
@@ -99,7 +99,7 @@ const StyledImageWrapper = styled.div`
   border-radius: 0.5rem;
 `;
 
-const CustomFileInputButton = styled.label`
+export const CustomFileInputButton = styled.label`
   text-align: center;
   background-color: #fff;
   cursor: pointer;
@@ -128,7 +128,7 @@ const StyledImageButton = styled.button`
   }
 `;
 
-const StyledIconText = styled.p`
+export const StyledIconText = styled.p`
   margin-top: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
@@ -170,6 +170,7 @@ export default function Form({
       Harvest: { start: null, end: null },
       Pruning: { start: null, end: null },
     },
+    detailsImages: [],
   },
   isEditImage = true,
   onCreatePage,
@@ -304,6 +305,7 @@ export default function Form({
       }
       const plantData = Object.fromEntries(formData);
       plantData.tasks = definedPeriods; // needs to be inserted here, since it is an object, not a string
+      plantData.detailsImages = data.detailsImages;
 
       onSubmit(plantData);
     }

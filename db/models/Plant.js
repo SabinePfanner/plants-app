@@ -37,10 +37,12 @@ const plantSchema = new Schema({
       Planting: { start: null, end: null },
       Harvest: { start: null, end: null },
       Pruning: { start: null, end: null },
-    }, // Default to an empty object
+    }, 
   },
   image: { type: String },
   owner: { type: String, required: true },
+  detailsImages: { type: Array, default: []},
+
 },
   { timestamps: true }
 );

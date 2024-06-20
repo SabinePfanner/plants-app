@@ -2,6 +2,31 @@ import useSWR from "swr";
 import styled from "styled-components";
 import PlantImage from "@/components/PlantImage";
 import TaskPeriod from "@/components/TaskPeriod";
+import ImagesForm from "@/components/ImagesForm";
+import Image from "next/image";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
+
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+};
 
 const periodColors = {
   Seed: "#D27D2D",
@@ -75,19 +100,80 @@ const StyledNote = styled.p`
   font-style: italic;
 `;
 
+const StyledCarousel = styled(Carousel)`
+  margin: 1rem 0;
+  padding: 2rem 3rem;
+  border-bottom: 2px solid grey;
+  border-top: 2px solid grey;
+  border-radius: 0.5rem;
+`;
+
+const StyledCarouselImage = styled(Image)`
+  margin: 0rem 1rem;
+  /* padding: 2rem 3rem; */
+  /* border-bottom: 2px solid grey;
+  border-top: 2px solid grey; */
+  /* padding: 1rem; */
+  border-radius: 0.5rem;
+  max-width: 230px;
+  min-width: 230px;
+  /* max-width:100%; */
+`;
+
 export default function PlantDetails({
   favoriteIDs,
   onToggleFavorite,
   id,
   plant,
+  onOpenToast,
 }) {
-  
+  const { mutate } = useSWR(`/api/plants/${id}`);
+
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
   const tasksArrayFiltered = tasksArray.filter(
     (task) => task[1].start && task[1].end
   );
   const tasksFiltered = Object.fromEntries(tasksArrayFiltered);
+
+  async function handleAddImages(images) {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...plant,
+        detailsImages: images,
+        updateImages: true,
+      }),
+    });
+
+    if (response.ok) {
+      mutate();
+      onOpenToast("Images added to plant!");
+    } else {
+      console.error(response.status);
+    }
+  }
+
+  async function handleDeleteImages() {
+    const plantWithoutImages = { ...plant, detailsImages: [] };
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(plantWithoutImages),
+    });
+
+    if (response.ok) {
+      mutate();
+      onOpenToast("Images successfully deleted!");
+    } else {
+      console.error(response.status);
+    }
+  }
 
   return (
     <PageContainer>
@@ -186,7 +272,40 @@ export default function PlantDetails({
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
-      <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
+      <ImagesForm
+        onAddImages={handleAddImages}
+        onDeleteImages={handleDeleteImages}
+      ></ImagesForm>
+
+      {plant.detailsImages.length > 0 && (
+        <>
+        <StyledButton type="button" onClick={handleDeleteImages}>
+        Delete images
+      </StyledButton>
+          <StyledCarousel
+            responsive={responsive}
+            // focusOnSelect={true}
+            // centerMode={true}
+          >
+            {plant.detailsImages.map((image) => {
+              return (
+                <Image
+                  key={image}
+                  alt="Image"
+                  src={image}
+                  // sizes="100%"
+                  height="200"
+                  width="250"
+                  // partialVisible={false}
+                  // fill
+                  // style={{ objectFit: "cover" }} // alternative: contain
+                  // itemClass="carousel-item-padding-10-px"
+                />
+              );
+            })}
+          </StyledCarousel>
+        </>
+      )}
     </PageContainer>
   );
 }
