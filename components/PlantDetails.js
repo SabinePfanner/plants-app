@@ -167,7 +167,6 @@ const StyledPeriodSummaryContainer = styled.div`
   padding: 1rem;
   border: 0.1rem solid grey;
   border-radius: 0.5rem;
-
 `;
 
 const StyledPeriodSummary = styled.div`
@@ -241,7 +240,6 @@ export default function PlantDetails({
   // Get current time period / interval
   const currentInterval = getCurrentInterval(months);
   const currentTasks = getActiveTasksByPlant([plant], months)[0][1];
-
 
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
@@ -591,7 +589,7 @@ export default function PlantDetails({
           <span>Nutrient demand</span>
         </StyledCondition>
       </StyledConditionSummaryContainer>
-
+      <ImagesForm onAddImages={handleAddImages} />
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
           {Object.keys(activeTasks).length > 0 && (
