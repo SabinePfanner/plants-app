@@ -36,7 +36,7 @@ const StyledPeriodGrid = styled.div`
   grid-column-gap: 0px;
   row-gap: 0.2rem;
   min-width: 500px;
-  margin: 0rem 0 0.5rem 0;
+  margin: 0rem 0rem 0.5rem 0rem;
 `;
 
 const StyledMonth = styled.div`
@@ -44,8 +44,10 @@ const StyledMonth = styled.div`
   grid-column: span 3;
   justify-content: center;
   background-color: ${(props) =>
-    props.$alternateBackground ? "#657383" : "#97A5B5"};
-  color: white;
+    props.$alternateBackground
+      ? "var(--primary-light)"
+      : "var(--primary-dark)"};
+  color: var(--primary-contrast);
   font-size: 1rem;
   border-right: 0.05rem solid white;
 `;
@@ -217,7 +219,7 @@ export default function TaskPeriod({
             >
               <StyledSvgIcon
                 variant="reload"
-                color="grey"
+                color="#1D0B07"
                 size="25"
                 key={taskName + "ResetSvg"}
               />
@@ -226,7 +228,7 @@ export default function TaskPeriod({
             <StyledDummySection key={taskName + "Icon"}>
               <StyledSvgIcon
                 variant={taskName}
-                color="grey"
+                color="#1D0B07"
                 size="25"
                 key={taskName + "IconSvg"}
               />

@@ -4,12 +4,15 @@ import Link from "next/link";
 
 const StyledLink = styled(Link)`
   position: fixed;
-  width: 2.5rem;
-  height: 2.5rem;
+  //width: 0;
+  //height: 2.5rem;
+  display: flex;
+  align-items: center;
   right: ${(props) => (props.$right ? props.$right : "1rem")};
   bottom: ${(props) => (props.$bottom ? props.$bottom : "6.5rem")};
-  background: transparent;
-  border: none;
+  background: white;
+  border: 0;
+  border-radius: 50%;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
@@ -28,12 +31,16 @@ export function SvgLinkButton({ href, variant, color, right, bottom }) {
 
 const StyledButton = styled.button`
   position: fixed;
-  width: 2.5rem;
-  height: 2.5rem;
-  right: 1.5rem;
+  //width: 0;
+  //height: 2.5rem;
+  /* display: flex;
+  align-items: center; */
+  right: 1rem;
   bottom: 6.5rem;
-  background: transparent;
-  border: none;
+  background: white;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
