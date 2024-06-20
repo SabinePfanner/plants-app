@@ -76,23 +76,43 @@ export default function CardList({
   onToggleFilter,
   onResetFilter,
   filter,
+  activeTasksByPlant,
 }) {
   const filterOptions = {
     cropType: ["Fruit", "Herb", "Vegetable", "Other"],
     placement: ["Bed", "Pot"],
     growingConditions: ["Sunny", "Partial shade"],
+    activePeriods: ["Seed", "Cultivation", "Planting", "Harvest", "Pruning"],
     owner: ["Default crops", "My crops"],
+  };
+
+  const filterOptionsLabels = {
+    cropType: "Crop Type",
+    placement: "Placement",
+    growingConditions: "Growing Conditions",
+    activePeriods: "Current Tasks",
+    owner: "Crop Owner",
   };
 
   const filteredPlants = plants.filter((plant) => {
     return Object.keys(filter).every((category) => {
-      if (category === "owner" && filter[category].includes("My crops")) {
-        return plant[category] !== "default";
+      if (category === "activePeriods") {
+        const plantIdIndex = activeTasksByPlant.findIndex(
+          (activePlantTask) => activePlantTask[0] === plant._id
+        );
+        return (
+          filter[category].length === 0 ||
+          filter[category].some((filter) =>
+            activeTasksByPlant[plantIdIndex][1].includes(filter)
+          )
+        );
+      } else if (category === "owner") {
+        if (filter[category].includes("My crops")) {
+          return plant[category] !== "default";
+        } else if (filter[category].includes("Default crops")) {
+          return plant[category] === "default";
+        }
       }
-      if (category === "owner" && filter[category].includes("Default crops")) {
-        return plant[category] === "default";
-      }
-
       return (
         filter[category].length === 0 ||
         filter[category].some((filter) => plant[category].includes(filter))
@@ -103,35 +123,16 @@ export default function CardList({
   return (
     <PageContainer>
       <FilterContainer>
-        <MultiSelectDropdown
-          options={filterOptions.cropType}
-          selected={filter.cropType}
-          toggleOption={onToggleFilter}
-          category={"cropType"}
-          label={"Crop Type"}
-        />
-        <MultiSelectDropdown
-          options={filterOptions.placement}
-          selected={filter.placement}
-          toggleOption={onToggleFilter}
-          category={"placement"}
-          label={"Placement"}
-        />
-        <MultiSelectDropdown
-          options={filterOptions.growingConditions}
-          selected={filter.growingConditions}
-          toggleOption={onToggleFilter}
-          category={"growingConditions"}
-          label={"Growing Conditions"}
-        />
-        <MultiSelectDropdown
-          options={filterOptions.owner}
-          selected={filter.owner}
-          toggleOption={onToggleFilter}
-          category={"owner"}
-          label={"Crop Owner"}
-        />
-
+        {Object.keys(filterOptions).map((option) => (
+          <MultiSelectDropdown
+            key={option}
+            options={filterOptions[option]}
+            selected={filter[option]}
+            toggleOption={onToggleFilter}
+            category={option}
+            label={filterOptionsLabels[option]}
+          />
+        ))}
         <ResetButton type="reset" onClick={onResetFilter}>
           <SvgIcon variant="reload" color="#fff" />
         </ResetButton>
