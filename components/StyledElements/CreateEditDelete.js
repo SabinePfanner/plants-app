@@ -4,8 +4,6 @@ import Link from "next/link";
 
 const StyledLink = styled(Link)`
   position: fixed;
-  //width: 0;
-  //height: 2.5rem;
   display: flex;
   align-items: center;
   right: ${(props) => (props.$right ? props.$right : "1rem")};
@@ -31,10 +29,6 @@ export function SvgLinkButton({ href, variant, color, right, bottom }) {
 
 const StyledButton = styled.button`
   position: fixed;
-  //width: 0;
-  //height: 2.5rem;
-  /* display: flex;
-  align-items: center; */
   right: 1rem;
   bottom: 6.5rem;
   background: white;
