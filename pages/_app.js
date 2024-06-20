@@ -7,6 +7,7 @@ import ToastMessage from "@/components/ModalAndToast/ToastMessage";
 import { useState } from "react";
 import Modal from "@/components/ModalAndToast/Modal";
 import { SessionProvider } from "next-auth/react";
+import useSWR from "swr";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);
@@ -43,28 +44,45 @@ export default function App({
     }
   );
 
-  const [favoriteIDsOwner, setFavoriteIDsOwner] = useState([]);
+  const { data: favoriteIDsOwner, mutate } = useSWR(`/api/users`, fetcher);
+
+  console.log("favoriteIDsOwner", favoriteIDsOwner);
+  // if (error) {
+  //   return <p>Could not fetch data!</p>;
+  // }
+
+  // if (isLoading) {
+  //   return <h1>Loading...</h1>;
+  // }
+
+  // if (!favoriteIDsOwner) {
+  //   return;
 
   async function handleToggleFavorite(id, session) {
-    console.log("App", session);
     if (session) {
-      console.log("App2", session);
+      let updatedIDs;
       if (favoriteIDsOwner.includes(id)) {
-        setFavoriteIDsOwner(
-          favoriteIDsOwner.filter((favoriteIDOwner) => favoriteIDOwner !== id)
-        ); // remove from favorites
+        updatedIDs = favoriteIDsOwner.filter(
+          (favoriteIDOwner) => favoriteIDOwner !== id
+        );
+        // remove from favorites
       } else {
-        setFavoriteIDsOwner([...favoriteIDsOwner, id]); // add to favorites
+        updatedIDs = [...favoriteIDsOwner, id]; // add to favorites
       }
 
-      const response = await fetch("/api/plants/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(favoriteIDsOwner),
+      const response = await fetch(`/api/users/favorites`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedIDs),
       });
+      console.log("UpdatedIDs", updatedIDs);
+
       if (!response.ok) {
         console.error(response.status);
       }
+      mutate();
     } else {
       if (favoriteIDsLocal.includes(id)) {
         setFavoriteIDsLocal(
@@ -74,14 +92,6 @@ export default function App({
         setFavoriteIDsLocal([...favoriteIDsLocal, id]); // add to favorites
       }
     }
-    console.log(
-      "Session",
-      session,
-      "FavoriteIDsOwner",
-      favoriteIDsOwner,
-      "FavoriteIDsLocal",
-      favoriteIDsLocal
-    );
   }
 
   // Toast Feature functionality

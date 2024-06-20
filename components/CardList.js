@@ -154,7 +154,7 @@ export default function CardList({
                 }
                 isFavorite={
                   session
-                    ? favoriteIDsOwner.includes(plant._id)
+                    ? favoriteIDsOwner?.includes(plant._id)
                     : favoriteIDsLocal.includes(plant._id)
                 }
                 onToggleFavorite={onToggleFavorite}

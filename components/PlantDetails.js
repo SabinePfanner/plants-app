@@ -34,8 +34,7 @@ const Figure = styled.figure`
 `;
 
 export default function PlantDetails({
-  favoriteIDsLocal,
-  favoriteIDsOwner,
+  isFavorite,
   onToggleFavorite,
   id,
   plant,
@@ -52,15 +51,7 @@ export default function PlantDetails({
               : plant.image
           }
           alt={plant.name}
-          isFavorite={
-            session
-              ? favoriteIDsOwner.includes(id)
-                ? true
-                : false
-              : favoriteIDsLocal.includes(id)
-              ? true
-              : false
-          }
+          isFavorite={isFavorite}
           onToggleFavorite={onToggleFavorite}
           id={id}
           width={350}

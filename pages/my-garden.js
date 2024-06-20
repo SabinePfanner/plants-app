@@ -41,11 +41,10 @@ export default function MyGarden({
     return;
   }
 
-  const favoritePlants = plants.filter(
-    (plant) =>
-      favoriteIDsOwner.includes(plant._id) ||
-      favoriteIDsLocal.includes(plant._id)
-  );
+  const favoritePlants =
+    status === "authenticated"
+      ? plants.filter((plant) => favoriteIDsOwner.includes(plant._id))
+      : plants.filter((plant) => favoriteIDsLocal.includes(plant._id));
 
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {
@@ -69,10 +68,6 @@ export default function MyGarden({
   return (
     <>
       <h1>Your hottest crops!</h1>
-      <br />
-      <StyledInfo>
-        Please note: Your favourite crops are for now saved in localstorage!
-      </StyledInfo>
       {favoritePlants.length === 0 ? (
         <h2>
           No plants bookmarked yet.

@@ -67,7 +67,10 @@ export default function DetailsPage({
   }
 
   const isDataDefault = plant.owner === "default";
-  console.log("SessionIDJS", session);
+
+  const isFavorite = session
+    ? favoriteIDsOwner.includes(id)
+    : favoriteIDsLocal.includes(id);
 
   return (
     <>
@@ -76,8 +79,7 @@ export default function DetailsPage({
       </StyledLink>
       <PlantDetails
         id={id}
-        favoriteIDsLocal={favoriteIDsLocal}
-        favoriteIDsOwner={favoriteIDsOwner}
+        isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
         session={status === "authenticated"}
