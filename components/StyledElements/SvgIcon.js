@@ -176,6 +176,7 @@ export default function SvgIcon({
       xmlns="http://www.w3.org/2000/svg"
       fill={color}
       width={size}
+      margin={0}
       viewBox={icons[variant].viewBox}
     >
       <title>{icons[variant].title}</title>

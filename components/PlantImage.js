@@ -5,7 +5,7 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
-  height: 230px;
+  height: 250px;
   width: 450px;
   position: relative;
   @media (max-width: 599px) {
