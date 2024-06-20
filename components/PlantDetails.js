@@ -150,7 +150,6 @@ export default function PlantDetails({
 }) {
   const { mutate } = useSWR(`/api/plants/${id}`);
 
-  
   // Get current time period / interval
   const currentInterval = getCurrentInterval(months);
   const currentTasks = getActiveTasksByPlant([plant], months)[0][1];
@@ -271,9 +270,13 @@ export default function PlantDetails({
           Frost sensitive: {plant.frostSensitive ? "Yes" : "No"}
         </StyledListElement>
       </StyledList>
+      <ImagesForm
+        onAddImages={handleAddImages}
+        onDeleteImages={handleDeleteImages}
+      ></ImagesForm>
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
-                 {Object.keys(activeTasks).length > 0 && (
+          {Object.keys(activeTasks).length > 0 && (
             <StyledPeriodSummaryContainer>
               <StyledPeriodSummaryHeader>
                 Current tasks
@@ -295,8 +298,8 @@ export default function PlantDetails({
               })}
             </StyledPeriodSummaryContainer>
           )}
-         {Object.keys(inactiveTasks).length > 0 && (
-            <StyledPeriodSummaryContainer  key="periodSummariesContainer">
+          {Object.keys(inactiveTasks).length > 0 && (
+            <StyledPeriodSummaryContainer key="periodSummariesContainer">
               <StyledPeriodSummaryHeader>Other tasks</StyledPeriodSummaryHeader>
               {Object.keys(inactiveTasks).map((task) => {
                 return (
@@ -335,16 +338,12 @@ export default function PlantDetails({
       ) : (
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
-      <ImagesForm
-        onAddImages={handleAddImages}
-        onDeleteImages={handleDeleteImages}
-      ></ImagesForm>
 
       {plant.detailsImages.length > 0 && (
         <>
-        <StyledButton type="button" onClick={handleDeleteImages}>
-        Delete images
-      </StyledButton>
+          <StyledButton type="button" onClick={handleDeleteImages}>
+            Delete images
+          </StyledButton>
           <StyledCarousel
             responsive={responsive}
             // focusOnSelect={true}
