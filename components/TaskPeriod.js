@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 
-
 const months = [
   "December",
   "January",
@@ -57,7 +56,7 @@ const StyledInterval = styled.div`
   height: 100%;
   background-color: ${(props) =>
     props.$highlighted ? props.$color : "#E0E0E0"};
-  
+
   justify-content: center;
   color: ${(props) => (props.$highlighted ? "#79af6e" : "lightgrey")};
   border-right: 0.05rem solid white;
@@ -219,7 +218,7 @@ export default function TaskPeriod({
             >
               <StyledSvgIcon
                 variant="reload"
-                color="#1D0B07"
+                color="var(--primary-contrast)"
                 size="25"
                 key={taskName + "ResetSvg"}
               />
@@ -228,7 +227,7 @@ export default function TaskPeriod({
             <StyledDummySection key={taskName + "Icon"}>
               <StyledSvgIcon
                 variant={taskName}
-                color="#1D0B07"
+                color="var(--primary-contrast)"
                 size="25"
                 key={taskName + "IconSvg"}
               />

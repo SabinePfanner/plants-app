@@ -9,7 +9,6 @@ import {
   months,
 } from "@/utils/TaskPeriodUtils";
 
-
 const periodColors = {
   Seed: "#D27D2D",
   Cultivation: "#AA336A",
@@ -131,19 +130,17 @@ const StyledPeriodSummaryContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1rem;
 
   @media (max-width: 599px) {
     // iPhone SE
 
-    margin: auto;
+    margin: 1.5rem;
   }
 
   margin-top: 1.5rem;
   padding: 1rem;
   border: 0.1rem solid grey;
   border-radius: 0.5rem;
-
 `;
 
 const StyledPeriodSummary = styled.div`
@@ -178,6 +175,7 @@ const StyledPeriodContainer = styled.div`
   overflow-x: auto;
   margin-right: 1rem;
   margin-left: 1rem;
+  margin-top: 1rem;
 `;
 
 const StyledNote = styled.p`
@@ -191,12 +189,9 @@ export default function PlantDetails({
   id,
   plant,
 }) {
-
-  
   // Get current time period / interval
   const currentInterval = getCurrentInterval(months);
   const currentTasks = getActiveTasksByPlant([plant], months)[0][1];
-
 
   // Filter out tasks that have defined periods
   const tasksArray = Object.entries(plant.tasks);
@@ -510,7 +505,7 @@ export default function PlantDetails({
 
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
-                 {Object.keys(activeTasks).length > 0 && (
+          {Object.keys(activeTasks).length > 0 && (
             <StyledPeriodSummaryContainer>
               <StyledPeriodSummaryHeader>
                 Current tasks
@@ -532,8 +527,8 @@ export default function PlantDetails({
               })}
             </StyledPeriodSummaryContainer>
           )}
-         {Object.keys(inactiveTasks).length > 0 && (
-            <StyledPeriodSummaryContainer  key="periodSummariesContainer">
+          {Object.keys(inactiveTasks).length > 0 && (
+            <StyledPeriodSummaryContainer key="periodSummariesContainer">
               <StyledPeriodSummaryHeader>Other tasks</StyledPeriodSummaryHeader>
               {Object.keys(inactiveTasks).map((task) => {
                 return (

@@ -89,7 +89,12 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
           activeTasksByPlant={activeTasksByPlant}
         />
       )}
-      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
+      <SvgLinkButton
+        href="/create"
+        variant="plus"
+        color="var(--secondary)"
+        bottom="4.5rem"
+      />
     </>
   );
 }
