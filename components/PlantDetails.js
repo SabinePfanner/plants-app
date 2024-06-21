@@ -10,11 +10,9 @@ import {
 } from "@/utils/TaskPeriodUtils";
 import ImagesForm from "@/components/ImagesForm";
 import Image from "next/image";
-import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 const periodColors = {
   Seed: "#D27D2D",
@@ -142,7 +140,7 @@ const StyledPeriodSummaryContainer = styled.div`
   @media (max-width: 599px) {
     // iPhone SE
 
-    margin: auto;
+    margin: 1.5;
   }
 
   margin-top: 1.5rem;
@@ -183,6 +181,7 @@ const StyledPeriodContainer = styled.div`
   overflow-x: auto;
   margin-right: 1rem;
   margin-left: 1rem;
+  margin-top: 1rem;
 `;
 
 const StyledNote = styled.p`
@@ -190,17 +189,37 @@ const StyledNote = styled.p`
   font-style: italic;
 `;
 
+const StyledDiaryHeader = styled.h1`
+  margin-top: 3rem;
+`;
+
+// const windowWidth = window.width;
+
+// console.log("windowWidth", windowWidth);
+
 const StyledSlider = styled(Slider)`
-  width: 100%;
+  position: relative;
+  /* width: 95%; */
   /* height: 200px; */
-  margin: 3rem 0 1rem 0;
+  margin: 3rem 0 1rem 2rem;
   padding: 1.5rem 0.5rem;
   border: 0.1rem solid var(--primary-light-contrast);
   border-radius: 0.5rem;
 
+  /* @media (max-width: 599px) {
+    // iPhone SE
+    margin: 1.5;
+  } */
+
   /* .slick-list {
     padding: 0 !important;
   } */
+
+  .slick-track {
+    height: auto;
+    /* line-height:0; */
+
+  } 
 
   .slick-prev:before,
   .slick-next:before {
@@ -211,6 +230,10 @@ const StyledSlider = styled(Slider)`
   .slick-slide {
     margin: 0 30px;
   }
+
+  /* .slick-slider{
+    line-height:0;
+  } */
 `;
 
 const StyledCarouselImage = styled(Image)`
@@ -232,10 +255,40 @@ const settings = {
   slidesToScroll: 1,
   variableWidth: true,
   // swipeToSlide: true,
-  swipe: true,
-  draggable: true,
+  // swipe: true,
+  // draggable: true,
   focusOnSelect: true,
   speed: 400,
+  rows: 1,
+  adaptiveHeight: true,
+  // responsive: [
+  //   {
+  //     breakpoint: 1024,
+  //     settings: {
+  //       slidesToShow: 3,
+  //       slidesToScroll: 3,
+  //       infinite: true,
+  //       dots: true
+  //     }
+  //   },
+  //   {
+  //     breakpoint: 600,
+  //     settings: {
+  //       slidesToShow: 2,
+  //       slidesToScroll: 2,
+  //       initialSlide: 2,
+  //       infinite: true,
+  //     }
+  //   },
+  //   {
+  //     breakpoint: 480,
+  //     settings: {
+  //       slidesToShow: 1,
+  //       slidesToScroll: 1,
+  //       infinite: true,
+  //     }
+  //   }
+  // ]
 };
 
 export default function PlantDetails({
@@ -244,6 +297,8 @@ export default function PlantDetails({
   id,
   plant,
   onOpenToast,
+  onOpenModal,
+  onCloseModal,
 }) {
   const { mutate } = useSWR(`/api/plants/${id}`);
 
@@ -268,13 +323,13 @@ export default function PlantDetails({
   const activeTasks = Object.fromEntries(activeTasksArray);
   const inactiveTasks = Object.fromEntries(inactiveTasksArray);
 
-  const periodColors = {
-    Seed: "#D27D2D",
-    Cultivation: "#FFC000",
-    Planting: "#79af6e",
-    Harvest: "#E23D28",
-    Pruning: "#71797E",
-  };
+  // const periodColors = {
+  //   Seed: "#D27D2D",
+  //   Cultivation: "#FFC000",
+  //   Planting: "#79af6e",
+  //   Harvest: "#E23D28",
+  //   Pruning: "#71797E",
+  // };
 
   async function handleAddImages(images) {
     const response = await fetch(`/api/plants/${id}`, {
@@ -313,6 +368,19 @@ export default function PlantDetails({
     } else {
       console.error(response.status);
     }
+  }
+
+  function handleOpenModal() {
+    onOpenModal({
+      modalInfoText: "Do you really want to delete all images?",
+      confirmButtonLabel: "Delete",
+      onClick: () => {
+        onCloseModal();
+        handleDeleteImages();
+        // router.push("/");
+        // onOpenToast("All changes dismissed.");
+      },
+    });
   }
 
   return (
@@ -599,7 +667,6 @@ export default function PlantDetails({
           <span>Nutrient demand</span>
         </StyledCondition>
       </StyledConditionSummaryContainer>
-      <ImagesForm onAddImages={handleAddImages} />
       {Object.keys(tasksFiltered).length > 0 ? (
         <div key="periodSummariesContainer">
           {Object.keys(activeTasks).length > 0 && (
@@ -667,8 +734,9 @@ export default function PlantDetails({
         <StyledNote>No periods defined for this plant yet.</StyledNote>
       )}
 
-      {plant.detailsImages.length > 0 && (
+      {(plant.detailsImages.length && plant.owner !== "default") > 0 && (
         <>
+          <StyledDiaryHeader>Your plant diary</StyledDiaryHeader>
           <StyledSlider {...settings}>
             {plant.detailsImages.map((image) => {
               console.log("image in map: ", image);
@@ -683,11 +751,17 @@ export default function PlantDetails({
               );
             })}
           </StyledSlider>
-          <StyledButton type="button" onClick={handleDeleteImages}>
-            Delete images
-          </StyledButton>
         </>
       )}
+      {plant.owner !== "default" && (
+        <ImagesForm
+          onAddImages={handleAddImages}
+          onDeleteImages={handleDeleteImages}
+          onConfirmDelete={handleOpenModal}
+          imagesPresent={plant.detailsImages.length > 0}
+        />
+      )}
+
       {plant.owner === "default" && (
         <StyledNote>Default plants can not be edited or deleted!</StyledNote>
       )}

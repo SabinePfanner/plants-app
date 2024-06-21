@@ -83,8 +83,9 @@ export default function DetailsPage({
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
-        // mutate={mutate}
         onOpenToast={onOpenToast}
+        onOpenModal={onOpenModal}
+        onCloseModal={onCloseModal}
       />
 
       {session && !isDataDefault ? (

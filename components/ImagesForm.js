@@ -8,7 +8,12 @@ import {
 import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 
-export default function ImagesForm({ onAddImages }) {
+export default function ImagesForm({
+  onAddImages,
+  onDeleteImages,
+  onConfirmDelete,
+  imagesPresent,
+}) {
   const [showFileInput, setShowFileInput] = useState(false);
   const [numberFilesSelected, setNumberFilesSelected] = useState();
   const [selectedImages, setSelectedImages] = useState();
@@ -57,7 +62,8 @@ export default function ImagesForm({ onAddImages }) {
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={handleSubmit} $imagesPresent={imagesPresent}>
+      {!imagesPresent && <StyledFormHeader>Your plant diary</StyledFormHeader>}
       <VisuallyHidden
         type="file"
         name="image"
@@ -79,49 +85,75 @@ export default function ImagesForm({ onAddImages }) {
         }}
       >
         <SvgIcon variant="upload" max-height="80" max-width="80"></SvgIcon>
-        <StyledIconText>Click to upload</StyledIconText>
+        <StyledIconText>
+          {imagesPresent
+            ? "Upload more plant images"
+            : "Upload your plant images"}
+        </StyledIconText>
       </CustomFileInputButton>
       {numberFilesSelected && (
         <>
           <div>
             {numberFilesSelected &&
-              `${numberFilesSelected} ${numberFilesSelected > 1 ? "files selected" : "file selected"}`}{" "}
+              `${numberFilesSelected} ${
+                numberFilesSelected > 1 ? "files selected" : "file selected"
+              }`}{" "}
           </div>
           <StyledButton type="submit" disabled={loading}>
-            Upload images
+            {loading ? "Uploading images" : "Upload images"}
           </StyledButton>
-          <StyledButton
-            type="button"
-            onClick={() => {
-              setNumberFilesSelected(), setSelectedImages();
-            }}
-          >
-            Cancel upload
-          </StyledButton>
+          {!loading && (
+            <StyledButton
+              type="button"
+              onClick={() => {
+                setNumberFilesSelected(null), setSelectedImages(null);
+              }}
+            >
+              Cancel upload
+            </StyledButton>
+          )}
         </>
+      )}
+      {imagesPresent && !loading && (
+        <StyledButton type="button" onClick={onConfirmDelete}>
+          Delete images
+        </StyledButton>
       )}
     </StyledForm>
   );
 }
 
 const StyledForm = styled.form`
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  justify-content: center;
+
+  align-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  /* @media (max-width: 599px) {
+    // iPhone SE
+    margin: 1.5;
+  } */
+  margin: ${(props) =>
+    props.$imagesPresent ? "0rem 1.5rem 7rem 1.5rem;" : "4rem 1.5rem 7rem 1.5rem;"};
+  /* border: 0.1rem solid var(--primary-light-contrast); */
+  border-radius: 0.5rem;
+  border: ${(props) =>
+    !props.$imagesPresent
+      ? "0.1rem solid var(--primary-light-contrast)"
+      : "none"};
 `;
 
-
-const StyledInput = styled.input`
-  padding: 8px;
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  &:focus {
-    border-color: #0056b3;
-    outline: none;
-  }
+const StyledFormHeader = styled.div`
+  position: absolute;
+  left: 1rem;
+  top: -1rem;
+  background: white;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid var(--primary-light-contrast);
 `;
