@@ -5,9 +5,14 @@ import SvgIcon from "@/components/StyledElements/SvgIcon";
 import { useRouter } from "next/router";
 
 const PlantImageContainer = styled.div`
-  height: 150px;
-  width: 200px;
+  height: 250px;
+  width: 450px;
   position: relative;
+  @media (max-width: 599px) {
+    // iPhone SE
+    width: 230px;
+    height: 230px;
+  }
 `;
 
 const StyledImage = styled(Image)`
@@ -49,10 +54,15 @@ export default function PlantImage({
     <PlantImageContainer>
       <Link href={`/${id}`} legacyBehavior>
         <StyledImage
-          src={!image ? "/icons/placeholder.png" : image}
+          src={!image ? "/icons/placeholder.jpg" : image}
           alt={"Image of plant"}
           $location={location}
           fill
+          sizes="100%"
+          priority={true}
+          style={{
+            objectFit: "cover",
+          }}
         ></StyledImage>
       </Link>
       <StyledFavoriteButton onClick={() => onToggleFavorite(id, session)}>

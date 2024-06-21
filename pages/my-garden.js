@@ -4,7 +4,11 @@ import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
 import styled from "styled-components";
+
 import { useSession } from "next-auth/react";
+
+import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
+
 
 const StyledInfo = styled.p`
   margin-top: -25px;
@@ -24,9 +28,12 @@ export default function MyGarden({
     cropType: [],
     placement: [],
     growingConditions: [],
+    activePeriods: [],
     owner: [],
   });
+
   const { status } = useSession();
+
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -46,6 +53,8 @@ export default function MyGarden({
       ? plants.filter((plant) => favoriteIDsOwner.includes(plant._id))
       : plants.filter((plant) => favoriteIDsLocal.includes(plant._id));
 
+  const activeTasksByPlant = getActiveTasksByPlant(plants, months);
+
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {
       // if it's in, remove
@@ -61,6 +70,7 @@ export default function MyGarden({
       cropType: [],
       placement: [],
       growingConditions: [],
+      activePeriods: [],
       owner: [],
     });
   }
@@ -84,10 +94,19 @@ export default function MyGarden({
           onToggleFilter={toggleFilter}
           onResetFilter={resetFilter}
           filter={filter}
+
           session={status === "authenticated"}
+
+          activeTasksByPlant={activeTasksByPlant}
+
         />
       )}
-      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
+      <SvgLinkButton
+        href="/create"
+        variant="plus"
+        color="var(--secondary)"
+        bottom="4.5rem"
+      />
     </>
   );
 }

@@ -77,6 +77,7 @@ export default function DetailsPage({
       <StyledLink href="/">
         <SvgIcon variant="back" size="25"></SvgIcon>
       </StyledLink>
+
       <PlantDetails
         id={id}
         isFavorite={isFavorite}
