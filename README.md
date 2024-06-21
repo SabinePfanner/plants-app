@@ -4,7 +4,7 @@ https://plants-app-psi.vercel.app/
 
 ![Image](/public/icons/logo.png)
 
-Introducing our app for garden enthusiasts—a comprehensive tool that transforms the way you manage and enjoy your garden. With this app, you can:
+Introducing our app for garden enthusiasts: a comprehensive tool that transforms the way you manage and enjoy your garden. With this app, you can:
 
 **Customize Your Plant Collection:** Add your favorite plants to your garden inventory. Create, edit, or delete plant entries with ease, and keep detailed records of each species, including image uploads, growing conditions and needs of the plant.
 
