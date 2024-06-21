@@ -198,9 +198,9 @@ const StyledDiaryHeader = styled.h1`
 
 const StyledSlider = styled(Slider)`
   position: relative;
-  /* width: 95%; */
+  /* width: 95vw; */
   /* height: 200px; */
-  margin: 3rem 0 1rem 2rem;
+  margin: 3rem 0 1rem 0.5rem;
   padding: 1.5rem 0.5rem;
   border: 0.1rem solid var(--primary-light-contrast);
   border-radius: 0.5rem;
@@ -216,12 +216,11 @@ const StyledSlider = styled(Slider)`
 
   .slick-track {
     height: auto;
-    /* line-height:0; */
   }
 
   .slick-prev:before,
   .slick-next:before {
-    color: var(--primary-light-contrast);
+    color: var(--primary-contrast);
     font-size: 2rem;
   }
 
@@ -229,9 +228,15 @@ const StyledSlider = styled(Slider)`
     margin: 0 15px;
   }
 
-  /* .slick-slider{
-    line-height:0;
-  } */
+  .slick-next {
+    right: 2%;
+  }
+
+  .slick-prev {
+    left: 2%;
+    z-index: 100;
+  }
+
 `;
 
 const StyledCarouselImage = styled(Image)`
