@@ -2,7 +2,11 @@ import CardList from "@/components/CardList.js";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
+
 import { useSession } from "next-auth/react";
+
+import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
+
 
 export default function HomePage({
   favoriteIDsLocal,
@@ -13,6 +17,7 @@ export default function HomePage({
     cropType: [],
     placement: [],
     growingConditions: [],
+    activePeriods: [],
     owner: [],
   });
 
@@ -31,6 +36,8 @@ export default function HomePage({
     return;
   }
 
+  const activeTasksByPlant = getActiveTasksByPlant(plants, months);
+
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {
       // if it's in, remove
@@ -46,6 +53,7 @@ export default function HomePage({
       cropType: [],
       placement: [],
       growingConditions: [],
+      activePeriods: [],
       owner: [],
     });
   }
@@ -61,9 +69,18 @@ export default function HomePage({
         onToggleFilter={toggleFilter}
         onResetFilter={resetFilter}
         filter={filter}
+
         session={status === "authenticated"}
+
+        activeTasksByPlant={activeTasksByPlant}
       />
-      <SvgLinkButton href="/create" variant="plus" color="var(--secondary)" />
+      <SvgLinkButton
+        href="/create"
+        variant="plus"
+        color="var(--secondary)"
+        bottom="4.5rem"
+
+      />
     </>
   );
 }
