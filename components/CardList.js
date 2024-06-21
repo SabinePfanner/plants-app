@@ -71,11 +71,13 @@ const ResetButton = styled.button`
 
 export default function CardList({
   plants,
-  favoriteIDs,
+  favoriteIDsLocal,
+  favoriteIDsOwner,
   onToggleFavorite,
   onToggleFilter,
   onResetFilter,
   filter,
+  session,
   activeTasksByPlant,
 }) {
   const filterOptions = {
@@ -151,9 +153,14 @@ export default function CardList({
                     ? "/icons/placeholder.jpg"
                     : plant.image
                 }
-                isFavorite={favoriteIDs.includes(plant._id)}
+                isFavorite={
+                  session
+                    ? favoriteIDsOwner?.includes(plant._id)
+                    : favoriteIDsLocal.includes(plant._id)
+                }
                 onToggleFavorite={onToggleFavorite}
                 id={plant._id}
+                session={session}
               />
             );
           })}

@@ -7,6 +7,7 @@ import ToastMessage from "@/components/ModalAndToast/ToastMessage";
 import { useState } from "react";
 import Modal from "@/components/ModalAndToast/Modal";
 import { SessionProvider } from "next-auth/react";
+import useSWR from "swr";
 
 export async function fetcher(...args) {
   const response = await fetch(...args);
@@ -21,10 +22,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
-  const [favoriteIDs, setFavoriteIDs] = useLocalStorageState("favorites", {
-    defaultValue: [],
-  });
-
   // Toast Feature
   const [toastSettings, setToastSettings] = useState({
     isOpen: false,
@@ -40,11 +37,65 @@ export default function App({
     onClick: null,
   });
 
-  function handleToggleFavorite(id) {
-    if (favoriteIDs.includes(id)) {
-      setFavoriteIDs(favoriteIDs.filter((favoriteID) => favoriteID !== id)); // remove from favorites
+  const [favoriteIDsLocal, setFavoriteIDsLocal] = useLocalStorageState(
+    "favorites",
+    {
+      defaultValue: [],
+    }
+  );
+
+  const {
+    data: favoriteIDsOwner,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(`/api/users`, fetcher);
+
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!favoriteIDsOwner) {
+    return;
+  }
+
+  async function handleToggleFavorite(id, session) {
+    if (session) {
+      let updatedIDs;
+      if (favoriteIDsOwner.includes(id)) {
+        updatedIDs = favoriteIDsOwner.filter(
+          (favoriteIDOwner) => favoriteIDOwner !== id
+        );
+        // remove from favorites
+      } else {
+        updatedIDs = [...favoriteIDsOwner, id]; // add to favorites
+      }
+
+      const response = await fetch(`/api/users/favorites`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedIDs),
+      });
+      console.log("UpdatedIDs", updatedIDs);
+
+      if (!response.ok) {
+        console.error(response.status);
+      }
+      mutate();
     } else {
-      setFavoriteIDs([...favoriteIDs, id]); // add to favorites
+      if (favoriteIDsLocal.includes(id)) {
+        setFavoriteIDsLocal(
+          favoriteIDsLocal.filter((favoriteIDLocal) => favoriteIDLocal !== id)
+        ); // remove from favorites
+      } else {
+        setFavoriteIDsLocal([...favoriteIDsLocal, id]); // add to favorites
+      }
     }
   }
 
@@ -92,7 +143,8 @@ export default function App({
             <Component
               {...pageProps}
               onToggleFavorite={handleToggleFavorite}
-              favoriteIDs={favoriteIDs}
+              favoriteIDsLocal={favoriteIDsLocal}
+              favoriteIDsOwner={favoriteIDsOwner}
               toastSettings={toastSettings}
               onOpenToast={handleOpenToast}
               onCloseTast={handleCloseToast}

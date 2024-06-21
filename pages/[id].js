@@ -8,7 +8,6 @@ import {
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import SvgIcon from "@/components/StyledElements/SvgIcon";
 
 const StyledLink = styled(Link)`
@@ -22,7 +21,8 @@ const StyledLink = styled(Link)`
 `;
 
 export default function DetailsPage({
-  favoriteIDs,
+  favoriteIDsLocal,
+  favoriteIDsOwner,
   onToggleFavorite,
   onOpenModal,
   onOpenToast,
@@ -31,7 +31,7 @@ export default function DetailsPage({
   const router = useRouter();
   const { id } = router.query;
   const { mutate } = useSWR(`/api/plants`);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   function handleOpenModal() {
     onOpenModal({
@@ -68,6 +68,10 @@ export default function DetailsPage({
 
   const isDataDefault = plant.owner === "default";
 
+  const isFavorite = session
+    ? favoriteIDsOwner.includes(id)
+    : favoriteIDsLocal.includes(id);
+
   return (
     <>
       <StyledLink href="/">
@@ -76,9 +80,10 @@ export default function DetailsPage({
 
       <PlantDetails
         id={id}
-        favoriteIDs={favoriteIDs}
+        isFavorite={isFavorite}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
+        session={status === "authenticated"}
       />
 
       {session && !isDataDefault ? (

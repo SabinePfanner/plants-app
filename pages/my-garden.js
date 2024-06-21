@@ -4,7 +4,11 @@ import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
 import styled from "styled-components";
+
+import { useSession } from "next-auth/react";
+
 import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
+
 
 const StyledInfo = styled.p`
   margin-top: -25px;
@@ -15,7 +19,11 @@ const StyledInfo = styled.p`
   color: #f67b00;
 `;
 
-export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
+export default function MyGarden({
+  favoriteIDsLocal,
+  favoriteIDsOwner,
+  onToggleFavorite,
+}) {
   const [filter, setFilter] = useState({
     cropType: [],
     placement: [],
@@ -23,6 +31,8 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     activePeriods: [],
     owner: [],
   });
+
+  const { status } = useSession();
 
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
@@ -38,9 +48,10 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
     return;
   }
 
-  const favoritePlants = plants.filter((plant) =>
-    favoriteIDs.includes(plant._id)
-  );
+  const favoritePlants =
+    status === "authenticated"
+      ? plants.filter((plant) => favoriteIDsOwner.includes(plant._id))
+      : plants.filter((plant) => favoriteIDsLocal.includes(plant._id));
 
   const activeTasksByPlant = getActiveTasksByPlant(plants, months);
 
@@ -67,10 +78,6 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
   return (
     <>
       <h1>Your hottest crops!</h1>
-      <br />
-      <StyledInfo>
-        Please note: Your favourite crops are for now saved in localstorage!
-      </StyledInfo>
       {favoritePlants.length === 0 ? (
         <h2>
           No plants bookmarked yet.
@@ -81,12 +88,17 @@ export default function MyGarden({ favoriteIDs, onToggleFavorite }) {
       ) : (
         <CardList
           plants={favoritePlants}
-          favoriteIDs={favoriteIDs}
+          favoriteIDsLocal={favoriteIDsLocal}
+          favoriteIDsOwner={favoriteIDsOwner}
           onToggleFavorite={onToggleFavorite}
           onToggleFilter={toggleFilter}
           onResetFilter={resetFilter}
           filter={filter}
+
+          session={status === "authenticated"}
+
           activeTasksByPlant={activeTasksByPlant}
+
         />
       )}
       <SvgLinkButton

@@ -184,10 +184,11 @@ const StyledNote = styled.p`
 `;
 
 export default function PlantDetails({
-  favoriteIDs,
+  isFavorite,
   onToggleFavorite,
   id,
   plant,
+  session,
 }) {
   // Get current time period / interval
   const currentInterval = getCurrentInterval(months);
@@ -220,6 +221,7 @@ export default function PlantDetails({
 
   return (
     <PageContainer>
+
       <DetailsHeaderContainer>
         <CardDetailsContainer>
           <StyledHeadlinebox>
@@ -240,11 +242,12 @@ export default function PlantDetails({
                 : plant.image
             }
             alt={plant.name}
-            isFavorite={favoriteIDs.includes(id) ? true : false}
+            isFavorite={isFavorite}
             onToggleFavorite={onToggleFavorite}
             id={id}
             width={350}
             height={200}
+session={session}
           />
         </CardDetailsContainer>
       </DetailsHeaderContainer>

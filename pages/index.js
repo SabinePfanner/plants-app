@@ -2,9 +2,17 @@ import CardList from "@/components/CardList.js";
 import { SvgLinkButton } from "@/components/StyledElements/CreateEditDelete";
 import useSWR from "swr";
 import { useState } from "react";
+
+import { useSession } from "next-auth/react";
+
 import { getActiveTasksByPlant, months } from "@/utils/TaskPeriodUtils";
 
-export default function HomePage({ favoriteIDs, onToggleFavorite }) {
+
+export default function HomePage({
+  favoriteIDsLocal,
+  favoriteIDsOwner,
+  onToggleFavorite,
+}) {
   const [filter, setFilter] = useState({
     cropType: [],
     placement: [],
@@ -13,6 +21,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
     owner: [],
   });
 
+  const { status } = useSession();
   const { data: plants, error, isLoading } = useSWR(`/api/plants`);
 
   if (error) {
@@ -54,11 +63,15 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
       <h1>Discover the hottest crops!</h1>
       <CardList
         plants={plants}
-        favoriteIDs={favoriteIDs}
+        favoriteIDsLocal={favoriteIDsLocal}
+        favoriteIDsOwner={favoriteIDsOwner}
         onToggleFavorite={onToggleFavorite}
         onToggleFilter={toggleFilter}
         onResetFilter={resetFilter}
         filter={filter}
+
+        session={status === "authenticated"}
+
         activeTasksByPlant={activeTasksByPlant}
       />
       <SvgLinkButton
@@ -66,6 +79,7 @@ export default function HomePage({ favoriteIDs, onToggleFavorite }) {
         variant="plus"
         color="var(--secondary)"
         bottom="4.5rem"
+
       />
     </>
   );
