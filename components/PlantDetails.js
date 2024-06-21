@@ -34,9 +34,6 @@ const CardDetailsContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0.5rem 1rem 1rem 1rem;
-  border: transparent;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px var(--primary);
   width: 500px;
   height: 330px;
 
@@ -183,6 +180,16 @@ const StyledNote = styled.p`
   font-style: italic;
 `;
 
+const StyledNoteDefault = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 1rem 1.5rem 0 1.5rem;
+  padding: 0 0.5rem;
+  font-style: italic;
+  font-size: 0.8rem;
+`;
+
 export default function PlantDetails({
   isFavorite,
   onToggleFavorite,
@@ -221,7 +228,6 @@ export default function PlantDetails({
 
   return (
     <PageContainer>
-
       <DetailsHeaderContainer>
         <CardDetailsContainer>
           <StyledHeadlinebox>
@@ -247,7 +253,7 @@ export default function PlantDetails({
             id={id}
             width={350}
             height={200}
-session={session}
+            session={session}
           />
         </CardDetailsContainer>
       </DetailsHeaderContainer>
@@ -572,7 +578,14 @@ session={session}
       )}
       <TaskPeriod task={plant.tasks} taskName="seed" edit={false}></TaskPeriod>
       {plant.owner === "default" && (
-        <StyledNote>Default plants can not be edited or deleted!</StyledNote>
+        <StyledNoteDefault>
+          <SvgIcon
+            variant="default"
+            color="var(--primary-constrast)"
+            size="14"
+          />
+          <span> Default plants can not be edited or deleted!</span>
+        </StyledNoteDefault>
       )}
     </PageContainer>
   );

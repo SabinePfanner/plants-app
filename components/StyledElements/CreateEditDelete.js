@@ -30,7 +30,7 @@ export function SvgLinkButton({ href, variant, color, right, bottom }) {
 const StyledButton = styled.button`
   position: fixed;
   right: 1rem;
-  bottom: 6.5rem;
+  bottom: 4.5rem;
   background: white;
   border: 0;
   border-radius: 50%;

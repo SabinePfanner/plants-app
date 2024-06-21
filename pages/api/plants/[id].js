@@ -7,7 +7,6 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const plant = await Plant.findById(id);
-
     if (!plant) {
       return response.status(404).json({ status: "Not Found" });
     }
