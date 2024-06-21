@@ -51,7 +51,6 @@ export default function App({
     mutate,
   } = useSWR(`/api/users`, fetcher);
 
-  console.log("favoriteIDsOwner", favoriteIDsOwner);
   if (error) {
     return <p>Could not fetch data!</p>;
   }

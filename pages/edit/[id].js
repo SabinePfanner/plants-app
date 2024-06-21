@@ -51,7 +51,7 @@ export default function EditPlant({ onOpenToast, onOpenModal, onCloseModal }) {
         onSubmit={editPlant}
         onDismiss={handleOpenModal}
         data={plant}
-        submitButtonText={"Edit plant"}
+        submitButtonText={"Save plant"}
         isEditImage={false}
         onCreatePage={false}
       />
