@@ -217,8 +217,7 @@ const StyledSlider = styled(Slider)`
   .slick-track {
     height: auto;
     /* line-height:0; */
-
-  } 
+  }
 
   .slick-prev:before,
   .slick-next:before {
@@ -227,7 +226,7 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-slide {
-    margin: 0 30px;
+    margin: 0 15px;
   }
 
   /* .slick-slider{
@@ -250,7 +249,7 @@ const settings = {
   dots: true,
   infinite: true,
   centerMode: true,
-  centerPadding: "60px",
+  // centerPadding: "60px",
   slidesToShow: 1,
   slidesToScroll: 1,
   variableWidth: true,
