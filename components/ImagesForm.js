@@ -47,8 +47,10 @@ export default function ImagesForm({ onAddImages }) {
 
     const { images } = await response.json();
 
+    console.log("Images: ", images);
+
     const imagesArray = images.map((image) => {
-      return image.url;
+      return [image.url, image.height, image.width];
     });
     setNumberFilesSelected();
     onAddImages(imagesArray);

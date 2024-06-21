@@ -10,29 +10,11 @@ import {
 } from "@/utils/TaskPeriodUtils";
 import ImagesForm from "@/components/ImagesForm";
 import Image from "next/image";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
 import { StyledButton, ButtonGroup } from "@/components/StyledElements/Buttons";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 3,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-  },
-};
 
 const periodColors = {
   Seed: "#D27D2D",
@@ -165,7 +147,7 @@ const StyledPeriodSummaryContainer = styled.div`
 
   margin-top: 1.5rem;
   padding: 1rem;
-  border: 0.1rem solid grey;
+  border: 0.1rem solid var(--primary-light-contrast);
   border-radius: 0.5rem;
 `;
 
@@ -188,7 +170,7 @@ const StyledPeriodSummaryHeader = styled.div`
   font-size: 0.9rem;
   padding: 0.2rem 0.8rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid grey;
+  border: 0.1rem solid var(--primary-light-contrast);
 `;
 
 const StyledPeriodText = styled.div`
@@ -208,25 +190,53 @@ const StyledNote = styled.p`
   font-style: italic;
 `;
 
-const StyledCarousel = styled(Carousel)`
-  margin: 1rem 0;
-  padding: 2rem 3rem;
-  border-bottom: 2px solid grey;
-  border-top: 2px solid grey;
+const StyledSlider = styled(Slider)`
+  width: 100%;
+  /* height: 200px; */
+  margin: 3rem 0 1rem 0;
+  padding: 1.5rem 0.5rem;
+  border: 0.1rem solid var(--primary-light-contrast);
   border-radius: 0.5rem;
+
+  /* .slick-list {
+    padding: 0 !important;
+  } */
+
+  .slick-prev:before,
+  .slick-next:before {
+    color: var(--primary-light-contrast);
+    font-size: 2rem;
+  }
+
+  .slick-slide {
+    margin: 0 30px;
+  }
 `;
 
 const StyledCarouselImage = styled(Image)`
-  margin: 0rem 1rem;
-  /* padding: 2rem 3rem; */
-  /* border-bottom: 2px solid grey;
-  border-top: 2px solid grey; */
-  /* padding: 1rem; */
-  border-radius: 0.5rem;
-  max-width: 230px;
-  min-width: 230px;
-  /* max-width:100%; */
+  border-radius: 0.3rem;
+  /* object-fit: cover; // alternative: contain */
+  &:hover {
+    transform: scale(1.025);
+    cursor: pointer;
+  }
 `;
+
+const settings = {
+  className: "slider variable-width",
+  dots: true,
+  infinite: true,
+  centerMode: true,
+  centerPadding: "60px",
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  variableWidth: true,
+  // swipeToSlide: true,
+  swipe: true,
+  draggable: true,
+  focusOnSelect: true,
+  speed: 400,
+};
 
 export default function PlantDetails({
   favoriteIDs,
@@ -313,7 +323,7 @@ export default function PlantDetails({
             {plant.owner === "default" && (
               <SvgIcon
                 variant="default"
-                color="var(--primary-constrast)"
+                color="var(--primary-contrast)"
                 size="16"
               ></SvgIcon>
             )}
@@ -616,7 +626,9 @@ export default function PlantDetails({
           )}
           {Object.keys(inactiveTasks).length > 0 && (
             <StyledPeriodSummaryContainer key="periodSummariesContainer">
-              <StyledPeriodSummaryHeader>Other tasks</StyledPeriodSummaryHeader>
+              <StyledPeriodSummaryHeader>
+                {Object.keys(activeTasks).length > 0 ? "Other tasks" : "Tasks"}
+              </StyledPeriodSummaryHeader>
               {Object.keys(inactiveTasks).map((task) => {
                 return (
                   <StyledPeriodSummary key={task} $color={periodColors[task]}>
@@ -657,31 +669,23 @@ export default function PlantDetails({
 
       {plant.detailsImages.length > 0 && (
         <>
-          <StyledButton type="button" onClick={handleDeleteImages}>
-            Delete images
-          </StyledButton>
-          <StyledCarousel
-            responsive={responsive}
-            // focusOnSelect={true}
-            // centerMode={true}
-          >
+          <StyledSlider {...settings}>
             {plant.detailsImages.map((image) => {
+              console.log("image in map: ", image);
               return (
-                <Image
+                <StyledCarouselImage
                   key={image}
                   alt="Image"
-                  src={image}
-                  // sizes="100%"
-                  height="200"
-                  width="250"
-                  // partialVisible={false}
-                  // fill
-                  // style={{ objectFit: "cover" }} // alternative: contain
-                  // itemClass="carousel-item-padding-10-px"
+                  src={image[0]}
+                  height="150"
+                  width={150 * (image[2] / image[1])}
                 />
               );
             })}
-          </StyledCarousel>
+          </StyledSlider>
+          <StyledButton type="button" onClick={handleDeleteImages}>
+            Delete images
+          </StyledButton>
         </>
       )}
       {plant.owner === "default" && (
