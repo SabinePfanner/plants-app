@@ -44,19 +44,25 @@ export default function App({
     }
   );
 
-  const { data: favoriteIDsOwner, mutate } = useSWR(`/api/users`, fetcher);
+  const {
+    data: favoriteIDsOwner,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(`/api/users`, fetcher);
 
   console.log("favoriteIDsOwner", favoriteIDsOwner);
-  // if (error) {
-  //   return <p>Could not fetch data!</p>;
-  // }
+  if (error) {
+    return <p>Could not fetch data!</p>;
+  }
 
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
-  // if (!favoriteIDsOwner) {
-  //   return;
+  if (!favoriteIDsOwner) {
+    return;
+  }
 
   async function handleToggleFavorite(id, session) {
     if (session) {

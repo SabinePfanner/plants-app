@@ -42,9 +42,9 @@ export default function MyGarden({
   }
 
   const favoritePlants =
-    status === "authenticated"
-      ? plants.filter((plant) => favoriteIDsOwner.includes(plant._id))
-      : plants.filter((plant) => favoriteIDsLocal.includes(plant._id));
+    status !== "authenticated"
+      ? plants.filter((plant) => favoriteIDsLocal.includes(plant._id))
+      : plants.filter((plant) => favoriteIDsOwner.includes(plant._id));
 
   function toggleFilter(category, option) {
     setFilter((prevFilters) => {

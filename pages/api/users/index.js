@@ -17,7 +17,7 @@ export default async function handler(request, response) {
       }
       response.status(200).json(user[0] ? user[0].favorites : []);
     } else {
-      return response.status(405).json({ status: "Method not allowed" });
+      return response.status(200).json([]);
     }
   } else {
     return response.status(405).json({ status: "Method not allowed" });
