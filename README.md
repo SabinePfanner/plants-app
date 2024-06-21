@@ -22,7 +22,7 @@ React, Next.JS, React/Next Hooks, nextAuth, JavaScript, styled-components, mongo
 - [Philip Rausch](https://github.com/philrwebdev)
 - [Eva Bergold](https://github.com/evabergold)
 
-![Image](/public/images/screenshot.jpg)
+![Image](/public/images/screenshot.png)
 
 ### Local Development
 
