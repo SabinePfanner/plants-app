@@ -2,7 +2,6 @@
 
 https://plants-app-psi.vercel.app/
 
-![Image](/public/icons/logo.png)
 
 Introducing our app for garden enthusiasts: a comprehensive tool that transforms the way you manage and enjoy your garden. With this app, you can:
 
