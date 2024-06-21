@@ -86,19 +86,23 @@ export default function ImagesForm({
       >
         <SvgIcon variant="upload" max-height="80" max-width="80"></SvgIcon>
         <StyledIconText>
-          {imagesPresent
+          {imagesPresent && !numberFilesSelected
             ? "Upload more plant images"
-            : "Upload your plant images"}
+            : !imagesPresent && !numberFilesSelected
+            ? "Upload your plant images"
+            : `${numberFilesSelected} ${
+                numberFilesSelected > 1 ? "files selected" : "file selected"
+              }`}
         </StyledIconText>
       </CustomFileInputButton>
       {numberFilesSelected && (
         <>
-          <div>
+          {/* <div>
             {numberFilesSelected &&
               `${numberFilesSelected} ${
                 numberFilesSelected > 1 ? "files selected" : "file selected"
-              }`}{" "}
-          </div>
+              }`}
+          </div> */}
           <StyledButton type="submit" disabled={loading}>
             {loading ? "Uploading images" : "Upload images"}
           </StyledButton>
@@ -114,7 +118,7 @@ export default function ImagesForm({
           )}
         </>
       )}
-      {imagesPresent && !loading && (
+      {imagesPresent && !loading && !numberFilesSelected && (
         <StyledButton type="button" onClick={onConfirmDelete}>
           Delete images
         </StyledButton>
@@ -129,6 +133,7 @@ const StyledForm = styled.form`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 
   align-content: center;
   gap: 2rem;
@@ -138,7 +143,9 @@ const StyledForm = styled.form`
     margin: 1.5;
   } */
   margin: ${(props) =>
-    props.$imagesPresent ? "0rem 1.5rem 7rem 1.5rem;" : "4rem 1.5rem 7rem 1.5rem;"};
+    props.$imagesPresent
+      ? "0rem 1.5rem 7rem 1.5rem;"
+      : "4rem 1.5rem 7rem 1.5rem;"};
   /* border: 0.1rem solid var(--primary-light-contrast); */
   border-radius: 0.5rem;
   border: ${(props) =>

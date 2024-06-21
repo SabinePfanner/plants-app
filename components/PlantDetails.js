@@ -237,6 +237,7 @@ const StyledSlider = styled(Slider)`
 
 const StyledCarouselImage = styled(Image)`
   border-radius: 0.3rem;
+
   /* object-fit: cover; // alternative: contain */
   &:hover {
     transform: scale(1.025);
@@ -253,41 +254,13 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   variableWidth: true,
-  // swipeToSlide: true,
-  // swipe: true,
-  // draggable: true,
+  swipeToSlide: true,
+  swipe: true,
+  draggable: true,
   focusOnSelect: true,
   speed: 400,
   rows: 1,
   adaptiveHeight: true,
-  // responsive: [
-  //   {
-  //     breakpoint: 1024,
-  //     settings: {
-  //       slidesToShow: 3,
-  //       slidesToScroll: 3,
-  //       infinite: true,
-  //       dots: true
-  //     }
-  //   },
-  //   {
-  //     breakpoint: 600,
-  //     settings: {
-  //       slidesToShow: 2,
-  //       slidesToScroll: 2,
-  //       initialSlide: 2,
-  //       infinite: true,
-  //     }
-  //   },
-  //   {
-  //     breakpoint: 480,
-  //     settings: {
-  //       slidesToShow: 1,
-  //       slidesToScroll: 1,
-  //       infinite: true,
-  //     }
-  //   }
-  // ]
 };
 
 export default function PlantDetails({
@@ -321,14 +294,6 @@ export default function PlantDetails({
   const tasksFiltered = Object.fromEntries(tasksArrayFiltered);
   const activeTasks = Object.fromEntries(activeTasksArray);
   const inactiveTasks = Object.fromEntries(inactiveTasksArray);
-
-  // const periodColors = {
-  //   Seed: "#D27D2D",
-  //   Cultivation: "#FFC000",
-  //   Planting: "#79af6e",
-  //   Harvest: "#E23D28",
-  //   Pruning: "#71797E",
-  // };
 
   async function handleAddImages(images) {
     const response = await fetch(`/api/plants/${id}`, {
@@ -376,8 +341,6 @@ export default function PlantDetails({
       onClick: () => {
         onCloseModal();
         handleDeleteImages();
-        // router.push("/");
-        // onOpenToast("All changes dismissed.");
       },
     });
   }
