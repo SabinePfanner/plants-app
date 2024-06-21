@@ -92,7 +92,7 @@ export default function DetailsPage({
             href={`/edit/${id}`}
             variant="pen"
             color="var(--secondary)"
-            bottom="10rem"
+            bottom="8rem"
           />
           <DeletePlantButton type="button" onClick={handleOpenModal} />
         </>
