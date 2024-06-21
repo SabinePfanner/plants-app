@@ -135,12 +135,11 @@ const StyledPeriodSummaryContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 1rem;
 
   @media (max-width: 599px) {
     // iPhone SE
 
-    margin: 1.5;
+    margin: 1.5rem;
   }
 
   margin-top: 1.5rem;

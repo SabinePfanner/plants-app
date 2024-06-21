@@ -19,7 +19,7 @@ const StyledList = styled.ul`
   list-style: none;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-row: auto;
+  grid-template-rows: auto;
   grid-gap: 0.5rem;
   padding-inline-start: 0;
 
@@ -47,9 +47,9 @@ const FilterContainer = styled.section`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 8px;
-  margin: 10px 0;
+  margin: 10px 5px;
 `;
 
 const ResetButton = styled.button`
