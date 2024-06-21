@@ -78,4 +78,13 @@ export default createGlobalStyle`
     font-weight: 700;
     color: var(--primary-contrast: #1D0B07);
   };
+
+  /* .slick-track {
+    display: flex;
+    gap: 1rem;
+} */
+  /* .slick-slide {
+  margin: 0 30px;
+}; */
+
 `;

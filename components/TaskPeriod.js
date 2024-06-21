@@ -160,14 +160,17 @@ export default function TaskPeriod({
     ) {
       setLocalPeriodStart(null);
       setLocalPeriodEnd(null);
+      setHoverIndex(null);
     } else if (!localPeriodEnd && hoverIndex > periodIndices.start) {
       setLocalPeriodEnd(interval);
+      setHoverIndex(null);
     }
   }
 
   function handleResetLocalPeriod() {
     setLocalPeriodStart(null);
     setLocalPeriodEnd(null);
+    setHoverIndex(null);
   }
 
   useEffect(() => {
@@ -186,7 +189,7 @@ export default function TaskPeriod({
   if (edit || localPeriodEnd) {
     return (
       <div key={taskName + "topFragment"}>
-        <StyledPeriodGrid key={taskName + "Grid"}>
+        <StyledPeriodGrid key={taskName + "Grid"} >
           {showHeader && <StyledDummySection key={taskName + "Dummy"} />}
           {showHeader &&
             months.map((month) => (

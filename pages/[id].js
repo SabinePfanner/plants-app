@@ -54,6 +54,10 @@ export default function DetailsPage({
   }
   const { data: plant, error, isLoading } = useSWR(`/api/plants/${id}`);
 
+  // function handleMutate() {
+  //   mutate();
+  // }
+
   if (error) {
     return <p>Could not fetch data!</p>;
   }
@@ -79,6 +83,9 @@ export default function DetailsPage({
         favoriteIDs={favoriteIDs}
         onToggleFavorite={onToggleFavorite}
         plant={plant}
+        onOpenToast={onOpenToast}
+        onOpenModal={onOpenModal}
+        onCloseModal={onCloseModal}
       />
 
       {session && !isDataDefault ? (
